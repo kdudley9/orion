@@ -10,6 +10,8 @@ import com.github.kdudley9.orion.enums.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -57,6 +59,7 @@ public class ApplicationDetails {
     private String industry;
 
     @NotNull(message = "Status cannot be null.")
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     protected ApplicationDetails() {

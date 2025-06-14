@@ -19,4 +19,5 @@ public record ApplicationDetailsDto(
         @Size(max = 2000) String note, 
         @NotNull LocalDate dateApplied, 
         @NotNull String industry, 
-        @NotNull Status status) {}
+        @NotNull Status status
+) {}
