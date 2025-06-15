@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.kdudley9.orion.dtos.ApplicationDetailsDto;
 import com.github.kdudley9.orion.mappers.ApplicationDetailsMapper;
 import com.github.kdudley9.orion.models.ApplicationDetails;
+import com.github.kdudley9.orion.models.User;
 import com.github.kdudley9.orion.repositories.ApplicationDetailsRepository;
+import com.github.kdudley9.orion.repositories.UserRepository;
+import com.github.kdudley9.orion.security.UserFacade;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
-
 
 
 @RestController
@@ -26,16 +29,21 @@ public class ApplicationDetailsController {
 
     private final ApplicationDetailsRepository appDetailsRepository;
     private final ApplicationDetailsMapper appDetailsMapper;
+    private final UserRepository userRepository;
+    private final UserFacade userFacade;
 
-    public ApplicationDetailsController(ApplicationDetailsRepository appDetailsRepository, ApplicationDetailsMapper appDetailsMapper) {
+    public ApplicationDetailsController(ApplicationDetailsRepository appDetailsRepository, ApplicationDetailsMapper appDetailsMapper, UserRepository userRepository, UserFacade userFacade) {
         this.appDetailsRepository = appDetailsRepository;
         this.appDetailsMapper = appDetailsMapper;
+        this.userFacade = userFacade;
+        this.userRepository = userRepository;
     }
 
     @GetMapping
     public ResponseEntity<List<ApplicationDetailsDto>> getAllApplications() {
+        String userId = userFacade.getCurrentUserId();
         List<ApplicationDetailsDto> allAppDetails = this.appDetailsRepository
-            .findAll().stream().map(this.appDetailsMapper::toDto).toList();
+            .findByUserId(userId).stream().map(this.appDetailsMapper::toDto).toList();
         return new ResponseEntity<>(allAppDetails, HttpStatus.OK);  
     }
 
@@ -51,7 +59,15 @@ public class ApplicationDetailsController {
 
     @PostMapping
     public ResponseEntity<ApplicationDetailsDto> addApplication(@RequestBody ApplicationDetailsDto applicationDetailsDto) {
-        ApplicationDetails applicationDetails = this.appDetailsRepository.save(this.appDetailsMapper.toEntity(applicationDetailsDto));
+        String userId = userFacade.getCurrentUserId();
+        ApplicationDetails applicationDetails = this.appDetailsMapper.toEntity(applicationDetailsDto);
+        
+        User user = this.userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+        applicationDetails.setUser(user);
+
+        this.appDetailsRepository.save(applicationDetails);
         return new ResponseEntity<>(this.appDetailsMapper.toDto(applicationDetails), HttpStatus.CREATED);
     }
     
