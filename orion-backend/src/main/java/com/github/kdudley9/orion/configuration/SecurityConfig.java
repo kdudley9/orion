@@ -28,7 +28,8 @@ public class SecurityConfig {
                 .userInfoEndpoint(userInfo -> userInfo
                     .oidcUserService(this.googleOidcUserService)
                 )
-            );
+            )
+            .csrf(csrf -> csrf.disable()); // Disabled for development only
         return http.build();
     }
 }

@@ -65,6 +65,7 @@ public class ApplicationDetails {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @NotNull(message = "User cannot be null")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

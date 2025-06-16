@@ -54,6 +54,10 @@ public class ApplicationDetailsController {
             return ResponseEntity.notFound().build();
         }
 
+        if (!appDetails.getUser().getId().equals(userFacade.getCurrentUserId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         return new ResponseEntity<>(this.appDetailsMapper.toDto(appDetails), HttpStatus.OK);
     }
 
@@ -78,6 +82,10 @@ public class ApplicationDetailsController {
             return ResponseEntity.notFound().build();
         }
 
+        if (!applicationToUpdate.getUser().getId().equals(userFacade.getCurrentUserId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         applicationToUpdate.setCompany(applicationDetailsDto.company());
         applicationToUpdate.setIndustry(applicationDetailsDto.industry());
         applicationToUpdate.setJobTitle(applicationDetailsDto.jobTitle());
@@ -93,11 +101,13 @@ public class ApplicationDetailsController {
 
     @DeleteMapping
     public void deleteAllApplications() {
-        this.appDetailsRepository.deleteAll();
+        this.appDetailsRepository.deleteByUserId(userFacade.getCurrentUserId());
     }
 
+    // TODO: Return a response if the user tries to delete a resource that does not belong to them
+    // TODO: Fix that a user can delete a resource that belongs to them
     @DeleteMapping("/{id}")
     public void deleteApplicationById(@PathVariable Long id) {
-        this.appDetailsRepository.deleteById(id);
+        this.appDetailsRepository.deleteByIdAndUserId(id, userFacade.getCurrentUserId());
     }
 }
