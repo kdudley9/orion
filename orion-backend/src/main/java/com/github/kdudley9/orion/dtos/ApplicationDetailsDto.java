@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import org.hibernate.validator.constraints.URL;
 
+import com.github.kdudley9.orion.enums.Industry;
+import com.github.kdudley9.orion.enums.JobType;
 import com.github.kdudley9.orion.enums.Status;
 
 import jakarta.validation.constraints.NotBlank;
@@ -18,6 +20,7 @@ public record ApplicationDetailsDto(
         @NotBlank @Size(max = 2048) @URL String url, 
         @Size(max = 2000) String note, 
         @NotNull LocalDate dateApplied, 
-        @NotNull String industry, 
-        @NotNull Status status
+        @NotNull Industry industry, 
+        @NotNull Status status,
+        @NotNull JobType jobType
 ) {}

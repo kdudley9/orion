@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.github.kdudley9.orion.enums.Industry;
+import com.github.kdudley9.orion.enums.JobType;
 import com.github.kdudley9.orion.enums.Status;
 
 import jakarta.persistence.Column;
@@ -51,7 +53,7 @@ public class ApplicationDetails {
     private String note;
 
     @NotNull(message = "Date applied cannot be null.")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "MM-dd-yyyy")
     @Column(name = "date_applied", columnDefinition = "DATE")
     private LocalDate dateApplied;
 
@@ -59,29 +61,29 @@ public class ApplicationDetails {
     private LocalDateTime dateCreated;
 
     @NotNull(message = "Industry cannot be null.")
-    private String industry;
+    @Enumerated(EnumType.STRING)
+    private Industry industry;
 
     @NotNull(message = "Status cannot be null.")
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @NotNull(message = "User cannot be null")
+    @NotNull(message = "Job type cannot be null.")
+    @Enumerated(EnumType.STRING)
+    private JobType jobType;
+
+    private boolean favorite;
+    private boolean archived;
+
+    @NotNull(message = "User cannot be null.")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     protected ApplicationDetails() {
-    }
-
-    public ApplicationDetails(String company, String jobTitle, String location, String url, String note,
-            String industry, Status status) {
-        this.company = company;
-        this.jobTitle = jobTitle;
-        this.location = location;
-        this.url = url;
-        this.note = note;
-        this.industry = industry;
-        this.status = status;
+        this.status = Status.APPLIED;
+        this.favorite = false;
+        this.archived = false;
     }
 
     public Long getId() {
@@ -148,11 +150,11 @@ public class ApplicationDetails {
         this.note = note;
     }
 
-    public String getIndustry() {
+    public Industry getIndustry() {
         return industry;
     }
 
-    public void setIndustry(String industry) {
+    public void setIndustry(Industry industry) {
         this.industry = industry;
     }
 
@@ -162,6 +164,30 @@ public class ApplicationDetails {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public JobType getJobType() {
+        return jobType;
+    }
+
+    public void setJobType(JobType jobType) {
+        this.jobType = jobType;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
     }
 
     public User getUser() {
@@ -181,6 +207,8 @@ public class ApplicationDetails {
     public String toString() {
         return "ApplicationDetails [id=" + id + ", company=" + company + ", jobTitle=" + jobTitle + ", location="
                 + location + ", url=" + url + ", note=" + note + ", dateApplied=" + dateApplied + ", dateCreated="
-                + dateCreated + ", industry=" + industry + ", status=" + status + "]";
+                + dateCreated + ", industry=" + industry + ", status=" + status + ", jobType=" + jobType + ", favorite="
+                + favorite + ", archived=" + archived + "]";
     }
+
 }
