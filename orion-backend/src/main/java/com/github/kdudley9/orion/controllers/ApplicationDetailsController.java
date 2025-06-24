@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.kdudley9.orion.dtos.ApplicationDetailsDto;
+import com.github.kdudley9.orion.dtos.DashboardDto;
 import com.github.kdudley9.orion.mappers.ApplicationDetailsMapper;
 import com.github.kdudley9.orion.models.ApplicationDetails;
 import com.github.kdudley9.orion.models.User;
 import com.github.kdudley9.orion.repositories.ApplicationDetailsRepository;
 import com.github.kdudley9.orion.repositories.UserRepository;
 import com.github.kdudley9.orion.security.UserFacade;
+import com.github.kdudley9.orion.services.DashboardService;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,12 +33,14 @@ public class ApplicationDetailsController {
     private final ApplicationDetailsMapper appDetailsMapper;
     private final UserRepository userRepository;
     private final UserFacade userFacade;
+    private final DashboardService dashboardService;
 
-    public ApplicationDetailsController(ApplicationDetailsRepository appDetailsRepository, ApplicationDetailsMapper appDetailsMapper, UserRepository userRepository, UserFacade userFacade) {
+    public ApplicationDetailsController(ApplicationDetailsRepository appDetailsRepository, ApplicationDetailsMapper appDetailsMapper, UserRepository userRepository, UserFacade userFacade, DashboardService dashboardService) {
         this.appDetailsRepository = appDetailsRepository;
         this.appDetailsMapper = appDetailsMapper;
         this.userFacade = userFacade;
         this.userRepository = userRepository;
+        this.dashboardService = dashboardService;
     }
 
     @GetMapping
@@ -91,7 +95,7 @@ public class ApplicationDetailsController {
         applicationToUpdate.setJobTitle(applicationDetailsDto.jobTitle());
         applicationToUpdate.setLocation(applicationDetailsDto.location());
         applicationToUpdate.setNote(applicationDetailsDto.note());
-        applicationToUpdate.setStatus(applicationDetailsDto.status());
+        applicationToUpdate.setJobType(applicationDetailsDto.jobType());
         applicationToUpdate.setUrl(applicationDetailsDto.url());
         applicationToUpdate.setDateApplied(applicationDetailsDto.dateApplied());
         ApplicationDetails updatedApplicationDetails = this.appDetailsRepository.save(applicationToUpdate);
@@ -100,14 +104,28 @@ public class ApplicationDetailsController {
     }
 
     @DeleteMapping
-    public void deleteAllApplications() {
-        this.appDetailsRepository.deleteByUserId(userFacade.getCurrentUserId());
+    public ResponseEntity<Integer> deleteAllApplications() {
+        int numberDeleted = this.appDetailsRepository.deleteByUserId(userFacade.getCurrentUserId());
+        if (numberDeleted == 0) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
     }
 
-    // TODO: Return a response if the user tries to delete a resource that does not belong to them
-    // TODO: Fix that a user can delete a resource that belongs to them
     @DeleteMapping("/{id}")
-    public void deleteApplicationById(@PathVariable Long id) {
-        this.appDetailsRepository.deleteByIdAndUserId(id, userFacade.getCurrentUserId());
+    public ResponseEntity<Integer> deleteApplicationById(@PathVariable Long id) {
+        int numberDeleted = this.appDetailsRepository.deleteByIdAndUserId(id, userFacade.getCurrentUserId());
+        if (numberDeleted == 0) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/dashboard")
+    public ResponseEntity<DashboardDto> getDashboardData() {
+        DashboardDto dashboardData = this.dashboardService.getDashboardData(userFacade.getCurrentUserId());
+        return new ResponseEntity<>(dashboardData, HttpStatus.OK);
     }
 }
