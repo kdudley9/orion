@@ -80,7 +80,7 @@ public class ApplicationDetails {
     @JoinColumn(name = "user_id")
     private User user;
 
-    protected ApplicationDetails() {
+    public ApplicationDetails() {
         this.status = Status.APPLIED;
         this.favorite = false;
         this.archived = false;
