@@ -70,6 +70,7 @@ public class ApplicationDetails {
 
     @NotNull(message = "Job type cannot be null.")
     @Enumerated(EnumType.STRING)
+    @Column(name = "job_type")
     private JobType jobType;
 
     private boolean favorite;

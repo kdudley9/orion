@@ -12,12 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.kdudley9.orion.dtos.ApplicationDetailsDto;
 import com.github.kdudley9.orion.dtos.DashboardDto;
-import com.github.kdudley9.orion.mappers.ApplicationDetailsMapper;
-import com.github.kdudley9.orion.models.ApplicationDetails;
-import com.github.kdudley9.orion.models.User;
-import com.github.kdudley9.orion.repositories.ApplicationDetailsRepository;
-import com.github.kdudley9.orion.repositories.UserRepository;
 import com.github.kdudley9.orion.security.UserFacade;
+import com.github.kdudley9.orion.services.ApplicationDetailsService;
 import com.github.kdudley9.orion.services.DashboardService;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,83 +25,61 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("/api/application-details")
 public class ApplicationDetailsController {
 
-    private final ApplicationDetailsRepository appDetailsRepository;
-    private final ApplicationDetailsMapper appDetailsMapper;
-    private final UserRepository userRepository;
+    private final ApplicationDetailsService applicationDetailsService;
     private final UserFacade userFacade;
     private final DashboardService dashboardService;
 
-    public ApplicationDetailsController(ApplicationDetailsRepository appDetailsRepository, ApplicationDetailsMapper appDetailsMapper, UserRepository userRepository, UserFacade userFacade, DashboardService dashboardService) {
-        this.appDetailsRepository = appDetailsRepository;
-        this.appDetailsMapper = appDetailsMapper;
+    public ApplicationDetailsController(ApplicationDetailsService applicationDetailsService, UserFacade userFacade, DashboardService dashboardService) {
+        this.applicationDetailsService = applicationDetailsService;
         this.userFacade = userFacade;
-        this.userRepository = userRepository;
         this.dashboardService = dashboardService;
     }
 
     @GetMapping
     public ResponseEntity<List<ApplicationDetailsDto>> getAllApplications() {
         String userId = userFacade.getCurrentUserId();
-        List<ApplicationDetailsDto> allAppDetails = this.appDetailsRepository
-            .findByUserId(userId).stream().map(this.appDetailsMapper::toDto).toList();
+        List<ApplicationDetailsDto> allAppDetails = applicationDetailsService.getAllApplications(userId);
         return new ResponseEntity<>(allAppDetails, HttpStatus.OK);  
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApplicationDetailsDto> getApplicationById(@PathVariable Long id) {
-        ApplicationDetails appDetails = this.appDetailsRepository.findById(id).orElse(null);
         if (id == null) {
             return ResponseEntity.notFound().build();
         }
 
-        if (!appDetails.getUser().getId().equals(userFacade.getCurrentUserId())) {
+        try {
+            ApplicationDetailsDto appDetails = applicationDetailsService.getApplication(id);
+            return new ResponseEntity<>(appDetails, HttpStatus.OK);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-
-        return new ResponseEntity<>(this.appDetailsMapper.toDto(appDetails), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<ApplicationDetailsDto> addApplication(@RequestBody ApplicationDetailsDto applicationDetailsDto) {
         String userId = userFacade.getCurrentUserId();
-        ApplicationDetails applicationDetails = this.appDetailsMapper.toEntity(applicationDetailsDto);
-        
-        User user = this.userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found"));
-
-        applicationDetails.setUser(user);
-
-        this.appDetailsRepository.save(applicationDetails);
-        return new ResponseEntity<>(this.appDetailsMapper.toDto(applicationDetails), HttpStatus.CREATED);
+        ApplicationDetailsDto addedApplicationDetails = applicationDetailsService.addApplication(userId, applicationDetailsDto);
+        return new ResponseEntity<>(addedApplicationDetails, HttpStatus.CREATED);
     }
     
     @PutMapping("/{id}")
     public ResponseEntity<ApplicationDetailsDto> updateApplication(@PathVariable Long id, @RequestBody ApplicationDetailsDto applicationDetailsDto) {
-        ApplicationDetails applicationToUpdate = this.appDetailsRepository.findById(id).orElse(null);
         if (id == null) {
             return ResponseEntity.notFound().build();
         }
 
-        if (!applicationToUpdate.getUser().getId().equals(userFacade.getCurrentUserId())) {
+        try {
+            ApplicationDetailsDto applicationToUpdate = applicationDetailsService.updateApplication(id, applicationDetailsDto);
+            return new ResponseEntity<>(applicationToUpdate, HttpStatus.OK);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-
-        applicationToUpdate.setCompany(applicationDetailsDto.company());
-        applicationToUpdate.setIndustry(applicationDetailsDto.industry());
-        applicationToUpdate.setJobTitle(applicationDetailsDto.jobTitle());
-        applicationToUpdate.setLocation(applicationDetailsDto.location());
-        applicationToUpdate.setNote(applicationDetailsDto.note());
-        applicationToUpdate.setJobType(applicationDetailsDto.jobType());
-        applicationToUpdate.setUrl(applicationDetailsDto.url());
-        applicationToUpdate.setDateApplied(applicationDetailsDto.dateApplied());
-        ApplicationDetails updatedApplicationDetails = this.appDetailsRepository.save(applicationToUpdate);
-
-        return new ResponseEntity<>(this.appDetailsMapper.toDto(updatedApplicationDetails), HttpStatus.OK);
     }
 
     @DeleteMapping
-    public ResponseEntity<Integer> deleteAllApplications() {
-        int numberDeleted = this.appDetailsRepository.deleteByUserId(userFacade.getCurrentUserId());
+    public ResponseEntity<Void> deleteAllApplications() {
+        int numberDeleted = applicationDetailsService.deleteAllApplications(userFacade.getCurrentUserId());
         if (numberDeleted == 0) {
             return ResponseEntity.notFound().build();
         }
@@ -114,8 +88,8 @@ public class ApplicationDetailsController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Integer> deleteApplicationById(@PathVariable Long id) {
-        int numberDeleted = this.appDetailsRepository.deleteByIdAndUserId(id, userFacade.getCurrentUserId());
+    public ResponseEntity<Void> deleteApplicationById(@PathVariable Long id) {
+        int numberDeleted = applicationDetailsService.deleteApplicationById(id, userFacade.getCurrentUserId());
         if (numberDeleted == 0) {
             return ResponseEntity.notFound().build();
         }
