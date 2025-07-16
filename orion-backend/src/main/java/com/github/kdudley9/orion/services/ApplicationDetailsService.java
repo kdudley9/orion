@@ -19,29 +19,26 @@ import jakarta.transaction.Transactional;
 public class ApplicationDetailsService {
 
     private final ApplicationDetailsRepository applicationDetailsRepository;
-    private final ApplicationDetailsRepository appDetailsRepository;
     private final ApplicationDetailsMapper appDetailsMapper;
     private final UserRepository userRepository;
     private final UserFacade userFacade;
 
-    public ApplicationDetailsService(ApplicationDetailsRepository applicationDetailsRepository,
-            ApplicationDetailsRepository appDetailsRepository, ApplicationDetailsMapper appDetailsMapper,
+    public ApplicationDetailsService(ApplicationDetailsRepository applicationDetailsRepository, ApplicationDetailsMapper appDetailsMapper,
             UserRepository userRepository, UserFacade userFacade) {
         this.applicationDetailsRepository = applicationDetailsRepository;
-        this.appDetailsRepository = appDetailsRepository;
         this.appDetailsMapper = appDetailsMapper;
         this.userRepository = userRepository;
         this.userFacade = userFacade;
     }
 
     public List<ApplicationDetailsDto> getAllApplications(String userId) {
-        List<ApplicationDetailsDto> allAppDetails = this.appDetailsRepository
+        List<ApplicationDetailsDto> allAppDetails = this.applicationDetailsRepository
             .findByUserId(userId).stream().map(this.appDetailsMapper::toDto).toList();
         return allAppDetails;
     }
 
     public ApplicationDetailsDto getApplication(Long id) {
-        ApplicationDetails applicationDetails = this.appDetailsRepository.findById(id).orElse(null);
+        ApplicationDetails applicationDetails = this.applicationDetailsRepository.findById(id).orElse(null);
 
         if (!applicationDetails.getUser().getId().equals(userFacade.getCurrentUserId())) {
             throw new RuntimeException("Resource not found.");
@@ -58,12 +55,12 @@ public class ApplicationDetailsService {
 
         applicationDetails.setUser(user);
 
-        this.appDetailsRepository.save(applicationDetails);
+        this.applicationDetailsRepository.save(applicationDetails);
         return this.appDetailsMapper.toDto(applicationDetails);
     }
 
     public ApplicationDetailsDto updateApplication(Long id, ApplicationDetailsDto applicationDetailsDto) {
-        ApplicationDetails applicationToUpdate = this.appDetailsRepository.findById(id).orElse(null);
+        ApplicationDetails applicationToUpdate = this.applicationDetailsRepository.findById(id).orElse(null);
 
         if (!applicationToUpdate.getUser().getId().equals(userFacade.getCurrentUserId())) {
             throw new RuntimeException("Resource not found.");
@@ -77,7 +74,7 @@ public class ApplicationDetailsService {
         applicationToUpdate.setJobType(applicationDetailsDto.jobType());
         applicationToUpdate.setUrl(applicationDetailsDto.url());
         applicationToUpdate.setDateApplied(applicationDetailsDto.dateApplied());
-        ApplicationDetails updatedApplicationDetails = this.appDetailsRepository.save(applicationToUpdate);
+        ApplicationDetails updatedApplicationDetails = this.applicationDetailsRepository.save(applicationToUpdate);
 
         return this.appDetailsMapper.toDto(updatedApplicationDetails);
     }
