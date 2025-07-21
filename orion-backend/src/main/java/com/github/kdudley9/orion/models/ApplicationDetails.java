@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.hibernate.validator.constraints.URL;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import com.github.kdudley9.orion.enums.Industry;
 import com.github.kdudley9.orion.enums.JobType;
@@ -53,7 +52,6 @@ public class ApplicationDetails {
     private String note;
 
     @NotNull(message = "Date applied cannot be null.")
-    @DateTimeFormat(pattern = "MM-dd-yyyy")
     @Column(name = "date_applied", columnDefinition = "DATE")
     private LocalDate dateApplied;
 
@@ -64,7 +62,6 @@ public class ApplicationDetails {
     @Enumerated(EnumType.STRING)
     private Industry industry;
 
-    @NotNull(message = "Status cannot be null.")
     @Enumerated(EnumType.STRING)
     private Status status;
 
