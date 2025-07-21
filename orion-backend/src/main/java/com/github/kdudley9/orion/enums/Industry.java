@@ -1,0 +1,40 @@
+package com.github.kdudley9.orion.enums;
+
+public enum Industry {
+    TECHNOLOGY,
+    HEALTHCARE,
+    FINANCE,
+    EDUCATION,
+    RETAIL,
+    MANUFACTURING,
+    GOVERNMENT,
+    LEGAL,
+    TRANSPORTATION,
+    CONSTRUCTION,
+    HOSPITALITY,
+    REAL_ESTATE,
+    TELECOMMUNICATIONS,
+    ENERGY,
+    NONPROFIT,
+    MEDIA_AND_ENTERTAINMENT,
+    MARKETING_AND_ADVERTISING,
+    CONSULTING,
+    AGRICULTURE,
+    FOOD_AND_BEVERAGE,
+    LOGISTICS_AND_SUPPLY_CHAIN,
+    AEROSPACE_AND_DEFENSE,
+    PHARMACEUTICALS,
+    INSURANCE,
+    HUMAN_RESOURCES,
+    SPORTS_AND_RECREATION,
+    AUTOMOTIVE,
+    BEAUTY_AND_PERSONAL_CARE,
+    FASHION,
+    ENVIRONMENTAL_SERVICES,
+    OTHER;
+
+    @Override
+    public String toString() {
+        return super.toString().replace('_', ' ');
+    }
+}
