@@ -62,6 +62,7 @@ public class ApplicationDetails {
     @Enumerated(EnumType.STRING)
     private Industry industry;
 
+    @NotNull(message = "Application status cannot be null.")
     @Enumerated(EnumType.STRING)
     private Status status;
 
@@ -79,9 +80,6 @@ public class ApplicationDetails {
     private User user;
 
     public ApplicationDetails() {
-        this.status = Status.APPLIED;
-        this.favorite = false;
-        this.archived = false;
     }
 
     public Long getId() {
@@ -161,7 +159,7 @@ public class ApplicationDetails {
     }
 
     public void setStatus(Status status) {
-        this.status = status;
+        this.status = status == null ? Status.APPLIED : status;
     }
 
     public JobType getJobType() {
