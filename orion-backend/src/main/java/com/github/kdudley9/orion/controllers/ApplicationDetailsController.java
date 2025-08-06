@@ -6,10 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
 import com.github.kdudley9.orion.dtos.ApplicationDetailsDto;
 import com.github.kdudley9.orion.dtos.DashboardDto;
 import com.github.kdudley9.orion.security.UserFacade;
@@ -74,6 +78,21 @@ public class ApplicationDetailsController {
             return new ResponseEntity<>(applicationToUpdate, HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ApplicationDetailsDto> updateApplicationStatus(@PathVariable Long id, @RequestBody JsonPatch patch)
+        throws JsonPatchException, JsonProcessingException {
+        if (id == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        try {
+            ApplicationDetailsDto applicationToUpdate = applicationDetailsService.patchApplicationDetails(id, patch);
+            return new ResponseEntity<>(applicationToUpdate, HttpStatus.OK);
+        } catch (JsonPatchException | JsonProcessingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
