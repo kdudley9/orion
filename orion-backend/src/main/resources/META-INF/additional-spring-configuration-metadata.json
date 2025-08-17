@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "auth.success.url",
+  "type": "java.lang.String",
+  "description": "Where the user will be redirected after the first login."
+}]}
