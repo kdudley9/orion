@@ -1,23 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../models/user';
-import { AuthService } from '../../services/auth-service';
+import { Application } from '../../models/application';
+import { ApplicationDetailsService } from '../../services/application-details-service';
+import { ApplicationCard } from "../../components/application-card/application-card";
 
 @Component({
   selector: 'app-application-details',
-  imports: [],
+  imports: [ApplicationCard],
   templateUrl: './application-details.html',
   styleUrl: './application-details.css'
 })
 export class ApplicationDetails implements OnInit {
-  user: User | undefined;
-
-  constructor(private authService: AuthService) {}
-
+  applications: Application[] = []
+  
+  constructor(private applicationDetailsService: ApplicationDetailsService) {}
+  
   ngOnInit(): void {
-    this.authService.getUserDetails().subscribe(
-      (data) => {
-        this.user = data
-      }
-    );
+    this.applicationDetailsService.getApplications().subscribe((data) => {
+      this.applications = data;
+    });
   }
 }
