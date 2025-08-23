@@ -1,6 +1,14 @@
 @import "../public/fonts.css";
 
-body {
-  font-family: "Inter";
-  background-color: #F4F3F2;
+:root {
+  --main-color: #6e2594;
 }
+
+body {
+  font-family: "Inter" !important;
+  background-color: #f4f3f2 !important;
+  color: #141414;
+  padding-top: 75px !important;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
