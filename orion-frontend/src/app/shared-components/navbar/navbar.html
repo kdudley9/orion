@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expand fixed-top p-2 bg-white">
+  <div class="container-fluid">
+    <ul class="navbar-nav me-auto">
+      <li class="navbar-brand">
+        <a routerLink="/applications">
+          <img src="/placeholder-logo.svg" alt="Orion Jolt logo">
+        </a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ms-auto">
+      @if (user === undefined) {
+        <li class="nav-item">
+          <button (click)="navigateToLogin()" class="btn btn-secondary">
+            Login
+          </button>
+        </li>
+      } @else {
+        <li class="nav-item d-flex align-items-center">
+          <img [src]="user.imageUrl" alt="Avatar" class="rounded-circle">
+        </li>
+      }
+    </ul>
+  </div>
+</nav>
