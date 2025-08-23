@@ -1,9 +1,13 @@
-<!-- Simple display of user details to test the auth guard -->
- <div>
-  <ul>
-    <li>{{ user?.email }}</li>
-    <li>{{ user?.imageUrl }}</li>
-    <li>{{ user?.name }}</li>
-    <li>{{ user?.provider }}</li>
-  </ul>
- </div>
+@if (applications.length > 0) {
+  <div>
+    @for (application of applications; track application.id) {
+      <ul>
+        <li><app-application-card [application]="application" /></li>
+      </ul>
+    }
+  </div>
+} @else {
+  <div>
+    No Applications to Display
+  </div>
+}

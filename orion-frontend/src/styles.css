@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+@import "../public/fonts.css";
+
+:root {
+  --main-color: #6e2594;
+}
+
+body {
+  font-family: "Inter" !important;
+  background-color: #f4f3f2 !important;
+  color: #141414;
+  padding-top: 75px !important;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
