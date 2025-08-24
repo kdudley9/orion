@@ -2,6 +2,7 @@ package com.github.kdudley9.orion.models;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import org.hibernate.validator.constraints.URL;
 
@@ -19,6 +20,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -73,6 +75,9 @@ public class ApplicationDetails {
 
     private boolean favorite;
     private boolean archived;
+
+    @OneToMany(mappedBy = "application_details")
+    private Set<Interview> interviews;
 
     @NotNull(message = "User cannot be null.")
     @ManyToOne(fetch = FetchType.LAZY)
