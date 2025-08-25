@@ -2,6 +2,7 @@ package com.github.kdudley9.orion.models;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.hibernate.validator.constraints.URL;
@@ -10,6 +11,7 @@ import com.github.kdudley9.orion.enums.Industry;
 import com.github.kdudley9.orion.enums.JobType;
 import com.github.kdudley9.orion.enums.Status;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -76,8 +78,8 @@ public class ApplicationDetails {
     private boolean favorite;
     private boolean archived;
 
-    @OneToMany(mappedBy = "application_details")
-    private Set<Interview> interviews;
+    @OneToMany(mappedBy = "applicationDetails", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Interview> interviews = new HashSet<>();
 
     @NotNull(message = "User cannot be null.")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -199,6 +201,14 @@ public class ApplicationDetails {
         this.user = user;
     }
 
+    public Set<Interview> getInterviews() {
+        return interviews;
+    }
+
+    public void setInterviews(Set<Interview> interviews) {
+        this.interviews = interviews;
+    }
+
     @PrePersist
     protected void onCreate() {
         this.dateCreated = LocalDateTime.now();
@@ -211,5 +221,4 @@ public class ApplicationDetails {
                 + dateCreated + ", industry=" + industry + ", status=" + status + ", jobType=" + jobType + ", favorite="
                 + favorite + ", archived=" + archived + "]";
     }
-
 }

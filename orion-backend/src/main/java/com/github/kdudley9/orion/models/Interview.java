@@ -5,14 +5,18 @@ import java.util.Set;
 
 import com.github.kdudley9.orion.enums.InterviewType;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 
 @Entity
 public class Interview {
@@ -28,9 +32,11 @@ public class Interview {
     private String meetingLink;
 
     @Column(name = "interview_type")
+    @Enumerated(EnumType.STRING)
     private InterviewType interviewType;
 
-    @OneToMany(mappedBy = "interview")
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "interview_interviewers", joinColumns = @JoinColumn(name = "interview_id"))
     private Set<Interviewer> interviewers;
 
     @ManyToOne
@@ -96,9 +102,18 @@ public class Interview {
         this.interviewers = interviewers;
     }
 
+    public ApplicationDetails getApplicationDetails() {
+        return applicationDetails;
+    }
+
+    public void setApplicationDetails(ApplicationDetails applicationDetails) {
+        this.applicationDetails = applicationDetails;
+    }
+
     @Override
     public String toString() {
         return "Interview [id=" + id + ", interviewDate=" + interviewDate + ", location=" + location + ", meetingLink="
-                + meetingLink + ", interviewType=" + interviewType + "]";
+                + meetingLink + ", interviewType=" + interviewType + ", interviewers=" + interviewers
+                + ", applicationDetails=" + applicationDetails + "]";
     }
 }
