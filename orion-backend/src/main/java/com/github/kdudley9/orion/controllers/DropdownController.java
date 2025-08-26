@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.kdudley9.orion.enums.Industry;
+import com.github.kdudley9.orion.enums.InterviewType;
 import com.github.kdudley9.orion.enums.JobType;
 import com.github.kdudley9.orion.enums.Status;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/dropdown")
 public class DropdownController {
 
     @GetMapping("/industries")
@@ -44,4 +47,14 @@ public class DropdownController {
         }
         return new ResponseEntity<>(jobTypes, HttpStatus.OK);
     }
+
+    @GetMapping("/interview-types")
+    public ResponseEntity<List<String>> getInterviewTypes(@RequestParam String param) {
+        List<String> interviewTypes = new ArrayList<>();
+        for (InterviewType interviewType : InterviewType.values()) {
+            interviewTypes.add(interviewType.toString());
+        }
+        return new ResponseEntity<>(interviewTypes, HttpStatus.OK);
+    }
+    
 }

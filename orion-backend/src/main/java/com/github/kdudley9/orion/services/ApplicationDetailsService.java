@@ -113,4 +113,14 @@ public class ApplicationDetailsService {
     public int deleteApplicationById(Long id, String userId) {
         return this.applicationDetailsRepository.deleteByIdAndUserId(id, userId);
     }
+
+    // TODO: Use this to check if an application belongs to the currently logged in user
+    protected boolean applicationBelongsToUser(Long applicationId) {
+        ApplicationDetails applicationToUpdate = this.applicationDetailsRepository.findById(applicationId).orElseThrow(EntityNotFoundException::new);
+
+        if (!applicationToUpdate.getUser().getId().equals(userFacade.getCurrentUserId())) {
+            throw new RuntimeException("Resource not found");
+        }
+        return true;
+    }
 }
