@@ -9,5 +9,5 @@ import java.util.List;
 public interface InterviewRepository extends JpaRepository<Interview, Long> {
     List<Interview> findByApplicationDetails(ApplicationDetails applicationDetails);
 
-    int deleteByIdAndApplicationDetails(ApplicationDetails applicationDetails, Long id);
+    int deleteByIdAndApplicationDetailsId(Long applicationId, Long interviewId);
 }

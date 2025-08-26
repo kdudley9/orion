@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,12 +35,21 @@ public class InterviewController {
     }
     
     @PostMapping
-    public ResponseEntity<InterviewDto> addInterview(@RequestBody InterviewDto interviewDto, @PathVariable Long applicationid) {        
+    public ResponseEntity<InterviewDto> addInterview(@RequestBody InterviewDto interviewDto, @PathVariable("applicationId") Long applicationid) {        
         return new ResponseEntity<>(this.interviewService.addInterview(interviewDto, applicationid), HttpStatus.CREATED);
     }
     
     @PutMapping("/{interviewId}")
-    public ResponseEntity<InterviewDto> updateInterview(@RequestBody InterviewDto interviewDto, @PathVariable Long interviewId) {
-        return new ResponseEntity<>(this.interviewService.updateInterview(interviewDto, interviewId), HttpStatus.OK);
+    public ResponseEntity<InterviewDto> updateInterview(@RequestBody InterviewDto interviewDto, @PathVariable Long applicationId, @PathVariable Long interviewId) {
+        return new ResponseEntity<>(this.interviewService.updateInterview(interviewDto, applicationId, interviewId), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{interviewId}")
+    public ResponseEntity<Void> deleteInterview(@PathVariable Long applicationId, @PathVariable Long interviewId) {
+        int applicationsDeleted = this.interviewService.deleteInterview(applicationId, interviewId);
+        if (applicationsDeleted == 0) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
     }
 }

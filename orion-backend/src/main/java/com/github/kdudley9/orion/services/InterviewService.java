@@ -43,11 +43,10 @@ public class InterviewService {
         return this.interviewMapper.toDto(interview);
     }
 
-    public InterviewDto updateInterview(InterviewDto interviewDto, Long interviewId) {
-        Interview interview = this.interviewMapper.toEntity(interviewDto);
+    public InterviewDto updateInterview(InterviewDto interviewDto, Long applicationId, Long interviewId) {
+        ApplicationDetails applicationDetails = this.applicationDetailsRepository.findById(applicationId).orElse(null);
 
-        // Throw exception if the requested interview entity does not belong to the current user
-        if (!interview.getApplicationDetails().getUser().getId().equals(userFacade.getCurrentUserId())) {
+        if (!applicationDetails.getUser().getId().equals(userFacade.getCurrentUserId())) {
             throw new RuntimeException("Resource not found.");
         }
 
@@ -81,6 +80,6 @@ public class InterviewService {
             throw new RuntimeException("Resource not found.");
         }
 
-        return this.interviewRepository.deleteByIdAndApplicationDetails(applicationDetails, interviewId);
+        return this.interviewRepository.deleteByIdAndApplicationDetailsId(applicationId, interviewId);
     }
 }
