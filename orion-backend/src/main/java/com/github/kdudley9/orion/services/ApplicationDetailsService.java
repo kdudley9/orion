@@ -119,7 +119,7 @@ public class ApplicationDetailsService {
         ApplicationDetails applicationToUpdate = this.applicationDetailsRepository.findById(applicationId).orElseThrow(EntityNotFoundException::new);
 
         if (!applicationToUpdate.getUser().getId().equals(userFacade.getCurrentUserId())) {
-            throw new RuntimeException("Resource not found");
+            return false;
         }
         return true;
     }

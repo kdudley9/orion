@@ -81,6 +81,9 @@ public class ApplicationDetails {
     @OneToMany(mappedBy = "applicationDetails", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Interview> interviews = new HashSet<>();
 
+    @OneToMany(mappedBy = "applicationDetails", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<InterviewQuestion> interviewQuestions = new HashSet<>();
+
     @NotNull(message = "User cannot be null.")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
