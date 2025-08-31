@@ -51,7 +51,6 @@ public class ApplicationDetails {
     @Column(columnDefinition = "TEXT")
     private String url;
 
-    @Size(max = 2000)
     @Column(columnDefinition = "TEXT")
     private String note;
 

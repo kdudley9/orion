@@ -33,6 +33,15 @@ public class InterviewQuestionController {
             HttpStatus.CREATED
         );
     }
+
+    @GetMapping("/ai-generate-questions")
+    public ResponseEntity<List<InterviewQuestionDto>> generateInterviewQuestions(@PathVariable("applicationId") Long applicationId) {
+        return new ResponseEntity<>(
+            this.interviewQuestionService.generateInterviewQuestions(applicationId), 
+            HttpStatus.CREATED
+        );
+    }
+    
     
     @PutMapping("/{interviewQuestionId}")
     public ResponseEntity<InterviewQuestionDto> updateInterviewQuestion(
@@ -50,7 +59,7 @@ public class InterviewQuestionController {
         if (applicationId == null) {
             return ResponseEntity.notFound().build();
         }
-        
+
         return new ResponseEntity<>(
             this.interviewQuestionService.getAllInterviewQuestions(applicationId), 
             HttpStatus.OK
@@ -65,21 +74,23 @@ public class InterviewQuestionController {
         );
     }
     
+    // TODO: Fix because it is not deleting applications
     @DeleteMapping
     public ResponseEntity<Void> deleteAllInterviewQuestions(@PathVariable Long applicationId) {
         int numberDeleted = this.interviewQuestionService.deleteAllInterviewQuestions(applicationId);
         if (numberDeleted == 0) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
+    // TODO: Fix because it is not deleting applications
     @DeleteMapping("/{interviewQuestionId}")
     public ResponseEntity<Void> deleteInterviewQuestion(@PathVariable Long interviewQuestionId, @PathVariable Long applicationId) {
         int numberDeleted = this.interviewQuestionService.deleteInterviewQuestion(interviewQuestionId, applicationId);
         if (numberDeleted == 0) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
