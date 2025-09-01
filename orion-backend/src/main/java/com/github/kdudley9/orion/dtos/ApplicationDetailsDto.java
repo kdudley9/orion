@@ -12,7 +12,7 @@ public record ApplicationDetailsDto(
     String jobTitle, 
     String location, 
     String url, 
-    String note, 
+    String jobDescription, 
     LocalDate dateApplied, 
     Industry industry, 
     Status status,
