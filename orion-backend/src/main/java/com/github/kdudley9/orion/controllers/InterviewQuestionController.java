@@ -74,7 +74,6 @@ public class InterviewQuestionController {
         );
     }
     
-    // TODO: Fix because it is not deleting applications
     @DeleteMapping
     public ResponseEntity<Void> deleteAllInterviewQuestions(@PathVariable Long applicationId) {
         int numberDeleted = this.interviewQuestionService.deleteAllInterviewQuestions(applicationId);
@@ -84,7 +83,6 @@ public class InterviewQuestionController {
         return ResponseEntity.noContent().build();
     }
 
-    // TODO: Fix because it is not deleting applications
     @DeleteMapping("/{interviewQuestionId}")
     public ResponseEntity<Void> deleteInterviewQuestion(@PathVariable Long interviewQuestionId, @PathVariable Long applicationId) {
         int numberDeleted = this.interviewQuestionService.deleteInterviewQuestion(interviewQuestionId, applicationId);

@@ -4,20 +4,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.prompt.ChatOptions;
-import org.springframework.ai.openai.OpenAiChatOptions;
-import org.springframework.ai.openai.OpenAiChatOptions.Builder;
-import org.springframework.ai.openai.api.ResponseFormat;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
+import com.github.kdudley9.orion.dtos.GeneratedQuestionDto;
 import com.github.kdudley9.orion.dtos.InterviewQuestionDto;
 import com.github.kdudley9.orion.mappers.InterviewQuestionMapper;
 import com.github.kdudley9.orion.models.ApplicationDetails;
 import com.github.kdudley9.orion.models.InterviewQuestion;
 import com.github.kdudley9.orion.repositories.ApplicationDetailsRepository;
 import com.github.kdudley9.orion.repositories.InterviewQuestionRepository;
-import com.github.kdudley9.orion.repositories.InterviewRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
@@ -57,47 +53,56 @@ public class InterviewQuestionService {
         return this.interviewQuestionMapper.toDto(interviewQuestion);
     }
 
-    /*
-     * TODO: Add boolean to entity that flags whether or not a question is AI generated so ik which 
-     * ones to clear out if they try to generate more
-     */
     public List<InterviewQuestionDto> generateInterviewQuestions(Long applicationId) {
         if (this.applicationDetailsService.applicationBelongsToUser(applicationId) == false) {
             throw new RuntimeException("Application does not belong to user");
         }
 
+        // Remove previously generated questions
+        this.interviewQuestionRepository.deleteGeneratedQuestions(applicationId);
+
         ApplicationDetails applicationDetails = this.applicationDetailsRepository.findById(applicationId)
             .orElseThrow(EntityNotFoundException::new);
 
-        List<InterviewQuestion> interviewQuestions = chatClient.prompt()
+        // The GeneratedQuestionDto will only contains the "question" property. This helps ensure
+        // that OpenAi will not attempt to set properties it shouldn't like the entity ids.
+        List<GeneratedQuestionDto> generatedQuestions = chatClient.prompt()
             .user(u -> u
                     .text("""
                             Generate fifteen to twenty practice interview questions for a {jobTitle} 
                             role with this job description (if provided): {jobDescription}. If, and 
                             only if, you are familiar with common interview questions asked by 
-                            {company}, include a few of those questions in your output. It should 
+                            {company}, mix a few of those questions in your output. It should 
                             be possible for each question to be answered with a verbal response, 
                             so no questions that require the interviewee to write out code, 
-                            create a UI design mockup, etc. Only populate the "question" field.
-                            Do not generate notes (job descriptions) or IDs.
+                            create a UI design mockup, etc. The difficulty of the questions should 
+                            be relative to the experience level required, so use the job title and the
+                            job description (if provided) to determine how much domain knowledge an
+                            average candidate would be expected to know.
                         """)
                     .params(
                         Map.of(
                             "jobTitle", applicationDetails.getJobTitle(),
-                            "jobDescription", applicationDetails.getNote(),
+                            "jobDescription", applicationDetails.getJobDescription(),
                             "company", applicationDetails.getCompany()
                         )
                     )
                 )
             .call()
-            .entity(new ParameterizedTypeReference<List<InterviewQuestion>>() {});
+            .entity(new ParameterizedTypeReference<List<GeneratedQuestionDto>>() {});
+        
+        // Map the generated question DTOs to the InterviewQuestion entity
+        List<InterviewQuestion> interviewQuestions = generatedQuestions
+            .stream().map(this.interviewQuestionMapper::toEntity).toList();
         
         for (InterviewQuestion interviewQuestion : interviewQuestions) {
             interviewQuestion.setApplicationDetails(applicationDetails);
+            interviewQuestion.setAiGenerated(true);
         }
 
         this.interviewQuestionRepository.saveAll(interviewQuestions);
 
+        // Map the InterviewQuestion entities back to DTOs for the return value
         List<InterviewQuestionDto> interviewQuestionDtos = this.interviewQuestionRepository
             .findByApplicationDetailsId(applicationId).stream().map(this.interviewQuestionMapper::toDto).toList();
         return interviewQuestionDtos;

@@ -3,5 +3,6 @@ package com.github.kdudley9.orion.dtos;
 public record InterviewQuestionDto(
     Long id,
     String question,
-    String note
+    String note,
+    boolean isAiGenerated
 ) {}
