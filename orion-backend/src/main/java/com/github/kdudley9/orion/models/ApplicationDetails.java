@@ -52,7 +52,7 @@ public class ApplicationDetails {
     private String url;
 
     @Column(columnDefinition = "TEXT")
-    private String note;
+    private String jobDescription;
 
     @NotNull(message = "Date applied cannot be null.")
     @Column(name = "date_applied", columnDefinition = "DATE")
@@ -147,12 +147,12 @@ public class ApplicationDetails {
         this.dateCreated = dateCreated;
     }
 
-    public String getNote() {
-        return note;
+    public String getJobDescription() {
+        return jobDescription;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setJobDescription(String jobDescription) {
+        this.jobDescription = jobDescription;
     }
 
     public Industry getIndustry() {
@@ -219,7 +219,7 @@ public class ApplicationDetails {
     @Override
     public String toString() {
         return "ApplicationDetails [id=" + id + ", company=" + company + ", jobTitle=" + jobTitle + ", location="
-                + location + ", url=" + url + ", note=" + note + ", dateApplied=" + dateApplied + ", dateCreated="
+                + location + ", url=" + url + ", jobDescription=" + jobDescription + ", dateApplied=" + dateApplied + ", dateCreated="
                 + dateCreated + ", industry=" + industry + ", status=" + status + ", jobType=" + jobType + ", favorite="
                 + favorite + ", archived=" + archived + "]";
     }

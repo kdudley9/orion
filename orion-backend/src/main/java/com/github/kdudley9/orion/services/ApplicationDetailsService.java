@@ -79,7 +79,7 @@ public class ApplicationDetailsService {
         applicationToUpdate.setIndustry(applicationDetailsDto.industry());
         applicationToUpdate.setJobTitle(applicationDetailsDto.jobTitle());
         applicationToUpdate.setLocation(applicationDetailsDto.location());
-        applicationToUpdate.setNote(applicationDetailsDto.note());
+        applicationToUpdate.setJobDescription(applicationDetailsDto.jobDescription());
         applicationToUpdate.setJobType(applicationDetailsDto.jobType());
         applicationToUpdate.setUrl(applicationDetailsDto.url());
         applicationToUpdate.setDateApplied(applicationDetailsDto.dateApplied());
