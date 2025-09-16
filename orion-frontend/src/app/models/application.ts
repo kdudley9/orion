@@ -4,7 +4,7 @@ export interface Application {
   jobTitle: string,
   location: string,
   url: string,
-  note?: string,
+  jobDescription?: string,
   dateApplied: string,
   industry: string,
   status: string,
