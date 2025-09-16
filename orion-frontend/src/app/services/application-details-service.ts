@@ -9,8 +9,38 @@ import { Application } from '../models/application';
 export class ApplicationDetailsService {
   constructor(private http: HttpClient) {}
 
+  addApplication(application: Application): Observable<Application> {
+    return this.http.post<Application>('/api/application-details', application, {
+      withCredentials: true
+    });
+  }
+
+  updateApplication(application: Application): Observable<Application> {
+    return this.http.put<Application>('/api/application-details', application, {
+      withCredentials: true
+    });
+  }
+
+  getApplication(applicationId: number): Observable<Application> {
+    return this.http.get<Application>(`/api/application-details/${applicationId}`, {
+      withCredentials: true
+    });
+  }
+
   getApplications(): Observable<Application[]> {
     return this.http.get<Application[]>(`/api/application-details`, {
+      withCredentials: true
+    });
+  }
+
+  deleteApplication(applicationId: number) {
+    return this.http.delete(`/api/application-details/${applicationId}`, {
+      withCredentials: true
+    });
+  }
+
+  deleteAllAplications(): void {
+    this.http.delete('/api/application-details', {
       withCredentials: true
     });
   }

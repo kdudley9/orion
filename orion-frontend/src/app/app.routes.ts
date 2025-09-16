@@ -3,6 +3,8 @@ import { ApplicationDetails } from './pages/application-details/application-deta
 import { Homepage } from './pages/homepage/homepage';
 import { Login } from './pages/login/login';
 import { authGuard } from './guards/auth-guard';
+import { ApplicationInfo } from './pages/application-info/application-info';
+import { applicationGuard } from './guards/application-guard';
 
 export const routes: Routes = [
   {
@@ -12,6 +14,11 @@ export const routes: Routes = [
   {
     path: 'login',
     component: Login
+  },
+  {
+    path: 'applications/:id',
+    component: ApplicationInfo,
+    canActivate: [authGuard, applicationGuard]
   },
   {
     path: 'applications',
