@@ -7,9 +7,4 @@ public enum JobType {
     INTERNSHIP,
     TEMPORARY,
     OTHER;
-
-    @Override
-    public String toString() {
-        return super.toString().replace('_', ' ');
-    }
 }

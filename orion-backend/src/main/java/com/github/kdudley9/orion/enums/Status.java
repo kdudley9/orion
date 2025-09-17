@@ -7,9 +7,4 @@ public enum Status {
     OFFER,
     REJECTED,
     GHOSTED;
-
-    @Override
-    public String toString() {
-        return super.toString().replace('_', ' ');
-    }
 }
