@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'removeUnderscores'
 })
 export class RemoveUnderscoresPipe implements PipeTransform {
-  transform(value: string): string {
+  transform(value: string | undefined): string | undefined {
     return value ? value.replace(/_/g, ' ') : value;
   }
 }

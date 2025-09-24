@@ -6,12 +6,12 @@
     <div class="container">
       <h5 class="card-title" (click)="navigateToApplicationDetails(application().id)">{{ application().jobTitle }}</h5>
       <p class="card-text">{{ application().company }}</p>
-      <p class="card-text">{{ application().industry }}</p>
+      <p class="card-text">{{ application().industry | removeUnderscores }}</p>
     </div>
     <div class="container">
       <p class="card-text">{{ application().location }}</p>
-      <p class="card-text">{{ application().dateApplied }}</p>
-      <p class="card-text">{{ application().jobType }}</p>
+      <p class="card-text">{{ application().dateApplied | date: 'shortDate'}}</p>
+      <p class="card-text">{{ application().jobType | removeUnderscores}}</p>
     </div>
     <div class="container d-flex flex-column">
       <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="More">
@@ -23,8 +23,10 @@
       </mat-menu>
       <mat-icon>star-border</mat-icon>
     </div>
+    <select class="form-select" (change)="onPatchApplication(application().id, $any($event.target).value)">
+      @for (status of statuses; track $index) {
+        <option [value]="status">{{ status | removeUnderscores}}</option>
+      }
+    </select>
   </div>
-  <button class="btn-primary">
-    Update Status <mat-icon>expand_more</mat-icon>
-  </button>
 </div>
