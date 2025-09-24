@@ -1,5 +1,5 @@
 export interface Application {
-  id: number,
+  id?: number,
   company: string,
   jobTitle: string,
   location: string,
@@ -7,8 +7,8 @@ export interface Application {
   jobDescription?: string,
   dateApplied: string,
   industry: string,
-  status: string,
+  status?: string,
   jobType: string,
-  favorite: boolean,
-  archived: boolean
+  favorite?: boolean,
+  archived?: boolean
 }

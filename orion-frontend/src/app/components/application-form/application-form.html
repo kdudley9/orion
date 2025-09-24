@@ -1,0 +1,129 @@
+<div class="form-container">
+  <h2 mat-dialog-title>Add Application</h2>
+  <mat-dialog-content>
+    <form [formGroup]="applicationForm">
+      <div class="mb-3">
+        <label for="company" class="form-label">Company</label>
+        <input type="text" class="form-control" id="company" formControlName="company" required>
+        @if (company?.invalid && company?.dirty) {
+          <div class="alert alert-danger">
+            @if (company?.hasError('required')) {
+              <div>
+                Company is required.
+              </div>
+            }
+          </div>
+        }
+      </div>
+      <div class="mb-3">
+        <label for="jobTitle" class="form-label">Job Title</label>
+        <input type="text" class="form-control" id="jobTitle" formControlName="jobTitle" required>
+        @if (jobTitle?.invalid && jobTitle?.dirty) {
+          <div class="alert alert-danger">
+            @if (jobTitle?.hasError('required')) {
+              <div>
+                Job title is required.
+              </div>
+            }
+          </div>
+        }
+      </div>
+      <div class="mb-3">
+        <label for="url" class="form-label">Link to Company Site or Job Posting</label>
+        <input type="text" class="form-control" id="url" formControlName="url" required>
+        @if (url?.invalid && url?.dirty) {
+          <div class="alert alert-danger">
+            @if (url?.hasError('required')) {
+              <div>
+                Link to company site or job post is required.
+              </div>
+            }
+
+            @if (url?.hasError('maxlength')) {
+              <div>
+                URL cannot exceed 2048 characters.
+              </div>
+            }
+          </div>
+        }
+      </div>
+      <div class="mb-3">
+        <label for="location" class="form-label">Location</label>
+        <input type="text" class="form-control" id="location" formControlName="location" required>
+        @if (location?.invalid && location?.dirty) {
+          <div class="alert alert-danger">
+            @if (location?.hasError('required')) {
+              <div>
+                Location is required.
+              </div>
+            }
+          </div>
+        }
+      </div>
+      <div class="mb-3">
+        <label for="dateApplied" class="form-label">Date Applied</label>
+        <input type="date" class="form-control" id="dateApplied" formControlName="dateApplied" required>
+        @if (dateApplied?.invalid && dateApplied?.dirty) {
+          <div class="alert alert-danger">
+            @if (dateApplied?.hasError('required')) {
+              <div>
+                Date is required.
+              </div>
+            }
+          </div>
+        }
+      </div>
+      <div class="mb-3">
+        <label for="industrySelect" class="form-label">Industry</label>
+        <select class="form-select" id="industrySelect" formControlName="industry" required>
+          @for (industry of industries; track $index) {
+            <option [value]="industry">{{ industry | removeUnderscores }}</option>
+          }
+        </select>
+        @if (industry?.invalid && industry?.dirty) {
+          <div class="alert alert-danger">
+            @if (industry?.hasError('required')) {
+              <div>
+                Industry is required.
+              </div>
+            }
+          </div>
+        }
+      </div>
+      <div class="mb-3">
+        <label for="jobTypeSelect">Job Type</label>
+        <select class="form-select" id="jobTypeSelect" formControlName="jobType" required>
+          @for (jobType of jobTypes; track $index) {
+            <option [value]="jobType">{{ jobType | removeUnderscores}}</option>
+          }
+        </select>
+        @if (jobType?.invalid && jobType?.dirty) {
+          <div class="alert alert-danger">
+            @if (jobType?.hasError('required')) {
+              <div>
+                Job Type is required.
+              </div>
+            }
+          </div>
+        }
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Job Description</label>
+        <textarea class="form-control" id="description" rows="3" formControlName="jobDescription"></textarea>
+        @if (jobDescription?.invalid && jobDescription?.dirty) {
+          <div class="alert alert-danger">
+            @if (jobDescription?.hasError('maxlength')) {
+              <div>
+                Job description cannot exceed 10,000 characters.
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+    <button class="btn btn-primary" [disabled]="!applicationForm.valid" (click)="onSubmit()">Save</button>
+  </mat-dialog-actions>
+</div>

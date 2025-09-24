@@ -2,11 +2,11 @@
   <h1>Application Details placeholder</h1>
   <p>{{ application.company }}</p>
   <p>{{ application.dateApplied }}</p>
-  <p>{{ application.industry }}</p>
+  <p>{{ application.industry | removeUnderscores}}</p>
   <p>{{ application.jobTitle }}</p>
-  <p>{{ application.jobType }}</p>
+  <p>{{ application.jobType | removeUnderscores }}</p>
   <p>{{ application.location }}</p>
   <p>{{ application.jobDescription }}</p>
-  <p>{{ application.status }}</p>
+  <p>{{ application.status | removeUnderscores}}</p>
   <p>{{ application.url }}</p>
 </div>

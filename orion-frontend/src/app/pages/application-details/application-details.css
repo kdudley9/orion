@@ -1,0 +1,12 @@
+.status:hover {
+  color: #6e2594;
+  cursor: pointer;
+}
+
+.status {
+  font-weight: bold;
+}
+
+#application-container {
+  background-color: #f4f3f2;
+}
