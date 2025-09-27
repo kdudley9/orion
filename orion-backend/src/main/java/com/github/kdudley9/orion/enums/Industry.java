@@ -32,9 +32,4 @@ public enum Industry {
     FASHION,
     ENVIRONMENTAL_SERVICES,
     OTHER;
-
-    @Override
-    public String toString() {
-        return super.toString().replace('_', ' ');
-    }
 }

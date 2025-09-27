@@ -24,8 +24,7 @@ public class DropdownController {
     public ResponseEntity<List<String>> getIndustries() {
         List<String> industries = new ArrayList<>();
         for (Industry industry : Industry.values()) {
-            String industryToLower = industry.toString();
-            industries.add(industryToLower);
+            industries.add(industry.toString());
         }
         return new ResponseEntity<>(industries, HttpStatus.OK);
     }

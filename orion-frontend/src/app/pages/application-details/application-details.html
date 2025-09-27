@@ -1,10 +1,23 @@
 @if (applications.length > 0) {
-  <div>
-    @for (application of applications; track application.id) {
-      <ul>
-        <li><app-application-card [application]="application" /></li>
-      </ul>
-    }
+  <div class="d-flex justify-content-end">
+    <div class="pt-4 ps-4 pe-4 border-start" id="application-container">
+      <div class="container d-flex justify-content-between">
+        @for (status of statuses; track $index) {
+          <p class="status" (click)="getApplications(status)">{{ status | removeUnderscores }}</p>
+        }
+      </div>
+      <div class="container d-flex justify-content-between mb-3">
+        <input class="form-control shadow-none w-75" type="text" placeholder="Search...">
+        <button class="btn" id="add-btn" (click)="openDialog()">ADD</button>
+      </div>
+      @for (application of applications; track application.id) {
+        <div class="container">
+          <ul class="list-unstyled overflow-auto">
+            <li><app-application-card [application]="application" /></li>
+          </ul>
+        </div>
+      }
+    </div>
   </div>
 } @else {
   <div>

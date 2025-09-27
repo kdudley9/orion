@@ -1,0 +1,17 @@
+.status:hover {
+  color: #6e2594;
+  cursor: pointer;
+}
+
+.status {
+  font-weight: bold;
+}
+
+#application-container {
+  background-color: white;
+}
+
+#add-btn {
+  color: white;
+  background-color: #6e2594;
+}
