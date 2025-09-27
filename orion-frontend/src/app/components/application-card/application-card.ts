@@ -4,7 +4,7 @@ import { Application } from '../../models/application';
 import { ApplicationDetailsService } from '../../services/application-details-service';
 import { MatButtonModule } from '@angular/material/button';
 import {MatMenuModule} from '@angular/material/menu';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { RemoveUnderscoresPipe } from "../../pipes/remove-underscores-pipe";
 import { DropdownService } from '../../services/dropdown-service';
@@ -12,7 +12,7 @@ import { PatchRequest } from '../../models/patch-request';
 
 @Component({
   selector: 'app-application-card',
-  imports: [MatIconModule, MatButtonModule, MatMenuModule, RemoveUnderscoresPipe, DatePipe],
+  imports: [MatIconModule, MatButtonModule, MatMenuModule, RemoveUnderscoresPipe, DatePipe, RouterLink],
   templateUrl: './application-card.html',
   styleUrl: './application-card.css'
 })
@@ -33,10 +33,6 @@ export class ApplicationCard implements OnInit {
 
   deleteApplication(applicationId: number | undefined) {
     this.applicationDetailsService.deleteApplication(applicationId).subscribe();
-  }
-
-  navigateToApplicationDetails(applicationId: number | undefined) {
-    this.router.navigate([`/applications/${applicationId}`]);
   }
 
   getStatuses(): void {

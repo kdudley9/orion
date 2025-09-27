@@ -14,10 +14,12 @@ import {
 import { ApplicationForm } from '../../components/application-form/application-form';
 import { DropdownService } from '../../services/dropdown-service';
 import { RemoveUnderscoresPipe } from "../../pipes/remove-underscores-pipe";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-application-details',
-  imports: [ApplicationCard, RemoveUnderscoresPipe],
+  imports: [ApplicationCard, RemoveUnderscoresPipe, MatIconModule, MatButtonModule],
   templateUrl: './application-details.html',
   styleUrl: './application-details.css'
 })

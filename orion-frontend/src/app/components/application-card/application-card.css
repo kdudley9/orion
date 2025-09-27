@@ -1,3 +1,23 @@
 .card {
   width: 50rem;
 }
+
+#card-img {
+  height: 50%;
+}
+
+.stretched-link {
+  color: inherit;
+  text-decoration: none;
+}
+.stretched-link::after {
+  text-decoration: none;
+}
+
+#more-btn-container {
+  z-index: 2;
+}
+
+#status-select-container {
+  z-index: 2;
+}

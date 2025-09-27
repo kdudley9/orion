@@ -8,5 +8,10 @@
 }
 
 #application-container {
-  background-color: #f4f3f2;
+  background-color: white;
+}
+
+#add-btn {
+  color: white;
+  background-color: #6e2594;
 }
