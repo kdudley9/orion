@@ -5,6 +5,7 @@ import { Login } from './pages/login/login';
 import { authGuard } from './guards/auth-guard';
 import { ApplicationInfo } from './pages/application-info/application-info';
 import { applicationGuard } from './guards/application-guard';
+import { InterviewDetails } from './pages/interview-details/interview-details';
 
 export const routes: Routes = [
   {
@@ -18,7 +19,10 @@ export const routes: Routes = [
   {
     path: 'applications/:id',
     component: ApplicationInfo,
-    canActivate: [authGuard, applicationGuard]
+    canActivate: [authGuard, applicationGuard],
+    children: [
+      { path: 'interviews', component: InterviewDetails }
+    ]
   },
   {
     path: 'applications',
