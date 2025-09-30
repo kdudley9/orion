@@ -1,0 +1,80 @@
+<div class="form-container">
+  <h2 mat-dialog-title>Add Interview</h2>
+  <mat-dialog-content>
+    <form [formGroup]="interviewForm">
+      <div class="mb-3">
+        <label for="interviewDate" class="form-label">Date</label>
+        <input type="date" class="form-control" id="interviewDate" formControlName="interviewDate" required>
+        @if (interviewDate?.invalid && interviewDate?.dirty) {
+          <div class="alert alert-danger">
+            @if (interviewDate?.hasError('required')) {
+              <div>
+                Interview Date is required.
+              </div>
+            }
+          </div>
+        }
+      </div>
+      <div class="mb-3">
+        <label for="location" class="form-label">Location</label>
+        <input type="text" class="form-control" id="location" formControlName="location" required>
+        @if (location?.invalid && location?.dirty) {
+          <div class="alert alert-danger">
+            @if (location?.hasError('required')) {
+              <div>
+                Location is required.
+              </div>
+            }
+          </div>
+        }
+      </div>
+      <div class="mb-3">
+        <label for="meetingLink" class="form-label">Meeting Link</label>
+        <input type="text" class="form-control" id="meetingLink" formControlName="meetingLink">
+      </div>
+      <div class="mb-3">
+        <label for="interviewTypeSelect" class="form-label">Interview Type</label>
+        <select id="interviewTypeSelect" class="form-select" formControlName="interviewType" required>
+          @for (interviewType of interviewTypes; track $index) {
+            <option [value]="interviewType">{{ interviewType | removeUnderscores }}</option>
+          }
+        </select>
+        @if (interviewType?.invalid && interviewType?.dirty) {
+          <div class="alert alert-danger">
+            @if (interviewType?.hasError('required')) {
+              <div>
+                Interview Type is required.
+              </div>
+            }
+          </div>
+        }
+      </div>
+        <div formArrayName="interviewerFields">
+          @for (field of interviewerFields.controls; track $index; let i = $index) {
+            <div class="mb-3" [formGroupName]="i">
+              <div class="mb-3">
+                <label for="name{{i}}" class="form-label">Name</label>
+                <input type="text" id="name{{i}}" formControlName="name" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                <label for="email{{i}}" class="form-label">Email</label>
+                <input type="email" id="email{{i}}" formControlName="email" class="form-control">
+              </div>
+              <div class="mb-3">
+                <label for="phone-number{{i}}" class="form-label">Phone Number</label>
+                <input type="tel" id="phone-number{{i}}" formControlName="phoneNumber" class="form-control">
+              </div>
+              <button type="button" class="btn btn-warning" (click)="removeInterviewerField(i)">Remove</button>
+            </div>
+          }
+        </div>
+      <div class="mb-3">
+        <button class="btn btn-primary" (click)="addInterviewer()">Add Interviewer</button>
+      </div>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+    <button class="btn btn-primary" [disabled]="!interviewForm.valid" (click)="onSubmit()">Save</button>
+  </mat-dialog-actions>
+</div>
