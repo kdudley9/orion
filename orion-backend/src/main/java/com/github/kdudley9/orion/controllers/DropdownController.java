@@ -48,7 +48,7 @@ public class DropdownController {
     }
 
     @GetMapping("/interview-types")
-    public ResponseEntity<List<String>> getInterviewTypes(@RequestParam String param) {
+    public ResponseEntity<List<String>> getInterviewTypes() {
         List<String> interviewTypes = new ArrayList<>();
         for (InterviewType interviewType : InterviewType.values()) {
             interviewTypes.add(interviewType.toString());
