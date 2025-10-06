@@ -6,6 +6,7 @@ import { authGuard } from './guards/auth-guard';
 import { ApplicationInfo } from './pages/application-info/application-info';
 import { applicationGuard } from './guards/application-guard';
 import { InterviewDetails } from './pages/interview-details/interview-details';
+import { InterviewQuestionPage } from './pages/interview-question-page/interview-question-page';
 
 export const routes: Routes = [
   {
@@ -21,7 +22,8 @@ export const routes: Routes = [
     component: ApplicationInfo,
     canActivate: [authGuard, applicationGuard],
     children: [
-      { path: 'interviews', component: InterviewDetails }
+      { path: 'interviews', component: InterviewDetails },
+      { path: 'interview-questions', component: InterviewQuestionPage }
     ]
   },
   {

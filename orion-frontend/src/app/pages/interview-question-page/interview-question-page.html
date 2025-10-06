@@ -1,0 +1,11 @@
+<div class="container">
+  <h1>Interview Questions Placeholder</h1>
+  @for(question of generatedQuestions$ | async; track question.id) {
+    <ul>
+      <li>{{ question.question }}</li>
+      <p>{{ question.note }}</p>
+    </ul>
+    <button class="btn btn-warning" (click)="deleteQuestion(question.id)">DELETE</button>
+  }
+  <button class="btn btn-primary" (click)="generateQuestions()">GENERATE QUESTIONS</button>
+</div>
