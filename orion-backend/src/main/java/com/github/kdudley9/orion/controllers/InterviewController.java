@@ -46,7 +46,7 @@ public class InterviewController {
 
     @DeleteMapping("/{interviewId}")
     public ResponseEntity<Void> deleteInterview(@PathVariable Long applicationId, @PathVariable Long interviewId) {
-        int applicationsDeleted = this.interviewService.deleteInterview(applicationId, interviewId);
+        int applicationsDeleted = this.interviewService.deleteInterview(interviewId, applicationId);
         if (applicationsDeleted == 0) {
             return ResponseEntity.notFound().build();
         }

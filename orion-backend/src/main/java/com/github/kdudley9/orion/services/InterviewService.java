@@ -73,13 +73,13 @@ public class InterviewService {
         return allInterviews;
     }
 
-    public int deleteInterview(Long applicationId, Long interviewId) {
+    public int deleteInterview(Long interviewId, Long applicationId) {
         ApplicationDetails applicationDetails = this.applicationDetailsRepository.findById(applicationId).orElse(null);
 
         if (!applicationDetails.getUser().getId().equals(userFacade.getCurrentUserId())) {
             throw new RuntimeException("Resource not found.");
         }
 
-        return this.interviewRepository.deleteByIdAndApplicationDetailsId(applicationId, interviewId);
+        return this.interviewRepository.deleteByIdAndApplicationDetailsId(interviewId, applicationId);
     }
 }

@@ -13,8 +13,6 @@ import com.github.kdudley9.orion.enums.Industry;
 import com.github.kdudley9.orion.enums.InterviewType;
 import com.github.kdudley9.orion.enums.JobType;
 import com.github.kdudley9.orion.enums.Status;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
 @RequestMapping("/api/dropdown")
