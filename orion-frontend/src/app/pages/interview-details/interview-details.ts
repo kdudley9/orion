@@ -31,9 +31,7 @@ export class InterviewDetails implements OnInit {
     });
   }
 
-  // getInterviews(): void {
-  //   this.interviewService.getInterviews(this.applicationId).subscribe((data) => {
-  //     this.interviews = data;
-  //   });
-  // }
+  deleteInterview(interviewId: number): void {
+    this.interviewService.deleteInterview(this.applicationId, interviewId).subscribe();
+  }
 }

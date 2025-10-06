@@ -49,8 +49,8 @@
           </div>
         }
       </div>
-        <div formArrayName="interviewerFields">
-          @for (field of interviewerFields.controls; track $index; let i = $index) {
+        <div formArrayName="interviewers">
+          @for (field of interviewers.controls; track $index; let i = $index) {
             <div class="mb-3" [formGroupName]="i">
               <div class="mb-3">
                 <label for="name{{i}}" class="form-label">Name</label>

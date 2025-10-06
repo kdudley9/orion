@@ -32,7 +32,7 @@ export class InterviewForm implements OnInit {
       location: ['', Validators.required],
       meetingLink: [''],
       interviewType: ['', Validators.required],
-      interviewerFields: this.fb.array([])
+      interviewers: this.fb.array([])
     });
   }
 
@@ -43,6 +43,7 @@ export class InterviewForm implements OnInit {
   }
 
   onSubmit(): void {
+    console.log(this.interviewForm.value);
     this.interviewService.addInterview(this.formData.applicationId, this.interviewForm.value).subscribe({
       next: () => {
         this.dialogRef.close();
@@ -59,11 +60,11 @@ export class InterviewForm implements OnInit {
       phoneNumber: [''],
       email: ['', Validators.email]
     });
-    this.interviewerFields.push(fieldGroup);
+    this.interviewers.push(fieldGroup);
   }
 
   removeInterviewerField(index: number): void {
-    this.interviewerFields.removeAt(index);
+    this.interviewers.removeAt(index);
   }
 
   onCancel(): void {
@@ -86,7 +87,7 @@ export class InterviewForm implements OnInit {
     return this.interviewForm.get('interviewType');
   }
 
-  get interviewerFields() {
-    return this.interviewForm.get('interviewerFields') as FormArray;
+  get interviewers() {
+    return this.interviewForm.get('interviewers') as FormArray;
   }
 }
