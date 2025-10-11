@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, Subject, throwError } from 'rxjs';
 import { InterviewQuestion } from '../models/interview-question';
 
 @Injectable({
@@ -8,6 +8,8 @@ import { InterviewQuestion } from '../models/interview-question';
 })
 export class InterviewQuestionService {
   private readonly baseUrl =  `/api/application-details`
+  private _deleteSuccessfulEvent$ = new BehaviorSubject<any | undefined>(undefined);
+
   constructor(private http: HttpClient) {}
 
   generateQuestions(applicationId: number): void {
@@ -25,9 +27,21 @@ export class InterviewQuestionService {
     });
   }
 
-  deleteQuestion(applicationId: number, questionId: number): Observable<unknown> {
-    return this.http.delete(`${this.baseUrl}/${applicationId}/interview-questions/${questionId}`, {
+  deleteQuestion(applicationId: number, questionId: number) {
+    this.http.delete(`${this.baseUrl}/${applicationId}/interview-questions/${questionId}`, {
       withCredentials: true
+    })
+    .subscribe({
+      next: () => {
+        this._deleteSuccessfulEvent$.next(true);
+      },
+      error: () => {
+        this._deleteSuccessfulEvent$.next(false);
+      }
     });
+  }
+
+  get deleteSuccessfulEvent$(): Observable<boolean> {
+    return this._deleteSuccessfulEvent$.asObservable();
   }
 }
