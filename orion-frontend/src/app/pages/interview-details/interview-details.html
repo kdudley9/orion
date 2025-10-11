@@ -1,0 +1,16 @@
+<div class="container">
+  <h1>Interview Details Placeholder</h1>
+  @for(interview of interviews; track interview.id) {
+    <p>{{ interview.interviewDate }}</p>
+    <p>{{ interview.interviewType }}</p>
+    <p>{{ interview.location }}</p>
+    <p>{{ interview.meetingLink }}</p>
+    @for(interviewer of interview.interviewers; track $index) {
+      <p>{{ interviewer.name }}</p>
+      <p>{{ interviewer.email }}</p>
+      <p>{{ interviewer.phoneNumber }}</p>
+    }
+    <button class="btn btn-warning" (click)="deleteInterview(interview.id)">DELETE INTERVIEW</button>
+  }
+  <button class="btn btn-primary" (click)="openInterviewForm(applicationId)">Add Interview</button>
+</div>

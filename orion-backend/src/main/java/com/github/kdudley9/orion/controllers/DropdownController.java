@@ -13,8 +13,6 @@ import com.github.kdudley9.orion.enums.Industry;
 import com.github.kdudley9.orion.enums.InterviewType;
 import com.github.kdudley9.orion.enums.JobType;
 import com.github.kdudley9.orion.enums.Status;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
 @RequestMapping("/api/dropdown")
@@ -48,7 +46,7 @@ public class DropdownController {
     }
 
     @GetMapping("/interview-types")
-    public ResponseEntity<List<String>> getInterviewTypes(@RequestParam String param) {
+    public ResponseEntity<List<String>> getInterviewTypes() {
         List<String> interviewTypes = new ArrayList<>();
         for (InterviewType interviewType : InterviewType.values()) {
             interviewTypes.add(interviewType.toString());

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Application } from '../../models/application';
 import { ApplicationDetailsService } from '../../services/application-details-service';
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, RouterOutlet } from '@angular/router';
 import { RemoveUnderscoresPipe } from "../../pipes/remove-underscores-pipe";
 
 @Component({
   selector: 'app-application-info',
-  imports: [RemoveUnderscoresPipe],
+  imports: [RemoveUnderscoresPipe, RouterOutlet],
   templateUrl: './application-info.html',
   styleUrl: './application-info.css'
 })
