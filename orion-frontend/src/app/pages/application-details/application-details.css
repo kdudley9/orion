@@ -2,16 +2,30 @@
   color: #6e2594;
   cursor: pointer;
 }
-
 .status {
+  display: flex;
+  align-items: center;
   font-weight: bold;
 }
 
 #application-container {
-  background-color: white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: #F2F3F5;
+  border: 2px solid #F2F3F5;
+  overflow-y: auto;
+}
+
+.search-container {
+  background-color: #F2F3F5;
+  border-bottom: 1px solid #F2F3F5;
 }
 
 #add-btn {
   color: white;
   background-color: #6e2594;
+}
+
+.interview-container {
+  background-color: #F2F3F5;
 }
