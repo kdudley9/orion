@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { InterviewQuestion } from '../models/interview-question';
 
 @Injectable({

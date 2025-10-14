@@ -7,7 +7,14 @@
 }
 
 #card-img {
-  height: 50%;
+  height: 85px;
+  width: 85px;
+}
+
+.img-container {
+  text-align: center;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .stretched-link {

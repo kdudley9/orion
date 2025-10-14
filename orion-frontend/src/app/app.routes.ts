@@ -7,6 +7,7 @@ import { ApplicationInfo } from './pages/application-info/application-info';
 import { applicationGuard } from './guards/application-guard';
 import { InterviewDetails } from './pages/interview-details/interview-details';
 import { InterviewQuestionPage } from './pages/interview-question-page/interview-question-page';
+import { DetailsContainer } from './shared-components/details-container/details-container';
 
 export const routes: Routes = [
   {
@@ -19,7 +20,7 @@ export const routes: Routes = [
   },
   {
     path: 'applications/:id',
-    component: ApplicationInfo,
+    component: DetailsContainer,
     canActivate: [authGuard, applicationGuard],
     children: [
       { path: 'interviews', component: InterviewDetails },
