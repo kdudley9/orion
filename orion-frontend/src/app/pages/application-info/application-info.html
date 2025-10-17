@@ -9,16 +9,16 @@
       </div>
       <div class="details">
         <p>Industry</p>
-        <p>{{ application.industry }}</p>
+        <p>{{ application.industry | removeUnderscores}}</p>
       </div>
       <div class="details">
         <p>Job Type</p>
-        <p>{{ application.jobType }}</p>
+        <p>{{ application.jobType | removeUnderscores}}</p>
       </div>
     </div>
-    <div class="d-flex flex-row">
+    <div class="d-flex flex-row justify-content-between ps-4 pe-4">
       <span id="status">Status: {{ application.status | removeUnderscores}}</span>
-      <a [href]="application.url" id="link">Visit Site <mat-icon>launch</mat-icon></a>
+      <a [href]="application.url" id="link" target="_blank">Visit Site <mat-icon>launch</mat-icon></a>
     </div>
   </div>
 </div>
