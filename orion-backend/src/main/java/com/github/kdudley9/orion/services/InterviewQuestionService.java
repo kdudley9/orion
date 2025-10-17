@@ -105,6 +105,7 @@ public class InterviewQuestionService {
         // Map the InterviewQuestion entities back to DTOs for the return value
         List<InterviewQuestionDto> interviewQuestionDtos = this.interviewQuestionRepository
             .findByApplicationDetailsId(applicationId).stream().map(this.interviewQuestionMapper::toDto).toList();
+        
         return interviewQuestionDtos;
     }
 
