@@ -11,14 +11,16 @@
           <a class="nav-link" [ngClass]="{ 'active':activeTab==='practiceQuestions'}" (click)="practiceQuestionsTabClicked('practiceQuestions')" data-toggle="tab">Practice Questions</a>
         </li>
       </ul>
-      @switch (activeTab) {
-        @case ('applicationDetails') {
-          <app-application-info />
+      <div class="overflow-auto" id="main-content">
+        @switch (activeTab) {
+          @case ('applicationDetails') {
+            <app-application-info />
+          }
+          @case ('practiceQuestions') {
+            <app-interview-question-page />
+          }
         }
-        @case ('practiceQuestions') {
-          <div>Practice questions placeholder</div>
-        }
-      }
+      </div>
     </div>
   </div>
 </div>

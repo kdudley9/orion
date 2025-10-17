@@ -1,0 +1,20 @@
+<div class="form-container">
+  <h2 mat-dialog-title>Add Question</h2>
+  <mat-dialog-content>
+    <form [formGroup]="questionForm">
+      <label for="question" class="form-label">Question</label>
+      <input type="text" class="form-control" id="question" formControlName="question" required>
+      @if (question?.invalid && question?.dirty) {
+        <div class="alert alert-danger">
+          @if (question?.hasError('required')) {
+            <div>Question is required.</div>
+          }
+        </div>
+      }
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+    <button class="btn btn-primary" [disabled]="!questionForm.valid" (click)="onSubmit()">Save</button>
+  </mat-dialog-actions>
+</div>

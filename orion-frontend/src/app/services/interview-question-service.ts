@@ -27,6 +27,24 @@ export class InterviewQuestionService {
     });
   }
 
+  addQuestion(applicationId: number, question: InterviewQuestion): Observable<InterviewQuestion> {
+    return this.http.post<InterviewQuestion>(
+      `${this.baseUrl}/${applicationId}/interview-questions`, question,
+      {
+        withCredentials: true
+      }
+    );
+  }
+
+  updateQuestion(applicationId: number, question: InterviewQuestion): Observable<InterviewQuestion> {
+    return this.http.put<InterviewQuestion>(
+      `${this.baseUrl}/${applicationId}/interview-questions/${question.id}`, question,
+      {
+        withCredentials: true
+      }
+    );
+  }
+
   deleteQuestion(applicationId: number, questionId: number) {
     this.http.delete(`${this.baseUrl}/${applicationId}/interview-questions/${questionId}`, {
       withCredentials: true

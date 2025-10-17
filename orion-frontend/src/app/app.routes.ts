@@ -23,8 +23,7 @@ export const routes: Routes = [
     component: DetailsContainer,
     canActivate: [authGuard, applicationGuard],
     children: [
-      { path: 'interviews', component: InterviewDetails },
-      { path: 'interview-questions', component: InterviewQuestionPage }
+      { path: 'interviews', component: InterviewDetails }
     ]
   },
   {

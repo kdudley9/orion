@@ -7,7 +7,7 @@ import { Interview } from '../models/interview';
   providedIn: 'root'
 })
 export class InterviewService {
-  baseUrl =  `/api/application-details`
+  private readonly baseUrl =  `/api/application-details`;
   constructor(private http: HttpClient) {}
 
   getInterviews(applicationId: number): Observable<Interview[]> {

@@ -1,0 +1,20 @@
+#edit-btn {
+  color: #6e2594;
+}
+
+#delete-btn {
+  color: red;
+}
+
+.accordion-body {
+  height: 100px;
+}
+
+.note {
+  width: 100%;
+  text-align: center;
+}
+
+.generated-question-button {
+  background-color: aqua;
+}
