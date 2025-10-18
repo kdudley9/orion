@@ -1,11 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { InterviewQuestionService } from '../../services/interview-question-service';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
-import { FormBuilder, FormControl, ReactiveFormsModule, Validators, ɵInternalFormsSharedModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-interview-question-form',
-  imports: [MatDialogModule, ɵInternalFormsSharedModule, ReactiveFormsModule],
+  imports: [MatDialogModule, ReactiveFormsModule],
   templateUrl: './add-interview-question-form.html',
   styleUrl: './add-interview-question-form.css'
 })

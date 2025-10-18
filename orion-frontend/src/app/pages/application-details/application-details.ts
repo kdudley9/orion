@@ -5,14 +5,13 @@ import { ApplicationCard } from "../../components/application-card/application-c
 import { MatDialog } from '@angular/material/dialog';
 import { ApplicationForm } from '../../components/application-form/application-form';
 import { DropdownService } from '../../services/dropdown-service';
-import { RemoveUnderscoresPipe } from "../../pipes/remove-underscores-pipe";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from '@angular/material/button';
 import { InterviewCard } from "../../components/interview-card/interview-card";
 
 @Component({
   selector: 'app-application-details',
-  imports: [ApplicationCard, RemoveUnderscoresPipe, MatIconModule, MatButtonModule, InterviewCard],
+  imports: [ApplicationCard, MatIconModule, MatButtonModule, InterviewCard],
   templateUrl: './application-details.html',
   styleUrl: './application-details.css'
 })
