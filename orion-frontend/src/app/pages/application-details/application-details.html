@@ -4,33 +4,44 @@
     <div class="d-flex justify-content-start ms-4 application-details">
       <div id="application-container">
         <div class="search-container pt-2 pb-1">
-          <div class="container d-flex justify-content-between">
-            @for (status of statuses; track $index) {
-              <span class="status mb-2" (click)="getApplications(status)">
-                {{ status | removeUnderscores }}
-                @switch (status) {
-                  @case ('APPLIED') {
-                    <mat-icon class="ms-1">check_circle_outline</mat-icon>
-                  }
-                  @case ('ONLINE_ASSESSMENT') {
-                    <mat-icon class="ms-1">assignment</mat-icon>
-                  }
-                  @case ('INTERVIEW') {
-                    <mat-icon class="ms-1">group</mat-icon>
-                  }
-                  @case ('OFFER') {
-                    <mat-icon class="ms-1">celebration</mat-icon>
-                  }
-                  @case ('REJECTED') {
-                    <mat-icon class="ms-1">thumb_down_alt</mat-icon>
-                  }
-                  @case ('GHOSTED') {
-                    <mat-icon class="ms-1">visibility_off</mat-icon>
-                  }
-                }
-              </span>
-            }
-          </div>
+          <ul class="nav nav-pills">
+            <li class="nav-item" (click)="getApplications('APPLIED')">
+              <div class="nav-link status">
+                APPLIED
+                <mat-icon class="ms-1">check_circle_outline</mat-icon>
+              </div>
+            </li>
+            <li class="nav-item" (click)="getApplications('ONLINE_ASSESSMENT')">
+              <div class="nav-link status">
+                ONLINE ASSESSMENT
+                <mat-icon class="ms-1">assignment</mat-icon>
+              </div>
+            </li>
+            <li class="nav-item" (click)="getApplications('INTERVIEW')">
+              <div class="nav-link status">
+                INTERVIEW
+                <mat-icon class="ms-1">group</mat-icon>
+              </div>
+            </li>
+            <li class="nav-item" (click)="getApplications('OFFER')">
+              <div class="nav-link status">
+                OFFER
+                <mat-icon class="ms-1">celebration</mat-icon>
+              </div>
+            </li>
+            <li class="nav-item" (click)="getApplications('REJECTED')">
+              <div class="nav-link status">
+                REJECTED
+                <mat-icon class="ms-1">thumb_down_alt</mat-icon>
+              </div>
+            </li>
+            <li class="nav-item" (click)="getApplications('GHOSTED')">
+              <div class="nav-link status">
+                GHOSTED
+                <mat-icon class="ms-1">visibility_off</mat-icon>
+              </div>
+            </li>
+          </ul>
           <div class="container d-flex justify-content-between mb-3">
             <input class="form-control shadow-none w-75" type="text" placeholder="Search...">
             <button class="btn" id="add-btn" (click)="openDialog()">ADD</button>
