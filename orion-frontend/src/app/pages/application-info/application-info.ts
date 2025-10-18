@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Application } from '../../models/application';
 import { ApplicationDetailsService } from '../../services/application-details-service';
-import { ActivatedRoute, ActivatedRouteSnapshot, RouterOutlet } from '@angular/router';
 import { RemoveUnderscoresPipe } from "../../pipes/remove-underscores-pipe";
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-application-info',
-  imports: [RemoveUnderscoresPipe, RouterOutlet],
+  imports: [RemoveUnderscoresPipe, MatIcon],
   templateUrl: './application-info.html',
   styleUrl: './application-info.css'
 })
-export class ApplicationInfo implements OnInit {
+export class ApplicationInfo {
   applicationId: number = 0;
   application: Application = {
     id: 0,
@@ -25,9 +26,9 @@ export class ApplicationInfo implements OnInit {
     favorite: false,
     archived: false
   }
-
-  constructor(private applicationDetailsService: ApplicationDetailsService, private route: ActivatedRoute) {}
   
+  constructor(private applicationDetailsService: ApplicationDetailsService, private route: ActivatedRoute) {}
+    
   ngOnInit(): void {
     this.applicationId = Number(this.route.snapshot.params['id']);
     this.applicationDetailsService.getApplication(this.applicationId).subscribe((data) => {

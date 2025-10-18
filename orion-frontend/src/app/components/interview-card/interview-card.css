@@ -1,0 +1,22 @@
+.calendar {
+  border: 1px solid #6e2594;
+}
+
+.calendar .card-body {
+  text-align: center;
+  padding: 0 0.25rem 0.25rem;
+}
+
+.calendar .card-header {
+  text-align: center;
+  padding: 0 0.2rem 0 0.2rem;
+}
+
+#month {
+  color: white;
+  background-color: #6e2594;
+}
+
+.details ul {
+  color: #6e2594;
+}

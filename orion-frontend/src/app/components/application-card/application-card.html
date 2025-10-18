@@ -1,14 +1,14 @@
-<div class="card mb-3">
+<div class="card mb-0.5">
   <div class="row g-0">
-    <div class="col-md-3 border-end">
-      <img src="/card-img-placeholder.svg" class="img-fluid rounded-start mt-5 ms-5" id="card-img" alt="logo">
+    <div class="col-md-3 border-end img-container">
+      <img src="/card-img-placeholder.svg" class="img-fluid rounded-start" id="card-img" alt="logo">
     </div>
     <div class="col-md-9">
       <div class="card-body">
         <a class="stretched-link" [routerLink]="['/applications', application().id]"></a>
         <div class="row">
           <div class="col">
-            <h5 class="card-title">{{ application().jobTitle }}</h5>
+            <h5 class="card-title fw-bold">{{ application().jobTitle }}</h5>
           </div>
           <div class="col text-end" id="more-btn-container">
             <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="More">
@@ -20,29 +20,36 @@
             </mat-menu>
           </div>
         </div>
-        <div class="row">
+        <div class="row mb-1">
           <div class="col">
-            <p class="card-text">{{ application().company }}</p>
+            <p class="card-text">
+              {{ application().company }} / <span class="text-muted">{{ application().industry | removeUnderscores }}</span>
+            </p>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col">
+            <p class="card-text text-muted icon-text">
+              <mat-icon class="me-1">calendar_today</mat-icon>
+              {{ application().dateApplied | date: 'shortDate'}}
+            </p>
           </div>
           <div class="col">
-            <p class="card-text text-end">{{ application().industry | removeUnderscores }}</p>
+            <p class="card-text text-muted icon-text">
+              <mat-icon class="me-1">location_on</mat-icon>
+              {{ application().location }}
+            </p>
+          </div>
+          <div class="col">
+            <p class="card-text text-muted icon-text">
+              <mat-icon class="me-1">schedule</mat-icon>
+              {{ application().jobType | removeUnderscores}}
+            </p>
           </div>
         </div>
         <div class="row">
-          <div class="col">
-            <p class="card-text">{{ application().location }}</p>
-          </div>
-          <div class="col">
-            <p class="card-text text-center">{{ application().dateApplied | date: 'shortDate'}}</p>
-          </div>
-          <div class="col">
-            <p class="card-text text-end">{{ application().jobType | removeUnderscores}}</p>
-          </div>
-        </div>
-        <hr>
-        <div class="row">
-          <div class="col">
-            <mat-icon>star-border</mat-icon>
+          <div class="col text-end">
+            <mat-icon>favorite-border</mat-icon>
           </div>
           <div class="col" id="status-select-container">
             <select class="form-select" (change)="onPatchApplication(application().id, $any($event.target).value)">

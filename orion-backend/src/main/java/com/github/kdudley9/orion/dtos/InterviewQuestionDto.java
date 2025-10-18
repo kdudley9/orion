@@ -4,5 +4,5 @@ public record InterviewQuestionDto(
     Long id,
     String question,
     String note,
-    boolean isAiGenerated
+    boolean aiGenerated
 ) {}

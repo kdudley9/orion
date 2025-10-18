@@ -1,11 +1,61 @@
-<div class="container">
-  <h1>Interview Questions Placeholder</h1>
-  @for(question of generatedQuestions$ | async; track question.id) {
-    <ul>
-      <li>{{ question.question }}</li>
-      <p>{{ question.note }}</p>
-    </ul>
-    <button class="btn btn-warning" (click)="deleteQuestion(question.id)">DELETE</button>
+<div class="accordion" id="questionAccordion">
+  @for (question of generatedQuestions$ | async; track question.id) {
+    <div class="d-flex flex-row">
+      <div class="accordion-item mb-3">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed generated-question-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="`#collapse${question.id}`" [attr.aria-controls]="`collapse${question.id}`">
+            {{ question.question }}
+          </button>
+        </h2>
+        <div [attr.id]="`collapse${question.id}`" class="accordion-collapse collapse">
+          <div class="accordion-body">
+            @if (question.note) {
+              <div class="note">{{ question.note }}</div>
+            } @else {
+              <div class="note">
+                <p>Add Notes</p>
+                <button class="btn btn-primary" id="edit-note-btn">Add</button>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="controls">
+        <button mat-icon-button class="btn" (click)="deleteQuestion(question.id)">
+          <mat-icon id="delete-btn">delete</mat-icon>
+        </button>
+      </div>
+    </div>
   }
-  <button class="btn btn-primary" (click)="generateQuestions()">GENERATE QUESTIONS</button>
+  @for (question of userCreatedQuestions$ | async; track question.id) {
+    <div class="d-flex flex-row">
+      <div class="accordion-item mb-3">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="`#collapse${question.id}`" [attr.aria-controls]="`collapse${question.id}`">
+            {{ question.question }}
+          </button>
+        </h2>
+        <div [attr.id]="`collapse${question.id}`" class="accordion-collapse collapse">
+          <div class="accordion-body">
+            @if (question.note) {
+              <div id="note">{{ question.note }}</div>
+            } @else {
+              <div>Add Notes</div>
+              <button class="btn btn-primary" id="edit-note-btn">Add</button>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="controls">
+        <button mat-icon-button class="btn">
+          <mat-icon id="edit-btn">mode_edit_outline</mat-icon>
+        </button>
+        <button mat-icon-button class="btn" (click)="deleteQuestion(question.id)">
+          <mat-icon id="delete-btn">delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  }
+  <button class="btn btn-primary" (click)="generateQuestions()">RE-GENERATE QUESTIONS</button>
+  <button class="btn btn-primary" (click)="openDialog(applicationId)">Add Question</button>
 </div>

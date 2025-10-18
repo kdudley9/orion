@@ -25,7 +25,6 @@ export class InterviewForm implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.formData.applicationId);
     this.getInterviewTypes();
     this.interviewForm = this.fb.group({
       interviewDate: ['', Validators.required],
@@ -43,7 +42,6 @@ export class InterviewForm implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.interviewForm.value);
     this.interviewService.addInterview(this.formData.applicationId, this.interviewForm.value).subscribe({
       next: () => {
         this.dialogRef.close();

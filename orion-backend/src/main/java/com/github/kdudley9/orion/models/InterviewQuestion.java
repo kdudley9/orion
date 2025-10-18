@@ -21,7 +21,8 @@ public class InterviewQuestion {
 
     @Column(columnDefinition = "TEXT")
     private String note;
-    private boolean isAiGenerated;
+    @Column(name = "is_ai_generated")
+    private boolean aiGenerated;
 
     @ManyToOne
     @JoinColumn(name = "application_details_id")
@@ -31,11 +32,11 @@ public class InterviewQuestion {
     public InterviewQuestion() {
     }
 
-    public InterviewQuestion(Long id, String question, String note, boolean isAiGenerated) {
+    public InterviewQuestion(Long id, String question, String note, boolean aiGenerated) {
         this.id = id;
         this.question = question;
         this.note = note;
-        this.isAiGenerated = isAiGenerated;
+        this.aiGenerated = aiGenerated;
     }
 
     public Long getId() {
@@ -71,16 +72,16 @@ public class InterviewQuestion {
     }
 
     public boolean isAiGenerated() {
-        return isAiGenerated;
+        return aiGenerated;
     }
 
-    public void setAiGenerated(boolean isAiGenerated) {
-        this.isAiGenerated = isAiGenerated;
+    public void setAiGenerated(boolean aiGenerated) {
+        this.aiGenerated = aiGenerated;
     }
 
     @Override
     public String toString() {
         return "InterviewQuestion [id=" + id + ", question=" + question + ", note=" + note + ", isAiGenerated="
-                + isAiGenerated + ", applicationDetails=" + applicationDetails + "]";
+                + aiGenerated + ", applicationDetails=" + applicationDetails + "]";
     }
 }

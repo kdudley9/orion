@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { InterviewQuestion } from '../models/interview-question';
 
 @Injectable({
@@ -25,6 +25,24 @@ export class InterviewQuestionService {
     return this.http.get<InterviewQuestion[]>(`${this.baseUrl}/${applicationId}/interview-questions`, {
       withCredentials: true
     });
+  }
+
+  addQuestion(applicationId: number, question: InterviewQuestion): Observable<InterviewQuestion> {
+    return this.http.post<InterviewQuestion>(
+      `${this.baseUrl}/${applicationId}/interview-questions`, question,
+      {
+        withCredentials: true
+      }
+    );
+  }
+
+  updateQuestion(applicationId: number, question: InterviewQuestion): Observable<InterviewQuestion> {
+    return this.http.put<InterviewQuestion>(
+      `${this.baseUrl}/${applicationId}/interview-questions/${question.id}`, question,
+      {
+        withCredentials: true
+      }
+    );
   }
 
   deleteQuestion(applicationId: number, questionId: number) {

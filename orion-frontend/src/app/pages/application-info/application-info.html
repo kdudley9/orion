@@ -1,13 +1,33 @@
-<div class="container">
-  <h1>Application Details placeholder</h1>
-  <p>{{ application.company }}</p>
-  <p>{{ application.dateApplied }}</p>
-  <p>{{ application.industry | removeUnderscores}}</p>
-  <p>{{ application.jobTitle }}</p>
-  <p>{{ application.jobType | removeUnderscores }}</p>
-  <p>{{ application.location }}</p>
-  <p>{{ application.jobDescription }}</p>
-  <p>{{ application.status | removeUnderscores}}</p>
-  <p>{{ application.url }}</p>
+<div class="application-info-container d-flex">
+  <img src="/card-img-placeholder.svg" alt="company-logo" class="me-4" id="logo">
+  <div class="info ms-4">
+    <h3>{{ application.company }} - {{ application.jobTitle }}</h3>
+    <div class="d-flex flex-row justify-content-evenly">
+      <div class="details">
+        <p>Date Applied</p>
+        <p>{{ application.dateApplied }}</p>
+      </div>
+      <div class="details">
+        <p>Industry</p>
+        <p>{{ application.industry | removeUnderscores}}</p>
+      </div>
+      <div class="details">
+        <p>Job Type</p>
+        <p>{{ application.jobType | removeUnderscores}}</p>
+      </div>
+    </div>
+    <div class="d-flex flex-row justify-content-between ps-4 pe-4">
+      <span id="status">Status: {{ application.status | removeUnderscores}}</span>
+      <a [href]="application.url" id="link" target="_blank">Visit Site <mat-icon>launch</mat-icon></a>
+    </div>
+  </div>
 </div>
-<router-outlet></router-outlet>
+@if (application.jobDescription) {
+  <div class="job-description shadow-sm">
+    <div class="container">{{ application.jobDescription }}</div>
+  </div>
+} @else {
+  <div class="job-description shadow-sm">
+    <div class="container">No Job Description Provided.</div>
+  </div>
+}

@@ -1,0 +1,26 @@
+.details-container {
+  background-color: #EEF2F7;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+#main-content {
+  height: 95%;
+  /* overflow-y: auto; */
+}
+
+.nav-link {
+  color: black;
+  border-bottom: 3px solid black;
+}
+
+.active {
+  color: #6e2594;
+  border-bottom: 3px solid #6e2594;
+}
+
+.nav-link:hover {
+  color: #6e2594;
+  border-bottom: 3px solid #6e2594;
+  cursor: pointer;
+}

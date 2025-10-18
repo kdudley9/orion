@@ -11,6 +11,7 @@ import { User } from '../../models/user';
 })
 export class Navbar implements OnInit {
   user: User | undefined;
+
   constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {

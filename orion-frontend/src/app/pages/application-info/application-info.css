@@ -1,0 +1,36 @@
+#logo {
+  height: 65px;
+  width: 65px;
+}
+
+.details {
+  text-align: center;
+}
+
+#status {
+  background-color: aqua;
+}
+
+#link {
+  text-decoration: none;
+  color: black;
+  display: flex;
+  align-items: center;
+}
+
+#link:hover {
+  color: #6e2594;
+}
+
+.job-description {
+  text-align: center;
+  padding: 10px;
+  background-color: white;
+  border-radius: 7px;
+  margin-top: 50px;
+}
+
+.job-description .container {
+  border: 1px solid #D9D9D9;
+  border-radius: 7px;
+}
