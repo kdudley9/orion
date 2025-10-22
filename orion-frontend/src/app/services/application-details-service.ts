@@ -19,7 +19,7 @@ export class ApplicationDetailsService {
     })
     .pipe(
       catchError((err) => {
-        throw new Error('Could not add application ' + err)
+        throw new Error('Could not add application ' + err);
       }),
       tap((newApplication) => {
           const currentApplications = this._applications.value;
@@ -47,7 +47,7 @@ export class ApplicationDetailsService {
     })
     .pipe(
       catchError((err) => {
-        throw new Error('Could not retrieve application ' + err)
+        throw new Error('Could not retrieve application ' + err);
       }),
       tap((application) => this._applications.next([application]))
     );
@@ -59,7 +59,7 @@ export class ApplicationDetailsService {
     })
     .pipe(
       catchError((err) => {
-        throw new Error('Could not retrieve applications ' + err)
+        throw new Error('Could not retrieve applications ' + err);
       }),
       tap((applications) => this._applications.next(applications))
     );

@@ -1,31 +1,58 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject, catchError, Observable, tap } from 'rxjs';
 import { Interview } from '../models/interview';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InterviewService {
+  private http = inject(HttpClient);
+  
   private readonly baseUrl =  `/api/application-details`;
-  constructor(private http: HttpClient) {}
+  private _interviews = new BehaviorSubject<Interview[]>([]);
+  interviews$ = this._interviews.asObservable();
 
   getInterviews(applicationId: number): Observable<Interview[]> {
     return this.http.get<Interview[]>(`${this.baseUrl}/${applicationId}/interviews`, {
       withCredentials: true
-    });
+    })
+    .pipe(
+      catchError((err) => {
+        throw new Error('Could not retrieve interviews: ' + err);
+      }),
+      tap((interviews) => this._interviews.next(interviews))
+    );
   }
 
   addInterview(applicationId: number, interview: Interview): Observable<Interview> {
     return this.http.post<Interview>(`${this.baseUrl}/${applicationId}/interviews`, interview, {
       withCredentials: true
-    });
+    })
+    .pipe(
+      catchError((err) => {
+        throw new Error('Could not add interview: ' + err);
+      }),
+      tap((newInterview) => {
+        const currentInterviews = this._interviews.value;
+        this._interviews.next([...currentInterviews, newInterview]);
+      })
+    );
   }
 
   deleteInterview(applicationId: number, interviewId: number) {
+    const newInterviews: Interview[] = this._interviews.value.filter(interview => interview.id !== interviewId);
     return this.http.delete(`${this.baseUrl}/${applicationId}/interviews/${interviewId}`, {
       withCredentials: true
-    });
+    })
+    .pipe(
+      catchError((err) => {
+        throw new Error('Could not delete interview: ' + err);
+      }),
+      tap(() => {
+        this._interviews.next(newInterviews);
+      })
+    );
   }
 
   updateInterview(applicationId: number, updatedInterview: Interview): Observable<Interview> {

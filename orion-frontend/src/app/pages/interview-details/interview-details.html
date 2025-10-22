@@ -1,6 +1,6 @@
 <div class="container">
   <h1>Interview Details Placeholder</h1>
-  @for(interview of interviews; track interview.id) {
+  @for(interview of interviews$ | async; track interview.id) {
     <p>{{ interview.interviewDate }}</p>
     <p>{{ interview.interviewType }}</p>
     <p>{{ interview.location }}</p>

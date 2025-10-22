@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Application } from '../../models/application';
 import { ApplicationDetailsService } from '../../services/application-details-service';
 import { MatButtonModule } from '@angular/material/button';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { RemoveUnderscoresPipe } from "../../pipes/remove-underscores-pipe";

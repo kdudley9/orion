@@ -43,7 +43,7 @@ export class ApplicationDetails implements OnInit, OnDestroy {
     });
   }
 
-  getApplications(status: string | null) {
+  getApplications(status: string | null): void {
     this.appService.getApplications().subscribe();
     this.applicationSubscription$ = this.appService.applications$.pipe(
       map(apps => apps.filter(a => a.status === status))
