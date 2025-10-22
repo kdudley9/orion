@@ -1,65 +1,64 @@
-@if (applications.length > 0) {
-  <h1 class="ms-4">Applications</h1>
-  <div class="d-flex flex-row h-100">
-    <div class="d-flex justify-content-start ms-4 application-details">
-      <div id="application-container">
-        <div class="search-container pt-2 pb-1">
-          <ul class="nav nav-pills">
-            <li class="nav-item" (click)="getApplications('APPLIED')">
-              <div class="nav-link status">
-                APPLIED
-                <mat-icon class="ms-1">check_circle_outline</mat-icon>
-              </div>
-            </li>
-            <li class="nav-item" (click)="getApplications('ONLINE_ASSESSMENT')">
-              <div class="nav-link status">
-                ONLINE ASSESSMENT
-                <mat-icon class="ms-1">assignment</mat-icon>
-              </div>
-            </li>
-            <li class="nav-item" (click)="getApplications('INTERVIEW')">
-              <div class="nav-link status">
-                INTERVIEW
-                <mat-icon class="ms-1">group</mat-icon>
-              </div>
-            </li>
-            <li class="nav-item" (click)="getApplications('OFFER')">
-              <div class="nav-link status">
-                OFFER
-                <mat-icon class="ms-1">celebration</mat-icon>
-              </div>
-            </li>
-            <li class="nav-item" (click)="getApplications('REJECTED')">
-              <div class="nav-link status">
-                REJECTED
-                <mat-icon class="ms-1">thumb_down_alt</mat-icon>
-              </div>
-            </li>
-            <li class="nav-item" (click)="getApplications('GHOSTED')">
-              <div class="nav-link status">
-                GHOSTED
-                <mat-icon class="ms-1">visibility_off</mat-icon>
-              </div>
-            </li>
-          </ul>
-          <div class="container d-flex justify-content-between mb-3">
-            <input class="form-control shadow-none w-75" type="text" placeholder="Search...">
-            <button class="btn" id="add-btn" (click)="openDialog()">ADD</button>
-          </div>
+<h1 class="ms-4">Applications</h1>
+<div class="d-flex flex-row h-100">
+  <div class="d-flex justify-content-start ms-4 application-details">
+    <div id="application-container">
+      <div class="search-container pt-2 pb-1">
+        <ul class="nav nav-pills">
+          <li class="nav-item" (click)="getApplications('APPLIED')">
+            <div class="nav-link status">
+              APPLIED
+              <mat-icon class="ms-1">check_circle_outline</mat-icon>
+            </div>
+          </li>
+          <li class="nav-item" (click)="getApplications('ONLINE_ASSESSMENT')">
+            <div class="nav-link status">
+              ONLINE ASSESSMENT
+              <mat-icon class="ms-1">assignment</mat-icon>
+            </div>
+          </li>
+          <li class="nav-item" (click)="getApplications('INTERVIEW')">
+            <div class="nav-link status">
+              INTERVIEW
+              <mat-icon class="ms-1">group</mat-icon>
+            </div>
+          </li>
+          <li class="nav-item" (click)="getApplications('OFFER')">
+            <div class="nav-link status">
+              OFFER
+              <mat-icon class="ms-1">celebration</mat-icon>
+            </div>
+          </li>
+          <li class="nav-item" (click)="getApplications('REJECTED')">
+            <div class="nav-link status">
+              REJECTED
+              <mat-icon class="ms-1">thumb_down_alt</mat-icon>
+            </div>
+          </li>
+          <li class="nav-item" (click)="getApplications('GHOSTED')">
+            <div class="nav-link status">
+              GHOSTED
+              <mat-icon class="ms-1">visibility_off</mat-icon>
+            </div>
+          </li>
+        </ul>
+        <div class="container d-flex justify-content-between mb-3">
+          <input class="form-control shadow-none w-75" type="text" placeholder="Search...">
+          <button class="btn" id="add-btn" (click)="openDialog()">ADD</button>
+          <button class="btn" id="delete-all-btn" (click)="deleteAllClicked()">Delete All</button>
         </div>
-        @for (application of applications; track application.id) {
+      </div>
+      @if (applicationSubscription$) {
+        @for (application of applicationSubscription$ | async; track application.id) {
           <div class="container pt-4 ps-4 pe-4">
             <ul class="list-unstyled overflow-auto">
               <li><app-application-card [application]="application" /></li>
             </ul>
           </div>
         }
-      </div>
+      } @else {
+        <div>No Applications to Display.</div>
+      }
     </div>
-    <app-interview-card />
   </div>
-} @else {
-  <div>
-    No Applications to Display
-  </div>
-}
+  <app-interview-card />
+</div>

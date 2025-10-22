@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
 import { Application } from '../../models/application';
 import { ApplicationDetailsService } from '../../services/application-details-service';
 import { ApplicationCard } from "../../components/application-card/application-card";
@@ -8,24 +8,33 @@ import { DropdownService } from '../../services/dropdown-service';
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from '@angular/material/button';
 import { InterviewCard } from "../../components/interview-card/interview-card";
+import { map, Observable, of, take, tap } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-application-details',
-  imports: [ApplicationCard, MatIconModule, MatButtonModule, InterviewCard],
+  imports: [ApplicationCard, MatIconModule, MatButtonModule, InterviewCard, CommonModule],
   templateUrl: './application-details.html',
   styleUrl: './application-details.css'
 })
-export class ApplicationDetails implements OnInit {
+export class ApplicationDetails implements OnInit, OnDestroy {
   readonly dialog = inject(MatDialog);
-  applications: Application[] = [];
-  statuses = []
+  private appService = inject(ApplicationDetailsService);
+  private readonly destroyRef = inject(DestroyRef);
+  applicationSubscription$: Observable<Application[]> = of([]);
+  statuses = [];
   
-  constructor(private applicationDetailsService: ApplicationDetailsService, private dropdownService: DropdownService) {}
+  constructor(private dropdownService: DropdownService) {}
   
   ngOnInit(): void {
     const initialDisplayStatus = 'APPLIED';
     this.getApplications(initialDisplayStatus);
     this.getStatuses();
+  }
+
+  ngOnDestroy(): void {
+    // this.applicationSubscription?.unsubscribe();
   }
 
   getStatuses(): void {
@@ -34,13 +43,20 @@ export class ApplicationDetails implements OnInit {
     });
   }
 
-  getApplications(status: string | null): void {
-    this.applicationDetailsService.getApplications().subscribe((data) => {
-      this.applications = data.filter((application) => application.status === status);
-    });
+  getApplications(status: string | null) {
+    this.appService.getApplications().subscribe();
+    this.applicationSubscription$ = this.appService.applications$.pipe(
+      map(apps => apps.filter(a => a.status === status))
+    );
   }
 
   openDialog(): void {
     this.dialog.open(ApplicationForm);
+  }
+
+  deleteAllClicked(): void {
+    this.appService.deleteAllAplications()
+      .pipe(tap(() => takeUntilDestroyed(this.destroyRef)))
+      .subscribe();
   }
 }

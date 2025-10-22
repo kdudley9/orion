@@ -32,6 +32,11 @@
   background-color: #6e2594;
 }
 
+#delete-all-btn {
+  color: white;
+  background-color: red;
+}
+
 .interview-container {
   background-color: #F2F3F5;
 }
