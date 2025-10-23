@@ -26,7 +26,6 @@ export class AddInterviewQuestionForm implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.questionForm.value);
     this.interviewQuestionService.addQuestion(this.formData.applicationId, this.questionForm.value).subscribe({
       next: () => {
         this.dialogRef.close();

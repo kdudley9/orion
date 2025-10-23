@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { InterviewQuestionService } from '../../services/interview-question-service';
 import { InterviewQuestion } from '../../models/interview-question';
 import { map, Observable, of, Subscription, tap } from 'rxjs';
@@ -8,6 +8,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { AddInterviewQuestionForm } from '../../components/add-interview-question-form/add-interview-question-form';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-interview-question-page',
@@ -16,37 +17,33 @@ import { AddInterviewQuestionForm } from '../../components/add-interview-questio
   styleUrl: './interview-question-page.css'
 })
 export class InterviewQuestionPage implements OnInit {
+  private interviewQuestionService = inject(InterviewQuestionService);
+  private route = inject(ActivatedRoute);
+  private readonly destroyRef = inject(DestroyRef);
+  readonly dialog = inject(MatDialog);
+
   allQuestions$: Observable<InterviewQuestion[]> = of([]);
   generatedQuestions$: Observable<InterviewQuestion[]> = of([]);
   userCreatedQuestions$: Observable<InterviewQuestion[]> = of([]);
-  deleteSuccessfulSubscription: Subscription = new Subscription();
   applicationId: number = 0;
-  readonly dialog = inject(MatDialog);
-
-  constructor(private interviewQuestionService: InterviewQuestionService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.applicationId = Number(this.route.snapshot.params['id']);
-    this.deleteSuccessfulSubscription = this.interviewQuestionService.deleteSuccessfulEvent$.subscribe(isSuccessful => {
-      if (isSuccessful) {
-        this.getQuestions()
-      }
-    });
     this.getQuestions();
   }
 
   generateQuestions(): void {
-    this.interviewQuestionService.generateQuestions(this.applicationId);
+    this.interviewQuestionService.generateQuestions(this.applicationId).subscribe();
   }
 
   getQuestions(): void {
-    this.allQuestions$ = this.interviewQuestionService.getAllQuestions(this.applicationId);
+    this.interviewQuestionService.getAllQuestions(this.applicationId).subscribe();
 
-    this.generatedQuestions$ = this.allQuestions$
-      .pipe(map(questions => questions.filter(q => q.aiGenerated)));
-    
-    this.userCreatedQuestions$ = this.allQuestions$
-      .pipe(map(questions => questions.filter(q => !q.aiGenerated)));
+    this.allQuestions$ = this.interviewQuestionService.interviewQuestions$
+
+    this.generatedQuestions$ = this.allQuestions$.pipe(map(questions => questions.filter(q => q.aiGenerated)));
+
+    this.userCreatedQuestions$ = this.allQuestions$.pipe(map(questions => questions.filter(q => !q.aiGenerated)));
   }
 
   openDialog(applicationId: number): void {
@@ -56,6 +53,8 @@ export class InterviewQuestionPage implements OnInit {
   }
 
   deleteQuestion(questionId: number): void {
-    this.interviewQuestionService.deleteQuestion(this.applicationId, questionId);
+    this.interviewQuestionService.deleteQuestion(this.applicationId, questionId)
+      .pipe(tap(() => takeUntilDestroyed(this.destroyRef)))
+      .subscribe();
   }
 }

@@ -8,8 +8,9 @@ import { PatchRequest } from '../models/patch-request';
   providedIn: 'root'
 })
 export class ApplicationDetailsService {
-  private readonly baseUrl = '/api/application-details';
   private http = inject(HttpClient);
+
+  private readonly baseUrl = '/api/application-details';
   private _applications = new BehaviorSubject<Application[]>([]);
   applications$ = this._applications.asObservable();
 
