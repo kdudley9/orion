@@ -1,4 +1,4 @@
-import { Component, input, OnInit } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Application } from '../../models/application';
 import { ApplicationDetailsService } from '../../services/application-details-service';
@@ -7,7 +7,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { RemoveUnderscoresPipe } from "../../pipes/remove-underscores-pipe";
-import { DropdownService } from '../../services/dropdown-service';
 import { PatchRequest } from '../../models/patch-request';
 
 @Component({
@@ -16,28 +15,14 @@ import { PatchRequest } from '../../models/patch-request';
   templateUrl: './application-card.html',
   styleUrl: './application-card.css'
 })
-export class ApplicationCard implements OnInit {
+export class ApplicationCard {
+  private appService = inject(ApplicationDetailsService);
+  
   application = input.required<Application>();
-  statuses = [];
   updateApplicationStatus: any = {};
 
-  constructor(
-    private applicationDetailsService: ApplicationDetailsService,
-    private dropdownService: DropdownService
-  ) {}
-
-  ngOnInit(): void {
-    this.getStatuses();
-  }
-
   deleteApplication(applicationId: number | undefined) {
-    this.applicationDetailsService.deleteApplication(applicationId).subscribe();
-  }
-
-  getStatuses(): void {
-    this.dropdownService.getStatuses().subscribe((data) => {
-      this.statuses = data
-    });
+    this.appService.deleteApplication(applicationId).subscribe();
   }
 
   onPatchApplication(applicationId: number | undefined, updatedStatus: string): void {
@@ -46,6 +31,6 @@ export class ApplicationCard implements OnInit {
       path: "/status",
       value: updatedStatus
     }];
-    this.applicationDetailsService.patchApplication(patchRequest, applicationId).subscribe();
+    this.appService.patchApplication(patchRequest, applicationId).subscribe();
   }
 }

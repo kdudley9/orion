@@ -36,10 +36,20 @@ export class ApplicationDetailsService {
     });
   }
 
-  patchApplication(application: PatchRequest[], applicationId: number | undefined): Observable<PatchRequest[]> {
-    return this.http.patch<PatchRequest[]>(`/api/application-details/${applicationId}`, application, {
+  patchApplication(application: PatchRequest[], applicationId: number | undefined): Observable<Application> {
+    return this.http.patch<Application>(`/api/application-details/${applicationId}`, application, {
       withCredentials: true
-    });
+    }).pipe(
+      catchError((err) => {
+        throw new Error('Error occurred when updating application: ' + err)
+      }),
+      tap((newApplication) => {
+        let currentApplications = this._applications.value;
+        const index = currentApplications.findIndex(app => app.id === applicationId);
+        currentApplications[index] = newApplication;
+        this._applications.next(currentApplications);
+      })
+    );
   }
 
   getApplication(applicationId: number): Observable<Application> {
