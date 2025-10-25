@@ -58,9 +58,12 @@
           </div>
           <div class="col" id="status-select-container">
             <select class="form-select" (change)="onPatchApplication(application().id, $any($event.target).value)">
-              @for (status of statuses; track $index) {
-                <option [value]="status">{{ status | removeUnderscores}}</option>
-              }
+              <option [selected]="application().status === 'APPLIED'" value="APPLIED">APPLIED</option>
+              <option [selected]="application().status === 'ONLINE_ASSESSMENT'" value="ONLINE_ASSESSMENT">ONLINE ASSESSMENT</option>
+              <option [selected]="application().status === 'INTERVIEW'" value="INTERVIEW">INTERVIEW</option>
+              <option [selected]="application().status === 'OFFER'" value="OFFER">OFFER</option>
+              <option [selected]="application().status === 'REJECTED'" value="REJECTED">REJECTED</option>
+              <option [selected]="application().status === 'GHOSTED'" value="GHOSTED">GHOSTED</option>
             </select>
           </div>
         </div>
