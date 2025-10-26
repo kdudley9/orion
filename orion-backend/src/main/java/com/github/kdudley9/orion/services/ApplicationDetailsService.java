@@ -42,7 +42,7 @@ public class ApplicationDetailsService {
 
     public List<ApplicationDetailsDto> getAllApplications(String userId) {
         List<ApplicationDetailsDto> allAppDetails = this.applicationDetailsRepository
-            .findByUserId(userId).stream().map(this.appDetailsMapper::toDto).toList();
+            .findByUserIdOrderByDateCreatedDesc(userId).stream().map(this.appDetailsMapper::toDto).toList();
         return allAppDetails;
     }
 

@@ -24,7 +24,7 @@ export class ApplicationDetailsService {
       }),
       tap((newApplication) => {
           const currentApplications = this._applications.value;
-          this._applications.next([...currentApplications, newApplication]);
+          this._applications.next([newApplication, ...currentApplications]);
         }
       )
     );
@@ -72,7 +72,9 @@ export class ApplicationDetailsService {
       catchError((err) => {
         throw new Error('Could not retrieve applications ' + err);
       }),
-      tap((applications) => this._applications.next(applications))
+      tap((applications) => {
+        this._applications.next(applications)
+      })
     );
   }
 

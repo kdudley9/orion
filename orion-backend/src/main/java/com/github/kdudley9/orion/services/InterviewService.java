@@ -69,7 +69,7 @@ public class InterviewService {
         }
 
         List<InterviewDto> allInterviews = this.interviewRepository
-            .findByApplicationDetails(applicationDetails).stream().map(this.interviewMapper::toDto).toList();
+            .findByApplicationDetailsOrderByInterviewDateDesc(applicationDetails).stream().map(this.interviewMapper::toDto).toList();
         return allInterviews;
     }
 
