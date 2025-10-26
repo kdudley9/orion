@@ -101,9 +101,12 @@ public class ApplicationDetailsService {
         Hibernate.initialize(applicationToUpdate.getUser());
 
         JsonNode patched = patch.apply(objectMapper.convertValue(applicationToUpdate, JsonNode.class));
-        ApplicationDetails updatedApplicationDetails = this.applicationDetailsRepository.save(objectMapper.treeToValue(patched, ApplicationDetails.class));
+        ApplicationDetails updatedApplicationDetails = objectMapper.treeToValue(patched, ApplicationDetails.class);
+
+        // TODO: Update to handle favorite
+        applicationToUpdate.setStatus(updatedApplicationDetails.getStatus());
         
-        return this.appDetailsMapper.toDto(updatedApplicationDetails);
+        return this.appDetailsMapper.toDto(applicationToUpdate);
     }
 
     public int deleteAllApplications(String userId) {

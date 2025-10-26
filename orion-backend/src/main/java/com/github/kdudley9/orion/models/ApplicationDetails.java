@@ -211,6 +211,14 @@ public class ApplicationDetails {
         this.interviews = interviews;
     }
 
+    public Set<InterviewQuestion> getInterviewQuestions() {
+        return interviewQuestions;
+    }
+
+    public void setInterviewQuestions(Set<InterviewQuestion> interviewQuestions) {
+        this.interviewQuestions = interviewQuestions;
+    }
+
     @PrePersist
     protected void onCreate() {
         this.dateCreated = LocalDateTime.now();
@@ -219,8 +227,9 @@ public class ApplicationDetails {
     @Override
     public String toString() {
         return "ApplicationDetails [id=" + id + ", company=" + company + ", jobTitle=" + jobTitle + ", location="
-                + location + ", url=" + url + ", jobDescription=" + jobDescription + ", dateApplied=" + dateApplied + ", dateCreated="
-                + dateCreated + ", industry=" + industry + ", status=" + status + ", jobType=" + jobType + ", favorite="
-                + favorite + ", archived=" + archived + "]";
+                + location + ", url=" + url + ", jobDescription=" + jobDescription + ", dateApplied=" + dateApplied
+                + ", dateCreated=" + dateCreated + ", industry=" + industry + ", status=" + status + ", jobType="
+                + jobType + ", favorite=" + favorite + ", archived=" + archived + ", interviews=" + interviews
+                + ", interviewQuestions=" + interviewQuestions + "]";
     }
 }
