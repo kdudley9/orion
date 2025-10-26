@@ -11,7 +11,7 @@ import com.github.kdudley9.orion.models.ApplicationDetails;
 
 public interface ApplicationDetailsRepository extends JpaRepository<ApplicationDetails, Long> {
     
-    List<ApplicationDetails> findByUserId(String userId);
+    List<ApplicationDetails> findByUserIdOrderByDateCreatedDesc(String userId);
 
     int deleteByUserId(String userId);
 

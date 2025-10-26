@@ -7,7 +7,7 @@ import com.github.kdudley9.orion.models.Interview;
 import java.util.List;
 
 public interface InterviewRepository extends JpaRepository<Interview, Long> {
-    List<Interview> findByApplicationDetails(ApplicationDetails applicationDetails);
+    List<Interview> findByApplicationDetailsOrderByInterviewDateDesc(ApplicationDetails applicationDetails);
 
     int deleteByApplicationDetailsId(Long applicationId);
 

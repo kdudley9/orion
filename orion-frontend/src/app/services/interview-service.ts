@@ -35,7 +35,7 @@ export class InterviewService {
       }),
       tap((newInterview) => {
         const currentInterviews = this._interviews.value;
-        this._interviews.next([...currentInterviews, newInterview]);
+        this._interviews.next([newInterview, ...currentInterviews]);
       })
     );
   }
