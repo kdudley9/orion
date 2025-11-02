@@ -7,7 +7,7 @@ import { PatchRequest } from '../models/patch-request';
 @Injectable({
   providedIn: 'root'
 })
-export class ApplicationDetailsService {
+export class ApplicationListService {
   private http = inject(HttpClient);
 
   private readonly baseUrl = '/api/application-details';

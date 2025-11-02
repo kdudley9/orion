@@ -1,7 +1,7 @@
 import { Component, inject, input, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Application } from '../../models/application';
-import { ApplicationDetailsService } from '../../services/application-details-service';
+import { ApplicationListService } from '../../services/application-list-service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterLink } from '@angular/router';
@@ -16,13 +16,13 @@ import { PatchRequest } from '../../models/patch-request';
   styleUrl: './application-card.css'
 })
 export class ApplicationCard {
-  private appService = inject(ApplicationDetailsService);
+  private applicationListService = inject(ApplicationListService);
   
   application = input.required<Application>();
   updateApplicationStatus: any = {};
 
   deleteApplication(applicationId: number | undefined) {
-    this.appService.deleteApplication(applicationId).subscribe();
+    this.applicationListService.deleteApplication(applicationId).subscribe();
   }
 
   onPatchApplication(applicationId: number | undefined, updatedStatus: string): void {
@@ -31,6 +31,6 @@ export class ApplicationCard {
       path: "/status",
       value: updatedStatus
     }];
-    this.appService.patchApplication(patchRequest, applicationId).subscribe();
+    this.applicationListService.patchApplication(patchRequest, applicationId).subscribe();
   }
 }

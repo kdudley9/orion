@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
 import { Application } from '../../models/application';
-import { ApplicationDetailsService } from '../../services/application-details-service';
+import { ApplicationListService } from '../../services/application-list-service';
 import { ApplicationCard } from "../../components/application-card/application-card";
 import { MatDialog } from '@angular/material/dialog';
 import { ApplicationForm } from '../../components/application-form/application-form';
@@ -13,14 +13,14 @@ import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'app-application-details',
+  selector: 'app-application-list',
   imports: [ApplicationCard, MatIconModule, MatButtonModule, InterviewCard, CommonModule],
-  templateUrl: './application-details.html',
-  styleUrl: './application-details.css'
+  templateUrl: './application-list.html',
+  styleUrl: './application-list.css'
 })
-export class ApplicationDetails implements OnInit, OnDestroy {
+export class ApplicationList implements OnInit {
   readonly dialog = inject(MatDialog);
-  private appService = inject(ApplicationDetailsService);
+  private appService = inject(ApplicationListService);
   private readonly destroyRef = inject(DestroyRef);
   applicationSubscription$: Observable<Application[]> = of([]);
   statuses = [];
@@ -31,10 +31,6 @@ export class ApplicationDetails implements OnInit, OnDestroy {
     const initialDisplayStatus = 'APPLIED';
     this.getApplications(initialDisplayStatus);
     this.getStatuses();
-  }
-
-  ngOnDestroy(): void {
-    // this.applicationSubscription?.unsubscribe();
   }
 
   getStatuses(): void {

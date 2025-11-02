@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Application } from '../../models/application';
-import { ApplicationDetailsService } from '../../services/application-details-service';
+import { ApplicationListService } from '../../services/application-list-service';
 import { RemoveUnderscoresPipe } from "../../pipes/remove-underscores-pipe";
 import { MatIcon } from '@angular/material/icon';
 
@@ -27,11 +27,11 @@ export class ApplicationInfo {
     archived: false
   }
   
-  constructor(private applicationDetailsService: ApplicationDetailsService, private route: ActivatedRoute) {}
+  constructor(private applicationListService: ApplicationListService, private route: ActivatedRoute) {}
     
   ngOnInit(): void {
     this.applicationId = Number(this.route.snapshot.params['id']);
-    this.applicationDetailsService.getApplication(this.applicationId).subscribe((data) => {
+    this.applicationListService.getApplication(this.applicationId).subscribe((data) => {
       this.application = data;
     });
   }

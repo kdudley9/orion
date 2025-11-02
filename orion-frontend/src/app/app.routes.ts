@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { ApplicationDetails } from './pages/application-details/application-details';
+import { ApplicationList } from './pages/application-list/application-list';
 import { Homepage } from './pages/homepage/homepage';
 import { Login } from './pages/login/login';
 import { authGuard } from './guards/auth-guard';
@@ -28,7 +28,7 @@ export const routes: Routes = [
   },
   {
     path: 'applications',
-    component: ApplicationDetails,
+    component: ApplicationList,
     canActivate: [authGuard]
   },
   {
