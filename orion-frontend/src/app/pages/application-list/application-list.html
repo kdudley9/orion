@@ -1,9 +1,16 @@
-<h1 class="ms-4">Applications</h1>
+<div class="header ms-4 mt-4">
+  <div class="btn-container">
+    <h1>Applications</h1>
+    <button class="btn btn-outline-danger me-4" id="delete-all-btn" (click)="deleteAllClicked()">Delete All</button>
+    <button class="btn" id="add-btn" (click)="openDialog()">+ Add application</button>
+  </div>
+  <p>Keep track of the jobs you have applied to.</p>
+</div>
 <div class="d-flex flex-row h-100">
   <div class="d-flex justify-content-start ms-4 application-details">
     <div id="application-container">
-      <div class="search-container pt-2 pb-1">
-        <ul class="nav nav-pills">
+      <div class="search-container pt-2 pb-1 ps-4 pe-4">
+        <ul class="nav nav-pills mb-3">
           <li class="nav-item" (click)="getApplications('APPLIED')">
             <div class="nav-link status">
               APPLIED
@@ -41,11 +48,7 @@
             </div>
           </li>
         </ul>
-        <div class="container d-flex justify-content-between mb-3">
-          <input class="form-control shadow-none w-75" type="text" placeholder="Search...">
-          <button class="btn" id="add-btn" (click)="openDialog()">ADD</button>
-          <button class="btn" id="delete-all-btn" (click)="deleteAllClicked()">Delete All</button>
-        </div>
+        <input class="search-bar mb-3" type="text" placeholder="Search...">
       </div>
       @if (applicationSubscription$) {
         @for (application of applicationSubscription$ | async; track application.id) {
