@@ -1,6 +1,18 @@
-#logo {
-  height: 65px;
-  width: 65px;
+#company-avatar {
+  display: flex;
+  height: 50px;
+  width: 50px;
+  background-color: pink;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.7em;
+  font-weight: bold;
+}
+
+#first-col {
+  border-right: 1px solid var(--border-color);
+  text-align: center;
 }
 
 .details {
@@ -8,7 +20,26 @@
 }
 
 #status {
-  background-color: aqua;
+  text-align: center;
+  border-radius: 20px;
+  background-color: var(--applied-status-background);
+  color: var(--applied-status-text);
+}
+
+.label {
+  font-weight: 500;
+}
+
+#additional-info {
+  border: 1px dashed red;
+  /* margin-bottom: 5px;
+  border-bottom: 1px solid var(--border-color); */
+}
+
+.desc-container {
+  padding: 5px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
 }
 
 #link {
