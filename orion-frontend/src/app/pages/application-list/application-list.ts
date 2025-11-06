@@ -8,7 +8,7 @@ import { DropdownService } from '../../services/dropdown-service';
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from '@angular/material/button';
 import { InterviewCard } from "../../components/interview-card/interview-card";
-import { map, Observable, of, take, tap } from 'rxjs';
+import { map, Observable, of, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -24,6 +24,7 @@ export class ApplicationList implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   applicationSubscription$: Observable<Application[]> = of([]);
   statuses = [];
+  activeTab: string | null = 'APPLIED';
   
   constructor(private dropdownService: DropdownService) {}
   
@@ -44,6 +45,7 @@ export class ApplicationList implements OnInit {
     this.applicationSubscription$ = this.appService.applications$.pipe(
       map(apps => apps.filter(a => a.status === status))
     );
+    this.activeTab = status;
   }
 
   openDialog(): void {

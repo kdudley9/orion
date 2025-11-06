@@ -1,6 +1,10 @@
 .nav {
-  font-size: 14px;
+  font-size: 12px;
   border-bottom: 1px solid var(--border-color);
+}
+
+.nav .active {
+  border-bottom: 2px solid var(--primary-color);
 }
 
 .status:hover {
@@ -15,7 +19,7 @@
 }
 
 #application-container {
-  min-width: 900px;
+  height: 75vh;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   background-color: white;
@@ -26,11 +30,11 @@
 .header .btn-container {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .header .btn-container h1 {
   font-weight: bold;
-  margin-right: 400px;
 }
 
 .search-container {
@@ -47,6 +51,7 @@
 }
 
 .search-bar {
+  width: 50%;
   background-color: #f5f5f5;
   border: none;
   border-radius: 15px;
