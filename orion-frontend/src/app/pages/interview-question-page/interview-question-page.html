@@ -1,58 +1,43 @@
-<div class="accordion" id="questionAccordion">
+<div id="questions-container">
   @for (question of generatedQuestions$ | async; track question.id) {
-    <div class="d-flex flex-row">
-      <div class="accordion-item mb-3">
-        <h2 class="accordion-header">
-          <button class="accordion-button collapsed generated-question-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="`#collapse${question.id}`" [attr.aria-controls]="`collapse${question.id}`">
-            {{ question.question }}
+    <div class="card mb-3">
+      <div class="card-body d-flex flex-row">
+        <p class="question pe-4">{{ question.question }}</p>
+        @if (question.note) {
+          <p class="note ps-4">{{ question.note }}</p>
+        } @else {
+          <p class="note ps-4 text-muted">No notes yet...</p>
+        }
+        <div class="more-btn-container">
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="More">
+            <mat-icon>more_horiz</mat-icon>
           </button>
-        </h2>
-        <div [attr.id]="`collapse${question.id}`" class="accordion-collapse collapse">
-          <div class="accordion-body">
-            @if (question.note) {
-              <div class="note">{{ question.note }}</div>
-            } @else {
-              <div class="note">
-                <p>Add Notes</p>
-                <button class="btn btn-primary" id="edit-note-btn">Add</button>
-              </div>
-            }
-          </div>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>Update</button>
+            <button mat-menu-item (click)="deleteQuestion(question.id)">Delete</button>
+          </mat-menu>
         </div>
-      </div>
-      <div class="controls">
-        <button mat-icon-button class="btn" (click)="deleteQuestion(question.id)">
-          <mat-icon id="delete-btn">delete</mat-icon>
-        </button>
       </div>
     </div>
   }
   @for (question of userCreatedQuestions$ | async; track question.id) {
-    <div class="d-flex flex-row">
-      <div class="accordion-item mb-3">
-        <h2 class="accordion-header">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="`#collapse${question.id}`" [attr.aria-controls]="`collapse${question.id}`">
-            {{ question.question }}
+    <div class="card mb-3">
+      <div class="card-body d-flex flex-row">
+        <p class="question pe-4">{{ question.question }}</p>
+        @if (question.note) {
+          <p class="note ps-4">{{ question.note }}</p>
+        } @else {
+          <p class="note ps-4 text-muted">No notes yet...</p>
+        }
+        <div class="more-btn-container">
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="More">
+            <mat-icon>more_horiz</mat-icon>
           </button>
-        </h2>
-        <div [attr.id]="`collapse${question.id}`" class="accordion-collapse collapse">
-          <div class="accordion-body">
-            @if (question.note) {
-              <div id="note">{{ question.note }}</div>
-            } @else {
-              <div>Add Notes</div>
-              <button class="btn btn-primary" id="edit-note-btn">Add</button>
-            }
-          </div>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>Update</button>
+            <button mat-menu-item (click)="deleteQuestion(question.id)">Delete</button>
+          </mat-menu>
         </div>
-      </div>
-      <div class="controls">
-        <button mat-icon-button class="btn">
-          <mat-icon id="edit-btn">mode_edit_outline</mat-icon>
-        </button>
-        <button mat-icon-button class="btn" (click)="deleteQuestion(question.id)">
-          <mat-icon id="delete-btn">delete</mat-icon>
-        </button>
       </div>
     </div>
   }

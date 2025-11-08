@@ -9,10 +9,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { AddInterviewQuestionForm } from '../../components/add-interview-question-form/add-interview-question-form';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-interview-question-page',
-  imports: [AsyncPipe, CommonModule, MatIconModule, MatButtonModule],
+  imports: [AsyncPipe, CommonModule, MatIconModule, MatButtonModule, MatMenuModule],
   templateUrl: './interview-question-page.html',
   styleUrl: './interview-question-page.css'
 })

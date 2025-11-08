@@ -6,15 +6,23 @@
   color: red;
 }
 
-.accordion-body {
-  height: 100px;
+.more-btn-container {
+  margin-left: auto;
+}
+
+.card {
+  /* overflow: hidden; */
+  /* min-height: 150px; */
+  width: 100%;
 }
 
 .note {
-  width: 100%;
   text-align: center;
 }
 
-.generated-question-button {
-  background-color: aqua;
+.question {
+  width: 25%;
+  border-right: 1px solid var(--border-color);
+  min-height: 150px;
+  text-align: center
 }

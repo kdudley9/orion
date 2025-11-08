@@ -15,6 +15,10 @@
   text-align: center;
 }
 
+.desc-row {
+  border-top: 1px solid var(--border-color);
+}
+
 .details {
   text-align: center;
 }
@@ -31,7 +35,6 @@
 }
 
 #additional-info {
-  border: 1px dashed red;
   /* margin-bottom: 5px;
   border-bottom: 1px solid var(--border-color); */
 }
