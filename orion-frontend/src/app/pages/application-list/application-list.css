@@ -39,6 +39,7 @@
 
 .search-container {
   background-color: white;
+  z-index: 1000;
 }
 
 #add-btn {
