@@ -1,9 +1,18 @@
-#edit-btn {
-  color: #6e2594;
+#ai-btn {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
 }
 
-#delete-btn {
-  color: red;
+#btn-container {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 20px;;
+}
+
+.btn {
+  color: white;
+  background-color: var(--primary-color);
 }
 
 .more-btn-container {
@@ -11,8 +20,6 @@
 }
 
 .card {
-  /* overflow: hidden; */
-  /* min-height: 150px; */
   width: 100%;
 }
 

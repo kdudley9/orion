@@ -1,4 +1,10 @@
 <div id="questions-container">
+  <div id="btn-container">
+    <button mat-icon-button class="btn" id="ai-btn" (click)="generateQuestions()">
+      <mat-icon>smart_toy</mat-icon>
+    </button>
+    <button class="btn" id="add-btn" (click)="openDialog(applicationId)">+ Add Question</button>
+  </div>
   @for (question of generatedQuestions$ | async; track question.id) {
     <div class="card mb-3">
       <div class="card-body d-flex flex-row">
@@ -41,6 +47,4 @@
       </div>
     </div>
   }
-  <button class="btn btn-primary" (click)="generateQuestions()">RE-GENERATE QUESTIONS</button>
-  <button class="btn btn-primary" (click)="openDialog(applicationId)">Add Question</button>
 </div>

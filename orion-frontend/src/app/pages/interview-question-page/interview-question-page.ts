@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { InterviewQuestionService } from '../../services/interview-question-service';
 import { InterviewQuestion } from '../../models/interview-question';
-import { map, Observable, of, Subscription, tap } from 'rxjs';
+import { map, Observable, of, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatIconModule } from "@angular/material/icon";
