@@ -3,7 +3,7 @@ import { MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import { DropdownService } from '../../services/dropdown-service';
 import {FormGroup, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import { RemoveUnderscoresPipe } from "../../pipes/remove-underscores-pipe";
-import { ApplicationDetailsService } from '../../services/application-details-service';
+import { ApplicationListService } from '../../services/application-list-service';
 import { Application } from '../../models/application';
 
 @Component({
@@ -61,7 +61,7 @@ export class ApplicationForm implements OnInit {
     })
   });
 
-  constructor(private applicationDetailsService: ApplicationDetailsService, private dropdownService: DropdownService) {}
+  constructor(private applicationListService: ApplicationListService, private dropdownService: DropdownService) {}
 
   ngOnInit(): void {
     this.getIndustries();
@@ -82,7 +82,7 @@ export class ApplicationForm implements OnInit {
 
   onSubmit(): void {
     this.newApplication = {...this.newApplication, ...this.applicationForm.value}; 
-    this.applicationDetailsService.addApplication(this.newApplication).subscribe({
+    this.applicationListService.addApplication(this.newApplication).subscribe({
       next: () => {
         this.dialogRef.close();
       },

@@ -1,5 +1,10 @@
+.navbar {
+  z-index: 1000;
+}
+
 .rounded-circle {
-  width: 32px; 
-  height: 32px; 
-  object-fit: cover;
+  font-size: 45px;
+  height: 45px;
+  width: 45px;
+  color: var(--text-color);
 }

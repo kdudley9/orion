@@ -1,16 +1,80 @@
-<div class="container">
-  <h1>Interview Details Placeholder</h1>
-  @for(interview of interviews$ | async; track interview.id) {
-    <p>{{ interview.interviewDate }}</p>
-    <p>{{ interview.interviewType }}</p>
-    <p>{{ interview.location }}</p>
-    <p>{{ interview.meetingLink }}</p>
-    @for(interviewer of interview.interviewers; track $index) {
-      <p>{{ interviewer.name }}</p>
-      <p>{{ interviewer.email }}</p>
-      <p>{{ interviewer.phoneNumber }}</p>
+<div id="interview-details-container">
+  <div class="controls d-flex flex-row align-items-center justify-content-between mb-4">
+    <ul class="nav nav-pills nav-fill">
+      <li class="nav-item">
+        <a 
+          class="nav-link active" 
+          [ngClass]="{'active':activeTab==='upcoming'}"
+          (click)="navTabClicked('upcoming')"
+          data-toggle="tab">
+          Upcoming
+        </a>
+      </li>
+      <li class="nav-item">
+        <a 
+          class="nav-link" 
+          [ngClass]="{'active':activeTab==='past'}"
+          (click)="navTabClicked('past')"
+          data-toggle="tab">
+          Past
+        </a>
+      </li>
+    </ul>
+    <button class="btn" (click)="openInterviewForm(applicationId)">+ Add interview</button>
+  </div>
+  @if (interviews$) {
+    @for (interview of interviews$ | async; track interview.id) {
+      <div class="card mb-3">
+        <div class="row">
+          <div class="col-1" id="interview-date">
+            <div class="row">
+              <div class="col" id="interview-month">{{ interviewMonth(interview.interviewDate) }}</div>
+            </div>
+            <div class="row">
+              <div class="col" id="interview-day">{{ interviewDay(interview.interviewDate) }}</div>
+            </div>
+          </div>
+          <div class="col-5">
+            <span id="interview-type">{{ interview.interviewType | removeUnderscores }}</span>
+            @if (interview.interviewers) {
+              <ul>
+                @for (interviewer of interview.interviewers; track $index) {
+                  <li>{{ interviewer.name }} - {{ interviewer.email }} - {{ interviewer.phoneNumber }}</li>
+                }
+              </ul>
+            }
+          </div>
+          <div class="col-5">
+            <div class="icon-detail">
+              <mat-icon class="me-1">schedule</mat-icon>
+              <span>9:00 - 9:30</span>
+            </div>
+            <div class="icon-detail">
+              <mat-icon class="me-1">location_on</mat-icon>
+              <span>{{ interview.location }}</span>
+            </div>
+            @if (interview.meetingLink) {
+              <div class="icon-detail">
+                <mat-icon class="me-1">meeting_room</mat-icon>
+                <span>{{ interview.meetingLink }}</span>
+              </div>
+            }
+          </div>
+          <div class="col-1">
+            <div class="more-btn-container">
+              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="More">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item>Update</button>
+                <button mat-menu-item (click)="deleteInterview(interview.id)">Delete</button>
+              </mat-menu>
+            </div>
+          </div>
+        </div>
+      </div>
     }
-    <button class="btn btn-warning" (click)="deleteInterview(interview.id)">DELETE INTERVIEW</button>
+  } @else {
+    <div>No interviews to display.</div>
   }
-  <button class="btn btn-primary" (click)="openInterviewForm(applicationId)">Add Interview</button>
 </div>

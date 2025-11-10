@@ -1,65 +1,62 @@
-<div class="card mb-0.5">
+<div class="card">
   <div class="row g-0">
-    <div class="col-md-3 border-end img-container">
-      <img src="/card-img-placeholder.svg" class="img-fluid rounded-start" id="card-img" alt="logo">
-    </div>
-    <div class="col-md-9">
+    <div class="col">
       <div class="card-body">
         <a class="stretched-link" [routerLink]="['/applications', application().id]"></a>
         <div class="row">
-          <div class="col">
-            <h5 class="card-title fw-bold">{{ application().jobTitle }}</h5>
+          <div class="col card-title">
+            @if (logoText) {
+              <div class="rounded me-4" id="company-avatar" #companyAvatar>{{ logoText }}</div>
+            } @else {
+              <div class="rounded me-4" id="company-avatar" #companyAvatar>
+                <mat-icon>domain</mat-icon>
+              </div>
+            }
+            <div>
+              <h4 class="fw-bold">{{ application().jobTitle }}</h4>
+              <p class="card-text text-muted">
+                {{ application().company | titlecase }} / {{ application().industry | removeUnderscores | titlecase }}
+              </p>
+            </div>
           </div>
-          <div class="col text-end" id="more-btn-container">
-            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="More">
-              <mat-icon>more_horiz</mat-icon>
+          <div class="col actions-container">
+            <button mat-icon-button>
+              <mat-icon>favorite-border</mat-icon>
             </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>UPDATE</button>
-              <button mat-menu-item (click)="deleteApplication(application().id)">DELETE</button>
-            </mat-menu>
+            <div id="more-btn-container">
+              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="More">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item>UPDATE</button>
+                <button mat-menu-item (click)="deleteApplication(application().id)">DELETE</button>
+              </mat-menu>
+            </div>
           </div>
         </div>
-        <div class="row mb-1">
+        <div class="row g-0">
           <div class="col">
-            <p class="card-text">
-              {{ application().company }} / <span class="text-muted">{{ application().industry | removeUnderscores }}</span>
-            </p>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <div class="col">
-            <p class="card-text text-muted icon-text">
+            <p class="card-text icon-text">
               <mat-icon class="me-1">calendar_today</mat-icon>
-              {{ application().dateApplied | date: 'shortDate'}}
+              {{ application().dateApplied | date: 'shortDate' }}
             </p>
           </div>
           <div class="col">
-            <p class="card-text text-muted icon-text">
+            <p class="card-text icon-text">
               <mat-icon class="me-1">location_on</mat-icon>
               {{ application().location }}
             </p>
           </div>
           <div class="col">
-            <p class="card-text text-muted icon-text">
+            <p class="card-text icon-text">
               <mat-icon class="me-1">schedule</mat-icon>
-              {{ application().jobType | removeUnderscores}}
+              {{ application().jobType | removeUnderscores | titlecase }}
             </p>
-          </div>
-          <div class="col">
-            <p class="card-text text-muted">
-              {{ application().status }}
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col text-end">
-            <mat-icon>favorite-border</mat-icon>
           </div>
           <div class="col" id="status-select-container">
             <select class="form-select" (change)="onPatchApplication(application().id, $any($event.target).value)">
               <option [selected]="application().status === 'APPLIED'" value="APPLIED">APPLIED</option>
-              <option [selected]="application().status === 'ONLINE_ASSESSMENT'" value="ONLINE_ASSESSMENT">ONLINE ASSESSMENT</option>
+              <option [selected]="application().status === 'ONLINE_ASSESSMENT'" value="ONLINE_ASSESSMENT">ASSESSMENT</option>
               <option [selected]="application().status === 'INTERVIEW'" value="INTERVIEW">INTERVIEW</option>
               <option [selected]="application().status === 'OFFER'" value="OFFER">OFFER</option>
               <option [selected]="application().status === 'REJECTED'" value="REJECTED">REJECTED</option>

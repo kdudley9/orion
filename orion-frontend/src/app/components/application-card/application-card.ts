@@ -1,28 +1,45 @@
-import { Component, inject, input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, input, OnInit, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Application } from '../../models/application';
-import { ApplicationDetailsService } from '../../services/application-details-service';
+import { ApplicationListService } from '../../services/application-list-service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterLink } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { DatePipe, TitleCasePipe } from '@angular/common';
 import { RemoveUnderscoresPipe } from "../../pipes/remove-underscores-pipe";
 import { PatchRequest } from '../../models/patch-request';
 
 @Component({
   selector: 'app-application-card',
-  imports: [MatIconModule, MatButtonModule, MatMenuModule, RemoveUnderscoresPipe, DatePipe, RouterLink],
+  imports: [
+    MatIconModule, 
+    MatButtonModule, 
+    MatMenuModule, 
+    RemoveUnderscoresPipe, 
+    DatePipe, 
+    TitleCasePipe,
+    RouterLink],
   templateUrl: './application-card.html',
   styleUrl: './application-card.css'
 })
-export class ApplicationCard {
-  private appService = inject(ApplicationDetailsService);
+export class ApplicationCard implements AfterViewInit, OnInit {
+  private applicationListService = inject(ApplicationListService);
   
+  @ViewChild('companyAvatar', { static: false }) elementRef!: ElementRef;
   application = input.required<Application>();
   updateApplicationStatus: any = {};
+  logoText: string | null = null;
+
+  ngAfterViewInit(): void {
+    this.elementRef.nativeElement.style.background = this.applicationListService.companyLogoColor(this.logoText);
+  }
+
+  ngOnInit(): void {
+    this.logoText = this.applicationListService.companyLogo(this.application().company);
+  }
 
   deleteApplication(applicationId: number | undefined) {
-    this.appService.deleteApplication(applicationId).subscribe();
+    this.applicationListService.deleteApplication(applicationId).subscribe();
   }
 
   onPatchApplication(applicationId: number | undefined, updatedStatus: string): void {
@@ -31,6 +48,7 @@ export class ApplicationCard {
       path: "/status",
       value: updatedStatus
     }];
-    this.appService.patchApplication(patchRequest, applicationId).subscribe();
+    this.applicationListService.patchApplication(patchRequest, applicationId).subscribe();
   }
 }
+

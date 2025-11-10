@@ -1,13 +1,23 @@
+.card {
+  width: 350px;
+  height: 200px;
+}
+
+.time {
+  font-weight: 500;
+}
+
 .calendar {
   border: 1px solid #6e2594;
+  border-radius: 5px;
 }
 
-.calendar .card-body {
+.calendar-body {
   text-align: center;
-  padding: 0 0.25rem 0.25rem;
+  padding: 0 0.5rem 0 0.5rem;
 }
 
-.calendar .card-header {
+.calendar-header {
   text-align: center;
   padding: 0 0.2rem 0 0.2rem;
 }

@@ -1,20 +1,35 @@
-#edit-btn {
-  color: #6e2594;
+#ai-btn {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
 }
 
-#delete-btn {
-  color: red;
+#btn-container {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 20px;;
 }
 
-.accordion-body {
-  height: 100px;
+.btn {
+  color: white;
+  background-color: var(--primary-color);
+}
+
+.more-btn-container {
+  margin-left: auto;
+}
+
+.card {
+  width: 100%;
 }
 
 .note {
-  width: 100%;
   text-align: center;
 }
 
-.generated-question-button {
-  background-color: aqua;
+.question {
+  width: 25%;
+  border-right: 1px solid var(--border-color);
+  min-height: 150px;
+  text-align: center
 }

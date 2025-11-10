@@ -1,6 +1,6 @@
 export interface Interview {
   id: number,
-  interviewDate: string,
+  interviewDate: Date,
   location: string,
   meetingLink?: string,
   interviewType: string,

@@ -1,26 +1,57 @@
 <router-outlet></router-outlet>
-<h1 class="ms-4">Application Details</h1>
-<div class="d-flex flex-row vh-100">
-  <div class="d-flex justify-content-start ms-4">
-    <div class="container-sm details-container">
-      <ul class="nav mb-4">
-        <li class="nav-item me-3">
-          <a class="nav-link active" [ngClass]="{ 'active':activeTab==='applicationDetails'}" (click)="applicationDetalisTabClicked('applicationDetails')" data-toggle="tab">Details</a>
-        </li>
-        <li class="nav-item me-3">
-          <a class="nav-link" [ngClass]="{ 'active':activeTab==='practiceQuestions'}" (click)="practiceQuestionsTabClicked('practiceQuestions')" data-toggle="tab">Practice Questions</a>
-        </li>
-      </ul>
-      <div class="overflow-auto" id="main-content">
-        @switch (activeTab) {
-          @case ('applicationDetails') {
-            <app-application-info />
-          }
-          @case ('practiceQuestions') {
-            <app-interview-question-page />
-          }
+<div class="container-fluid">
+  <div class="container">
+    <div class="header">
+      <a routerLink="/applications" class="text-muted" id="applications-nav">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back to applications</span>
+      </a>
+      <h1>{{ header() }}</h1>
+      <p>{{ pageInfo() }}</p>
+    </div>
+  </div>
+  <div class="container" id="details-container">
+    <ul class="nav nav-fill sticky-top mb-3">
+      <li class="nav-item me-3">
+        <a 
+          class="nav-link active" 
+          [ngClass]="{ 'active':activeTab==='applicationDetails'}" 
+          (click)="navTabClicked('applicationDetails')" 
+          data-toggle="tab">
+          Details
+        </a>
+      </li>
+      <li class="nav-item me-3">
+        <a 
+          class="nav-link" 
+          [ngClass]="{ 'active':activeTab==='interviewDetails'}" 
+          (click)="navTabClicked('interviewDetails')" 
+          data-toggle="tab">
+          Interviews
+        </a>
+      </li>
+      <li class="nav-item me-3">
+        <a 
+          class="nav-link" 
+          [ngClass]="{ 'active':activeTab==='practiceQuestions'}" 
+          (click)="navTabClicked('practiceQuestions')" 
+          data-toggle="tab">
+          Practice Questions
+        </a>
+      </li>
+    </ul>
+    <div id="main-content">
+      @switch (activeTab) {
+        @case ('applicationDetails') {
+          <app-application-info />
         }
-      </div>
+        @case ('practiceQuestions') {
+          <app-interview-question-page />
+        }
+        @case ('interviewDetails') {
+          <app-interview-details />
+        }
+      }
     </div>
   </div>
 </div>
