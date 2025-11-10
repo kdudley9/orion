@@ -7,8 +7,8 @@
   border-bottom: 2px solid var(--primary-color);
 }
 
-.status:hover {
-  color: var(--primary-color);
+.nav-item:hover {
+  border-bottom: 2px solid var(--primary-color);
   cursor: pointer;
 }
 

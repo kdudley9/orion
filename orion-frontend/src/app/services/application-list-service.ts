@@ -102,4 +102,34 @@ export class ApplicationListService {
       tap(() => this._applications.next([]))
     );
   }
+
+  companyLogo(companyName: string): string | null {
+    const firstChar: string = companyName[0];
+    const alphaNumericRegex: RegExp = /[a-zA-Z0-9]/;
+
+    if (alphaNumericRegex.test(firstChar)) {
+      return firstChar;
+    }
+    return null;
+  }
+
+  companyLogoColor(logoChar: string | null): string | undefined {
+    const gradientMap: Map<number, string> = new Map([
+      [0, 'linear-gradient(#3B82F6, #6366F1)'],
+      [1, 'linear-gradient(#06B6D4, #0D9488)'],
+      [2, 'linear-gradient(#F97316, #FACC15)'],
+      [3, 'linear-gradient(#FB7185, #EC4899)'],
+      [4, 'linear-gradient(#10B981, #84CC16)'],
+      [5, 'linear-gradient(#14B8A6, #3B82F6)'],
+      [6, 'linear-gradient(#9CA3AF, #64748B)'],
+      [7, 'linear-gradient(#8B5CF6, #A855F7)']
+    ]);
+
+    if (logoChar) {
+      const colorKey: number = logoChar.charCodeAt(0) % gradientMap.size;
+      return gradientMap.get(colorKey);
+    }
+
+    return 'linear-gradient(#6E2594, #2DD4Bf)';
+  }
 }

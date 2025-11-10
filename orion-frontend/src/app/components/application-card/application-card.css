@@ -34,7 +34,10 @@
   align-items: center;
 }
 
-.form-select {
+.form-select-sm {
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 10px;
   background-color: #6e2594;
   color: white;
 }

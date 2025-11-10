@@ -34,11 +34,6 @@
   font-weight: 500;
 }
 
-#additional-info {
-  /* margin-bottom: 5px;
-  border-bottom: 1px solid var(--border-color); */
-}
-
 .desc-container {
   padding: 5px;
   border: 1px solid var(--border-color);
