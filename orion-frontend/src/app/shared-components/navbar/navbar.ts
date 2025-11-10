@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth-service';
 import { User } from '../../models/user';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink],
+  imports: [RouterLink, MatIcon, MatIconModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })

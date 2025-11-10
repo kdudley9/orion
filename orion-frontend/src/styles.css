@@ -1,6 +1,7 @@
 @import "../public/fonts.css";
 
 :root {
+  --text-color: #141414;
   --primary-color: #6e2594;
   --border-color: #d9d9d9;
 
@@ -21,7 +22,7 @@
 
 body {
   font-family: "Inter" !important;
-  color: #141414;
+  color: var(--text-color);
   padding-top: 100px !important;
 }
 html, body { height: 100%; }

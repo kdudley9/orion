@@ -34,12 +34,6 @@
   font-weight: 500;
 }
 
-.desc-container {
-  padding: 5px;
-  border: 1px solid var(--border-color);
-  border-radius: 5px;
-}
-
 #link {
   text-decoration: none;
   color: black;
@@ -56,7 +50,9 @@
   padding: 10px;
   background-color: white;
   border-radius: 7px;
+  border: 1px solid var(--border-color);
   margin-top: 50px;
+  height: 200px;
 }
 
 .job-description .container {
