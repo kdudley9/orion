@@ -15,7 +15,7 @@
             <div>
               <h4 class="fw-bold">{{ application().jobTitle }}</h4>
               <p class="card-text text-muted">
-                {{ application().company }} / {{ application().industry | removeUnderscores }}
+                {{ application().company | titlecase }} / {{ application().industry | removeUnderscores | titlecase }}
               </p>
             </div>
           </div>
@@ -38,7 +38,7 @@
           <div class="col">
             <p class="card-text icon-text">
               <mat-icon class="me-1">calendar_today</mat-icon>
-              {{ application().dateApplied | date: 'shortDate'}}
+              {{ application().dateApplied | date: 'shortDate' }}
             </p>
           </div>
           <div class="col">
@@ -50,13 +50,13 @@
           <div class="col">
             <p class="card-text icon-text">
               <mat-icon class="me-1">schedule</mat-icon>
-              {{ application().jobType | removeUnderscores}}
+              {{ application().jobType | removeUnderscores | titlecase }}
             </p>
           </div>
-          <div class="col-4" id="status-select-container">
-            <select class="form-select-sm" (change)="onPatchApplication(application().id, $any($event.target).value)">
+          <div class="col" id="status-select-container">
+            <select class="form-select" (change)="onPatchApplication(application().id, $any($event.target).value)">
               <option [selected]="application().status === 'APPLIED'" value="APPLIED">APPLIED</option>
-              <option [selected]="application().status === 'ONLINE_ASSESSMENT'" value="ONLINE_ASSESSMENT">ONLINE ASSESSMENT</option>
+              <option [selected]="application().status === 'ONLINE_ASSESSMENT'" value="ONLINE_ASSESSMENT">ASSESSMENT</option>
               <option [selected]="application().status === 'INTERVIEW'" value="INTERVIEW">INTERVIEW</option>
               <option [selected]="application().status === 'OFFER'" value="OFFER">OFFER</option>
               <option [selected]="application().status === 'REJECTED'" value="REJECTED">REJECTED</option>

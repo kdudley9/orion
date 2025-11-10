@@ -1,5 +1,5 @@
 .card {
-  width: 100%;
+  overflow-x: auto;
 }
 
 .card:hover {
@@ -34,9 +34,7 @@
   align-items: center;
 }
 
-.form-select-sm {
-  padding-left: 5px;
-  padding-right: 5px;
+.form-select {
   border-radius: 10px;
   background-color: #6e2594;
   color: white;

@@ -11,17 +11,17 @@
         </div>
         <h4>{{ application.company }}</h4>
         <div class="mb-3">{{ application.jobTitle }}</div>
-        <div id="status">{{ application.status }}</div>
+        <div id="status" #status>{{ application.status | removeUnderscores}}</div>
       </div>
       <div class="col-9">
         <div class="row">
           <div class="col mb-5">
             <span class="label">Job Type</span>
-            <div>{{ application.jobType | removeUnderscores}}</div>
+            <div>{{ application.jobType | removeUnderscores | titlecase }}</div>
           </div>
           <div class="col">
             <span class="label">Industry</span>
-            <div>{{ application.industry | removeUnderscores}}</div>
+            <div>{{ application.industry | removeUnderscores | titlecase }}</div>
           </div>
           <div class="col">
             <span class="label">Location</span>
@@ -29,7 +29,7 @@
           </div>
           <div class="col">
             <span class="label">Date Applied</span>
-            <div>{{ application.dateApplied }}</div>
+            <div>{{ application.dateApplied | date: 'shortDate'}}</div>
           </div>
         </div>
         <div class="row desc-row">

@@ -3,12 +3,20 @@
 :root {
   --primary-color: #6e2594;
   --border-color: #d9d9d9;
-  --applied-status-background: #E0F0FF;
-  --applied-status-text: #0073E6;
-  --interview-status-background: #FFF3E0;
-  --interview-status-text: #EF6C00;
-  --rejected-status-background: #FFEBEE;
-  --rejected-status-text: #C62828;
+
+  /* Status colors */
+  --assessment-text: #1565c0;
+  --assessment-background: #e3f2fd;
+  --applied-background: #f2e6fa;
+  --applied-text: #6e2594;
+  --interview-background: #FFF3E0;
+  --interview-text: #EF6C00;
+  --offer-text: #2e7d32;
+  --offer-background: #e8f5e9;
+  --rejected-background: #FFEBEE;
+  --rejected-text: #C62828;
+  --ghosted-text: #757575;
+  --ghosted-background: #f5f5f5;
 }
 
 body {
