@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.kdudley9.orion.dtos.InterviewDto;
+import com.github.kdudley9.orion.dtos.UpcomingInterviewDto;
 import com.github.kdudley9.orion.services.InterviewService;
 
 import java.util.List;
@@ -17,8 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
+
 @RestController
-@RequestMapping("/api/application-details/{applicationId}/interviews")
+@RequestMapping("/api/application-details")
 public class InterviewController {
     private final InterviewService interviewService;
 
@@ -26,7 +28,7 @@ public class InterviewController {
         this.interviewService = interviewService;
     }
 
-    @GetMapping
+    @GetMapping("/{applicationId}/interviews/")
     public ResponseEntity<List<InterviewDto>> getInterviews(@PathVariable Long applicationId) {
         if (applicationId == null) {
             return ResponseEntity.notFound().build();
@@ -34,22 +36,27 @@ public class InterviewController {
         return new ResponseEntity<>(this.interviewService.getAllInterviews(applicationId), HttpStatus.OK);
     }
     
-    @PostMapping
+    @PostMapping("/{applicationId}/interviews")
     public ResponseEntity<InterviewDto> addInterview(@RequestBody InterviewDto interviewDto, @PathVariable("applicationId") Long applicationid) {        
         return new ResponseEntity<>(this.interviewService.addInterview(interviewDto, applicationid), HttpStatus.CREATED);
     }
     
-    @PutMapping("/{interviewId}")
+    @PutMapping("/{applicationId}/interviews/{interviewId}")
     public ResponseEntity<InterviewDto> updateInterview(@RequestBody InterviewDto interviewDto, @PathVariable Long applicationId, @PathVariable Long interviewId) {
         return new ResponseEntity<>(this.interviewService.updateInterview(interviewDto, applicationId, interviewId), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{interviewId}")
+    @DeleteMapping("/{applicationId}/interviews/{interviewId}")
     public ResponseEntity<Void> deleteInterview(@PathVariable Long applicationId, @PathVariable Long interviewId) {
         int applicationsDeleted = this.interviewService.deleteInterview(interviewId, applicationId);
         if (applicationsDeleted == 0) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/upcoming-interview")
+    public ResponseEntity<UpcomingInterviewDto> getUpcomingInterview() {
+        return new ResponseEntity<>(this.interviewService.getUpcomingInterview(), HttpStatus.OK);
     }
 }

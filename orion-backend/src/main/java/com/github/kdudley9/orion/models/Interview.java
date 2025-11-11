@@ -3,10 +3,13 @@ package com.github.kdudley9.orion.models;
 import java.time.LocalDate;
 import java.util.Set;
 
+import com.github.kdudley9.orion.dtos.UpcomingInterviewDto;
 import com.github.kdudley9.orion.enums.InterviewType;
 
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ColumnResult;
+import jakarta.persistence.ConstructorResult;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -17,8 +20,42 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedNativeQuery;
+import jakarta.persistence.SqlResultSetMapping;
 
 @Entity
+@NamedNativeQuery(
+    name = "upcoming_interview_dto",
+    query = 
+        "SELECT \r\n" + //
+        "interview_date AS interviewDate, \r\n" + //
+        "i.location AS location, \r\n" + //
+        "meeting_link AS meetingLink, \r\n" + //
+        "interview_type AS interviewType,\r\n" + //
+        "company,\r\n" + //
+        "job_title AS jobTitle\r\n" + //
+        "FROM interview i \r\n" + //
+        "JOIN application_details ad ON ad.id = i.application_details_id \r\n" + //
+        "WHERE ad.user_id = :userId\r\n" + //
+        "AND i.interview_date >= CURRENT_DATE\r\n" + //
+        "ORDER BY ABS(interview_date - CURRENT_DATE)\r\n" + //
+        "LIMIT 1",
+    resultSetMapping = "upcoming_interview_dto"
+)
+@SqlResultSetMapping(
+    name = "upcoming_interview_dto",
+    classes = @ConstructorResult(
+        targetClass = UpcomingInterviewDto.class,
+        columns = {
+            @ColumnResult(name = "interviewDate", type = LocalDate.class),
+            @ColumnResult(name = "location", type = String.class),
+            @ColumnResult(name = "meetingLink", type = String.class),
+            @ColumnResult(name = "interviewType", type = InterviewType.class),
+            @ColumnResult(name = "company", type = String.class),
+            @ColumnResult(name = "jobTitle", type = String.class)
+        }
+    )
+)
 public class Interview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
