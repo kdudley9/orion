@@ -1,0 +1,8 @@
+#cancel-btn {
+  margin-right: 10px;
+}
+
+#delete-btn {
+  color: white;
+  background-color: var(--primary-color);
+}

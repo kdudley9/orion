@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { InterviewCard } from "../../components/interview-card/interview-card";
 import { map, Observable, of, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DeleteConfirmation } from '../../components/delete-confirmation/delete-confirmation';
 
 @Component({
   selector: 'app-application-list',
@@ -53,8 +53,6 @@ export class ApplicationList implements OnInit {
   }
 
   deleteAllClicked(): void {
-    this.appService.deleteAllAplications()
-      .pipe(tap(() => takeUntilDestroyed(this.destroyRef)))
-      .subscribe();
+    this.dialog.open(DeleteConfirmation);
   }
 }
