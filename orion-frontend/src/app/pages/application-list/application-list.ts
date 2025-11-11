@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { Application } from '../../models/application';
 import { ApplicationListService } from '../../services/application-list-service';
 import { ApplicationCard } from "../../components/application-card/application-card";
@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { InterviewCard } from "../../components/interview-card/interview-card";
 import { map, Observable, of, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DeleteConfirmation } from '../../components/delete-confirmation/delete-confirmation';
 
 @Component({
   selector: 'app-application-list',
@@ -53,8 +53,6 @@ export class ApplicationList implements OnInit {
   }
 
   deleteAllClicked(): void {
-    this.appService.deleteAllAplications()
-      .pipe(tap(() => takeUntilDestroyed(this.destroyRef)))
-      .subscribe();
+    this.dialog.open(DeleteConfirmation);
   }
 }

@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddInterviewQuestionForm } from '../../components/add-interview-question-form/add-interview-question-form';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatMenuModule } from '@angular/material/menu';
+import { GenerateQuestionsConfirmation } from '../../components/generate-questions-confirmation/generate-questions-confirmation';
 
 @Component({
   selector: 'app-interview-question-page',
@@ -33,8 +34,10 @@ export class InterviewQuestionPage implements OnInit {
     this.getQuestions();
   }
 
-  generateQuestions(): void {
-    this.interviewQuestionService.generateQuestions(this.applicationId).subscribe();
+  generateQuestions(applicationId: number): void {
+    this.dialog.open(GenerateQuestionsConfirmation, {
+      data: { applicationId }
+    });
   }
 
   getQuestions(): void {
