@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { Application } from '../../models/application';
 import { ApplicationListService } from '../../services/application-list-service';
 import { ApplicationCard } from "../../components/application-card/application-card";

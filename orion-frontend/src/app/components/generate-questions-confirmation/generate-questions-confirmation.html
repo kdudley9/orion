@@ -1,0 +1,12 @@
+<div class="confirmation-modal">
+  <h2 mat-dialog-title>Generate New Questions</h2>
+  <mat-dialog-content>
+    We'll create a new set of AI-generated interview questions based on
+    this application's details. Any existing AI questions 
+    and notes will be cleared.
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-outline-secondary" id="cancel-btn" (click)="onCancel()">Cancel</button>
+    <button class="btn" id="confirm-btn" (click)="confirmBtnClicked()">Generate Questions</button>
+  </mat-dialog-actions>
+</div>
