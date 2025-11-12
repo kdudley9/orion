@@ -1,19 +1,33 @@
-<div class="card ms-4 shadow-sm">
+@let upcomingInterview = upcomingInterview$ | async;
+
+<div class="container card ms-4 shadow-sm">
   <div class="card-body">
-    <div class="d-flex mb-2 align-items-center">
-      <div class="calendar me-3">
-        <div class="calendar-header fs-6" id="month">Aug</div>
-        <div class="calendar-body fs-2 fw-bold" id="day">22</div>
+    @if (upcomingInterview) {
+      <div class="d-flex mb-2 align-items-center">
+        <div class="calendar me-3">
+          <div class="calendar-header fs-6" id="month">
+            {{ interviewMonth(upcomingInterview.interviewDate) }}
+          </div>
+          <div class="calendar-body fs-2 fw-bold" id="day">
+            {{ interviewDay(upcomingInterview.interviewDate) }}
+          </div>
+        </div>
+        <div class="details">
+          <span class="text-muted">Next interview</span>
+          <ul>
+            <li>{{ upcomingInterview.company }}</li>
+            <li>{{ upcomingInterview.jobTitle }}</li>
+            <li>{{ upcomingInterview.location }}</li>
+            @if (upcomingInterview.meetingLink) {
+              <li>{{ upcomingInterview.meetingLink }}</li>
+            }
+          </ul>
+        </div>
       </div>
-      <div class="details">
-        <span class="text-muted">Next interview</span>
-        <ul>
-          <li>Google</li>
-          <li>Meeting with John Doe</li>
-        </ul>
-      </div>
-    </div>
-    <span class="time fs-2 mb-2">9:00am - 9:00pm</span>
-    <p class="text-muted">PHONE SCREEN</p>
+      <span class="time fs-2 mb-2">9:00am - 9:00pm</span>
+      <p class="text-muted">{{ upcomingInterview.interviewType | removeUnderscores }}</p>
+    } @else {
+      No upcoming interviews.
+    }
   </div>
 </div>

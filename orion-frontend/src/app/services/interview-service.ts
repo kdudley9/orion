@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, Observable, tap } from 'rxjs';
-import { Interview } from '../models/interview';
+import { Interview, UpcomingInterview } from '../models/interview';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,17 @@ export class InterviewService {
         throw new Error('Could not retrieve interviews: ' + err);
       }),
       tap((interviews) => this._interviews.next(interviews))
+    );
+  }
+
+  getUpcomingInterview(): Observable<UpcomingInterview> {
+    return this.http.get<UpcomingInterview>(`${this.baseUrl}/upcoming-interview`, {
+      withCredentials: true
+    })
+    .pipe(
+      catchError((err) => {
+        throw new Error('Could not retrieve upcoming interview: ' + err);
+      })
     );
   }
 

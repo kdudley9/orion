@@ -12,3 +12,12 @@ interface Interviewers {
   email?: string,
   phoneNumber?: string
 }
+
+export interface UpcomingInterview {
+  interviewDate: Date,
+  location: string,
+  meetingLink: string,
+  interviewType: string,
+  company: string,
+  jobTitle: string
+}

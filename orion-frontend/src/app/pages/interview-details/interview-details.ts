@@ -91,6 +91,6 @@ export class InterviewDetails implements OnInit {
 
   interviewDay(interviewDate: Date): number {
     const interviewAsDate = new Date(interviewDate);
-    return interviewAsDate.getDate();
+    return interviewAsDate.getUTCDate();
   }
 }

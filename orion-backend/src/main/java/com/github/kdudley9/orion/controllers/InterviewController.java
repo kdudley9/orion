@@ -28,7 +28,7 @@ public class InterviewController {
         this.interviewService = interviewService;
     }
 
-    @GetMapping("/{applicationId}/interviews/")
+    @GetMapping("/{applicationId}/interviews")
     public ResponseEntity<List<InterviewDto>> getInterviews(@PathVariable Long applicationId) {
         if (applicationId == null) {
             return ResponseEntity.notFound().build();
