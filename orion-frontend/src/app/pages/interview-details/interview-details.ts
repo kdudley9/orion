@@ -86,11 +86,11 @@ export class InterviewDetails implements OnInit {
     if (this.monthConversionMap.has(interviewAsDate.getMonth())) {
       return this.monthConversionMap.get(interviewAsDate.getMonth());
     }
-    return "";
+    return '';
   }
 
   interviewDay(interviewDate: Date): number {
     const interviewAsDate = new Date(interviewDate);
-    return interviewAsDate.getDay();
+    return interviewAsDate.getUTCDate();
   }
 }

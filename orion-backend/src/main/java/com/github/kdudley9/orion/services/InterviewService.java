@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.github.kdudley9.orion.dtos.InterviewDto;
+import com.github.kdudley9.orion.dtos.UpcomingInterviewDto;
 import com.github.kdudley9.orion.mappers.InterviewMapper;
 import com.github.kdudley9.orion.models.ApplicationDetails;
 import com.github.kdudley9.orion.models.Interview;
@@ -81,5 +82,9 @@ public class InterviewService {
         }
 
         return this.interviewRepository.deleteByIdAndApplicationDetailsId(interviewId, applicationId);
+    }
+
+    public UpcomingInterviewDto getUpcomingInterview() {
+        return this.interviewRepository.findUpcomingInterview(userFacade.getCurrentUserId());
     }
 }
