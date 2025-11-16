@@ -28,7 +28,7 @@
                 <mat-icon>more_horiz</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <button mat-menu-item>UPDATE</button>
+                <button mat-menu-item (click)="onUpdateApplication()">UPDATE</button>
                 <button mat-menu-item (click)="deleteApplication(application().id)">DELETE</button>
               </mat-menu>
             </div>
