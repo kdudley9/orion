@@ -11,6 +11,8 @@
           }
         </div>
       }
+      <label for="note" class="form-label">Notes</label>
+      <quill-editor [styles]="noteStyles" id="note" formControlName="note"></quill-editor>
     </form>
   </mat-dialog-content>
   <mat-dialog-actions align="end">

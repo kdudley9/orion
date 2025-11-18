@@ -11,10 +11,11 @@ import { AddInterviewQuestionForm } from '../../components/add-interview-questio
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatMenuModule } from '@angular/material/menu';
 import { GenerateQuestionsConfirmation } from '../../components/generate-questions-confirmation/generate-questions-confirmation';
+import { QuillViewComponent } from "ngx-quill";
 
 @Component({
   selector: 'app-interview-question-page',
-  imports: [AsyncPipe, CommonModule, MatIconModule, MatButtonModule, MatMenuModule],
+  imports: [AsyncPipe, CommonModule, MatIconModule, MatButtonModule, MatMenuModule, QuillViewComponent],
   templateUrl: './interview-question-page.html',
   styleUrl: './interview-question-page.css'
 })
@@ -52,6 +53,8 @@ export class InterviewQuestionPage implements OnInit {
 
   openDialog(applicationId: number): void {
     this.dialog.open(AddInterviewQuestionForm, {
+      width: '500px',
+      height: '500px',
       data: { applicationId }
     });
   }

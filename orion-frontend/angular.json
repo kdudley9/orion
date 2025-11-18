@@ -25,12 +25,16 @@
               }
             ],
             "styles": [
+              "./node_modules/quill/dist/quill.core.css",
+              "./node_modules/quill/dist/quill.bubble.css",
+              "./node_modules/quill/dist/quill.snow.css",
               "src/custom-theme.scss",
               "src/styles.css",
               "public/fonts.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": [
+              "./node_modules/quill/dist/quill.js",
               "./node_modules/bootstrap/dist/js/bootstrap.min.js"
             ]
           },
