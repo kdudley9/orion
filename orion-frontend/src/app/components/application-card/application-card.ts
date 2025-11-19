@@ -35,9 +35,11 @@ export class ApplicationCard implements AfterViewInit, OnInit {
   application = input.required<Application>();
   updateApplicationStatus: any = {};
   logoTextSignal = signal<string | null>('');
+  logoColorSignal = signal<string | undefined>('');
 
   ngAfterViewInit(): void {
-    this.elementRef.nativeElement.style.background = this.applicationListService.companyLogoColor(this.logoTextSignal());
+    const logoColor = this.applicationListService.companyLogoColor(this.logoTextSignal());
+    this.logoColorSignal.set(logoColor);
   }
 
   ngOnInit(): void {
@@ -68,6 +70,7 @@ export class ApplicationCard implements AfterViewInit, OnInit {
     dialogRef.afterClosed().subscribe(companyName => {
       // Get first char in companyName
       this.logoTextSignal.set(companyName[0]);
+      this.logoColorSignal.set(this.applicationListService.companyLogoColor(this.logoTextSignal()));
     });
   }
 
