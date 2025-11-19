@@ -19,6 +19,7 @@ export class ApplicationForm implements OnInit {
   readonly dialogRef = inject(MatDialogRef<ApplicationForm>);
   industries = [];
   jobTypes = [];
+  newCompany: string = ''
 
   applicationForm: any;
 
@@ -59,7 +60,6 @@ export class ApplicationForm implements OnInit {
         },
         error: () => {
           console.error('An error occurred when submitting the form.');
-          this.dialogRef.close();
         }
       });
     } else {
@@ -69,7 +69,6 @@ export class ApplicationForm implements OnInit {
         },
         error: () => {
           console.error('An error occurred when updating the application.');
-          this.dialogRef.close();
         }
       });
     }

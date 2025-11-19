@@ -5,8 +5,8 @@
         <a class="stretched-link" [routerLink]="['/applications', application().id]"></a>
         <div class="row">
           <div class="col-8 card-title">
-            @if (logoText) {
-              <div class="rounded me-4" id="company-avatar" #companyAvatar>{{ logoText }}</div>
+            @if (logoTextSignal() !== null) {
+              <div class="rounded me-4" id="company-avatar" #companyAvatar>{{ logoTextSignal() }}</div>
             } @else {
               <div class="rounded me-4" id="company-avatar" #companyAvatar>
                 <mat-icon>domain</mat-icon>

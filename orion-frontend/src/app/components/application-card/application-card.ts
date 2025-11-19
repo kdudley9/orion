@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, input, OnInit, signal, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Application } from '../../models/application';
 import { ApplicationListService } from '../../services/application-list-service';
@@ -10,17 +10,20 @@ import { RemoveUnderscoresPipe } from "../../pipes/remove-underscores-pipe";
 import { PatchRequest } from '../../models/patch-request';
 import { MatDialog } from '@angular/material/dialog';
 import { ApplicationForm } from '../application-form/application-form';
+import { ɵInternalFormsSharedModule } from "@angular/forms";
 
 @Component({
   selector: 'app-application-card',
   imports: [
-    MatIconModule, 
-    MatButtonModule, 
-    MatMenuModule, 
-    RemoveUnderscoresPipe, 
-    DatePipe, 
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
+    RemoveUnderscoresPipe,
+    DatePipe,
     TitleCasePipe,
-    RouterLink],
+    RouterLink,
+    ɵInternalFormsSharedModule
+],
   templateUrl: './application-card.html',
   styleUrl: './application-card.css'
 })
@@ -31,22 +34,23 @@ export class ApplicationCard implements AfterViewInit, OnInit {
   @ViewChild('companyAvatar', { static: false }) elementRef!: ElementRef;
   application = input.required<Application>();
   updateApplicationStatus: any = {};
-  logoText: string | null = null;
+  logoTextSignal = signal<string | null>('');
 
   ngAfterViewInit(): void {
-    this.elementRef.nativeElement.style.background = this.applicationListService.companyLogoColor(this.logoText);
+    this.elementRef.nativeElement.style.background = this.applicationListService.companyLogoColor(this.logoTextSignal());
   }
 
   ngOnInit(): void {
-    this.logoText = this.applicationListService.companyLogo(this.application().company);
+    const logoText = this.applicationListService.companyLogo(this.application().company);
+    this.logoTextSignal.set(logoText);
   }
 
   deleteApplication(applicationId: number | undefined) {
     this.applicationListService.deleteApplication(applicationId).subscribe();
   }
 
-  onUpdateApplication() {
-    this.dialog.open(ApplicationForm, {
+  onUpdateApplication(): void {
+    const dialogRef = this.dialog.open(ApplicationForm, {
       data: {
         id: this.application().id,
         company: this.application().company,
@@ -59,6 +63,11 @@ export class ApplicationCard implements AfterViewInit, OnInit {
         jobDescription: this.application().jobDescription,
         isUpdate: true
       }
+    });
+
+    dialogRef.afterClosed().subscribe(companyName => {
+      // Get first char in companyName
+      this.logoTextSignal.set(companyName[0]);
     });
   }
 
