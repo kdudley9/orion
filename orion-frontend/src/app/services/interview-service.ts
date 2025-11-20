@@ -70,6 +70,16 @@ export class InterviewService {
     return this.http.put<Interview>(`${this.baseUrl}/${applicationId}/interviews/${updatedInterview.id}`, 
       updatedInterview, {
       withCredentials: true
-    });
+    }).pipe(
+      catchError((err) => {
+        throw new Error('Could not update interview ' + err);
+      }),
+      tap(() => {
+        let currentInterviews = this._interviews.value;
+        const index = currentInterviews.findIndex(i => i.id === updatedInterview.id);
+        currentInterviews[index] = updatedInterview;
+        this._interviews.next(currentInterviews);
+      })
+    );
   }
 }

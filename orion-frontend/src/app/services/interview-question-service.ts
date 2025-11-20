@@ -58,16 +58,26 @@ export class InterviewQuestionService {
     );
   }
 
-  updateQuestion(applicationId: number, question: InterviewQuestion): Observable<InterviewQuestion> {
+  updateQuestion(applicationId: number, questionId: number, question: InterviewQuestion): Observable<InterviewQuestion> {
     return this.http.put<InterviewQuestion>(
-      `${this.baseUrl}/${applicationId}/interview-questions/${question.id}`, question,
-      {
+      `${this.baseUrl}/${applicationId}/interview-questions/${questionId}`, question, {
         withCredentials: true
       }
+    )
+    .pipe(
+      catchError((err) => {
+        throw new Error('Could not update question ' + err);
+      }),
+      tap((newQuestion) => {
+        let currentQuestions = this._interviewQuestions.value;
+        const index = currentQuestions.findIndex(q => q.id === questionId);
+        currentQuestions[index] = newQuestion;
+        this._interviewQuestions.next(currentQuestions);
+      })
     );
   }
 
-  deleteQuestion(applicationId: number, questionId: number) {
+  deleteQuestion(applicationId: number, questionId: number | undefined): any {
     return this.http.delete(`${this.baseUrl}/${applicationId}/interview-questions/${questionId}`, {
       withCredentials: true
     })

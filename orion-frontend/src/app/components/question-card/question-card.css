@@ -1,0 +1,18 @@
+.more-btn-container {
+  margin-left: auto;
+}
+
+.card {
+  width: 100%;
+}
+
+.note {
+  text-align: center;
+}
+
+.question {
+  width: 25%;
+  border-right: 1px solid var(--border-color);
+  min-height: 150px;
+  text-align: center
+}

@@ -12,7 +12,7 @@ import { QuillEditorComponent } from 'ngx-quill';
 })
 export class AddInterviewQuestionForm implements OnInit {
   readonly dialogRef = inject(MatDialogRef<AddInterviewQuestionForm>);
-  readonly formData = inject<{ applicationId: number }>(MAT_DIALOG_DATA);
+  readonly formData = inject(MAT_DIALOG_DATA);
   questionForm: any;
   noteStyles = {
     width: '450px',
@@ -27,20 +27,31 @@ export class AddInterviewQuestionForm implements OnInit {
 
   ngOnInit(): void {
     this.questionForm = this.fb.group({
-      question: ['', Validators.required],
-      note: ['']
+      question: [this.formData.question, Validators.required],
+      note: [this.formData.note]
     });
   }
 
   onSubmit(): void {
-    this.interviewQuestionService.addQuestion(this.formData.applicationId, this.questionForm.value).subscribe({
-      next: () => {
-        this.dialogRef.close();
-      },
-      error: () => {
-        console.error('An error occurred when submitting the form.');
-      }
-    })
+    if (!this.formData.isUpdate) {
+      this.interviewQuestionService.addQuestion(this.formData.applicationId, this.questionForm.value).subscribe({
+        next: () => {
+          this.dialogRef.close();
+        },
+        error: () => {
+          console.error('An error occurred when submitting the form.');
+        }
+      })
+    } else {
+      this.interviewQuestionService.updateQuestion(this.formData.applicationId, this.formData.id, this.questionForm.value).subscribe({
+        next: () => {
+          this.dialogRef.close();
+        },
+        error: () => {
+          console.error('An error occurred when submitting the form.');
+        }
+      })
+    }
   }
 
   onCancel(): void {
