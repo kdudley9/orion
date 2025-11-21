@@ -75,6 +75,12 @@
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
-    <button class="btn btn-primary" [disabled]="!interviewForm.valid" (click)="onSubmit()">Save</button>
+    <button class="btn btn-primary" [disabled]="!interviewForm.valid" (click)="onSubmit()">
+      @if (formData.isUpdate) {
+        Update
+      } @else {
+        Save
+      }
+    </button>
   </mat-dialog-actions>
 </div>

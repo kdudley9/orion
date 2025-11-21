@@ -53,9 +53,12 @@ export class InterviewDetails implements OnInit {
     this.interviews$ = this.interviewService.interviews$;
   }
 
-  openInterviewForm(applicationId: number): void {
+  openInterviewForm(): void {
     this.dialog.open(InterviewForm, {
-      data: { applicationId }
+      data: { 
+        applicationId: this.applicationId,
+        isUpdate: false
+      }
     });
   }
 
@@ -63,6 +66,21 @@ export class InterviewDetails implements OnInit {
     this.interviewService.deleteInterview(this.applicationId, interviewId)
       .pipe(tap(() => takeUntilDestroyed(this.destroyRef)))
       .subscribe();
+  }
+
+  onUpdateInterview(interview: Interview): void {
+    this.dialog.open(InterviewForm, {
+      data: {
+        applicationId: this.applicationId,
+        interviewId: interview.id,
+        interviewDate: interview.interviewDate,
+        location: interview.location,
+        meetingLink: interview.meetingLink,
+        interviewType: interview.interviewType,
+        interviewers: interview.interviewers,
+        isUpdate: true
+      }
+    })
   }
 
   navTabClicked(activeTab: string): void {

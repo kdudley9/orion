@@ -66,18 +66,18 @@ export class InterviewService {
     );
   }
 
-  updateInterview(applicationId: number, updatedInterview: Interview): Observable<Interview> {
-    return this.http.put<Interview>(`${this.baseUrl}/${applicationId}/interviews/${updatedInterview.id}`, 
+  updateInterview(applicationId: number, interviewId: number, updatedInterview: Interview): Observable<Interview> {
+    return this.http.put<Interview>(`${this.baseUrl}/${applicationId}/interviews/${interviewId}`, 
       updatedInterview, {
       withCredentials: true
     }).pipe(
       catchError((err) => {
         throw new Error('Could not update interview ' + err);
       }),
-      tap(() => {
+      tap((newInterview) => {
         let currentInterviews = this._interviews.value;
-        const index = currentInterviews.findIndex(i => i.id === updatedInterview.id);
-        currentInterviews[index] = updatedInterview;
+        const index = currentInterviews.findIndex(i => i.id === interviewId);
+        currentInterviews[index] = newInterview;
         this._interviews.next(currentInterviews);
       })
     );

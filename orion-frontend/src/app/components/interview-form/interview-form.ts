@@ -13,7 +13,7 @@ import { RemoveUnderscoresPipe } from "../../pipes/remove-underscores-pipe";
 })
 export class InterviewForm implements OnInit {
   readonly dialogRef = inject(MatDialogRef<InterviewForm>);
-  readonly formData = inject<{ applicationId: number }>(MAT_DIALOG_DATA);
+  readonly formData = inject(MAT_DIALOG_DATA);
   interviewTypes = [];
 
   interviewForm: any;
@@ -27,10 +27,10 @@ export class InterviewForm implements OnInit {
   ngOnInit(): void {
     this.getInterviewTypes();
     this.interviewForm = this.fb.group({
-      interviewDate: ['', Validators.required],
-      location: ['', Validators.required],
-      meetingLink: [''],
-      interviewType: ['', Validators.required],
+      interviewDate: [this.formData.interviewDate, Validators.required],
+      location: [this.formData.location, Validators.required],
+      meetingLink: [this.formData.meetingLink],
+      interviewType: [this.formData.interviewType, Validators.required],
       interviewers: this.fb.array([])
     });
   }
@@ -42,14 +42,25 @@ export class InterviewForm implements OnInit {
   }
 
   onSubmit(): void {
-    this.interviewService.addInterview(this.formData.applicationId, this.interviewForm.value).subscribe({
-      next: () => {
-        this.dialogRef.close();
-      },
-      error: () => {
-        console.error('An error occurred when submitting the form.');
-      }
-    });
+    if (!this.formData.isUpdate) {
+      this.interviewService.addInterview(this.formData.applicationId, this.interviewForm.value).subscribe({
+        next: () => {
+          this.dialogRef.close();
+        },
+        error: () => {
+          console.error('An error occurred when submitting the form.');
+        }
+      });
+    } else {
+      this.interviewService.updateInterview(this.formData.applicationId, this.formData.interviewId, this.interviewForm.value).subscribe({
+        next: () => {
+          this.dialogRef.close();
+        },
+        error: () => {
+          console.error('An error occurred when updating interview details.');
+        }
+      });
+    }
   }
 
   addInterviewer(): void {

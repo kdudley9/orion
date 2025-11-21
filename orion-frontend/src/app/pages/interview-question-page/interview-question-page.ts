@@ -10,12 +10,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddInterviewQuestionForm } from '../../components/add-interview-question-form/add-interview-question-form';
 import { MatMenuModule } from '@angular/material/menu';
 import { GenerateQuestionsConfirmation } from '../../components/generate-questions-confirmation/generate-questions-confirmation';
-import { QuillViewComponent } from "ngx-quill";
 import { QuestionCard } from "../../components/question-card/question-card";
 
 @Component({
   selector: 'app-interview-question-page',
-  imports: [AsyncPipe, CommonModule, MatIconModule, MatButtonModule, MatMenuModule, QuillViewComponent, QuestionCard],
+  imports: [AsyncPipe, CommonModule, MatIconModule, MatButtonModule, MatMenuModule, QuestionCard],
   templateUrl: './interview-question-page.html',
   styleUrl: './interview-question-page.css'
 })

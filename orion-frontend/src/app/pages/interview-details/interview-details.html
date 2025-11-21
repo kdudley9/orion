@@ -20,7 +20,7 @@
         </a>
       </li>
     </ul>
-    <button class="btn" (click)="openInterviewForm(applicationId)">+ Add interview</button>
+    <button class="btn" (click)="openInterviewForm()">+ Add interview</button>
   </div>
   @if (interviews$) {
     @for (interview of interviews$ | async; track interview.id) {
@@ -66,7 +66,7 @@
                 <mat-icon>more_horiz</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <button mat-menu-item>Update</button>
+                <button mat-menu-item (click)="onUpdateInterview(interview)">Update</button>
                 <button mat-menu-item (click)="deleteInterview(interview.id)">Delete</button>
               </mat-menu>
             </div>
