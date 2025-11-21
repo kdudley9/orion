@@ -33,6 +33,7 @@ export class InterviewForm implements OnInit {
       interviewType: [this.formData.interviewType, Validators.required],
       interviewers: this.fb.array([])
     });
+    this.setInterviewers();
   }
 
   getInterviewTypes(): void {
@@ -60,6 +61,19 @@ export class InterviewForm implements OnInit {
           console.error('An error occurred when updating interview details.');
         }
       });
+    }
+  }
+
+  setInterviewers(): void {
+    const interviewers = this.formData.interviewers;
+    // Adding controls in reverse to preserve the order interviewers were originally added in
+    for (let i = interviewers.length - 1; i >= 0; i--) {
+      let fieldGroup = this.fb.group({
+        name: [interviewers[i].name, Validators.required],
+        phoneNumber: [interviewers[i].phoneNumber],
+        email: [interviewers[i].email, Validators.email]
+      });
+      this.interviewers.push(fieldGroup);
     }
   }
 
