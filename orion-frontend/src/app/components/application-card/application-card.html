@@ -5,13 +5,13 @@
         <a class="stretched-link" [routerLink]="['/applications', application().id]"></a>
         <div class="row">
           <div class="col-8 card-title">
-            @if (logoText) {
-              <div class="rounded me-4" id="company-avatar" #companyAvatar>{{ logoText }}</div>
-            } @else {
-              <div class="rounded me-4" id="company-avatar" #companyAvatar>
+            <div class="rounded me-4" id="company-avatar" [style.background-image]="logoColorSignal()" #companyAvatar>
+              @if (logoTextSignal() !== null) {
+                {{ logoTextSignal() }}
+              } @else {
                 <mat-icon>domain</mat-icon>
-              </div>
-            }
+              }
+            </div>
             <div>
               <h4 class="fw-bold">{{ application().jobTitle }}</h4>
               <p class="card-text text-muted">
@@ -28,7 +28,7 @@
                 <mat-icon>more_horiz</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <button mat-menu-item>UPDATE</button>
+                <button mat-menu-item (click)="onUpdateApplication()">UPDATE</button>
                 <button mat-menu-item (click)="deleteApplication(application().id)">DELETE</button>
               </mat-menu>
             </div>

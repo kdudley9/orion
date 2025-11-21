@@ -33,7 +33,18 @@ export class ApplicationListService {
   updateApplication(application: Application, applicationId: number): Observable<Application> {
     return this.http.put<Application>(`/api/application-details/${applicationId}`, application, {
       withCredentials: true
-    });
+    })
+    .pipe(
+      catchError((err) => {
+        throw new Error('Could not update application ' + err);
+      }),
+      tap((newApplication) => {
+        let currentApplications = this._applications.value;
+        const index = currentApplications.findIndex(app => app.id === applicationId);
+        currentApplications[index] = newApplication;
+        this._applications.next(currentApplications);
+      })
+    )
   }
 
   patchApplication(application: PatchRequest[], applicationId: number | undefined): Observable<Application> {

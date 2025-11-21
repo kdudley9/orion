@@ -49,7 +49,9 @@ export class ApplicationList implements OnInit {
   }
 
   openDialog(): void {
-    this.dialog.open(ApplicationForm);
+    this.dialog.open(ApplicationForm, {
+      data: { isUpdate: false }
+    });
   }
 
   deleteAllClicked(): void {

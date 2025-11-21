@@ -1,5 +1,11 @@
 <div class="form-container">
-  <h2 mat-dialog-title>Add Application</h2>
+  <h2 mat-dialog-title>
+    @if (data.isUpdate) {
+      Update Application
+    } @else {
+      Add Application
+    }
+  </h2>
   <mat-dialog-content>
     <form [formGroup]="applicationForm">
       <div class="mb-3">
@@ -124,6 +130,12 @@
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
-    <button class="btn btn-primary" [disabled]="!applicationForm.valid" (click)="onSubmit()">Save</button>
+    <button class="btn btn-primary" [disabled]="!applicationForm.valid" [mat-dialog-close]="company.value" (click)="onSubmit()">
+      @if (data.isUpdate) {
+        Update
+      } @else {
+        Save
+      }
+    </button>
   </mat-dialog-actions>
 </div>

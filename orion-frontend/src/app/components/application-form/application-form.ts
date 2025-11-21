@@ -1,10 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import { DropdownService } from '../../services/dropdown-service';
-import {FormGroup, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
+import { ReactiveFormsModule, Validators, FormBuilder } from '@angular/forms';
 import { RemoveUnderscoresPipe } from "../../pipes/remove-underscores-pipe";
 import { ApplicationListService } from '../../services/application-list-service';
-import { Application } from '../../models/application';
 
 @Component({
   selector: 'app-application-form',
@@ -13,57 +12,30 @@ import { Application } from '../../models/application';
   styleUrl: './application-form.css'
 })
 export class ApplicationForm implements OnInit {
+  private applicationListService = inject(ApplicationListService);
+  private dropdownService = inject(DropdownService);
+  private fb = inject(FormBuilder);
+  data: any = inject(MAT_DIALOG_DATA);
   readonly dialogRef = inject(MatDialogRef<ApplicationForm>);
   industries = [];
   jobTypes = [];
-  newApplication: Application = {
-    company: '',
-    jobTitle: '',
-    location: '',
-    url: '',
-    dateApplied: '',
-    industry: '',
-    jobType: ''
-  };
+  newCompany: string = ''
 
-  applicationForm = new FormGroup({
-    company: new FormControl('', {
-      nonNullable: true,
-      validators: Validators.required
-    }),
-    jobTitle: new FormControl('', {
-      nonNullable: true,
-      validators: Validators.required
-    }),
-    location: new FormControl('', {
-      nonNullable: true,
-      validators: Validators.required
-    }),
-    url: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.maxLength(2048)]
-    }),
-    dateApplied: new FormControl('', {
-      nonNullable: true,
-      validators: Validators.required
-    }),
-    industry: new FormControl('', {
-      nonNullable: true,
-      validators: Validators.required
-    }),
-    jobType: new FormControl('', {
-      nonNullable: true,
-      validators: Validators.required
-    }),
-    jobDescription: new FormControl('', {
-      nonNullable: true,
-      validators: Validators.maxLength(10000)
-    })
-  });
+  applicationForm: any;
 
-  constructor(private applicationListService: ApplicationListService, private dropdownService: DropdownService) {}
+  constructor() {}
 
   ngOnInit(): void {
+    this.applicationForm = this.fb.group({
+      company: [this.data.company, Validators.required],
+      jobTitle: [this.data.jobTitle, Validators.required],
+      location: [this.data.location, Validators.required],
+      url: [this.data.url, Validators.required],
+      dateApplied: [this.data.dateApplied, Validators.required],
+      industry: [this.data.industry, Validators.required],
+      jobType: [this.data.jobType, Validators.required],
+      jobDescription: [this.data.jobDescription, Validators.maxLength(10000)]
+    });
     this.getIndustries();
     this.getJobTypes();
   }
@@ -81,15 +53,25 @@ export class ApplicationForm implements OnInit {
   }
 
   onSubmit(): void {
-    this.newApplication = {...this.newApplication, ...this.applicationForm.value}; 
-    this.applicationListService.addApplication(this.newApplication).subscribe({
-      next: () => {
-        this.dialogRef.close();
-      },
-      error: () => {
-        console.error('An error occurred when submitting the form.');
-      }
-    });
+    if (!this.data.isUpdate) {
+      this.applicationListService.addApplication(this.applicationForm.value).subscribe({
+        next: () => {
+          this.dialogRef.close();
+        },
+        error: () => {
+          console.error('An error occurred when submitting the form.');
+        }
+      });
+    } else {
+      this.applicationListService.updateApplication(this.applicationForm.value, this.data.id).subscribe({
+        next: () => {
+          this.dialogRef.close();
+        },
+        error: () => {
+          console.error('An error occurred when updating the application.');
+        }
+      });
+    }
   }
 
   onCancel(): void {
