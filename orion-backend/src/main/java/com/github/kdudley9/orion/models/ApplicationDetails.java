@@ -35,22 +35,25 @@ public class ApplicationDetails {
     @Column(nullable = false)
     private Long id;
 
+    @Size(max = 150)
     @NotBlank(message = "Company name cannot be blank.")
     private String company;
 
+    @Size(max = 150)
     @NotBlank(message = "Job title cannot be blank.")
     @Column(name = "job_title")
     private String jobTitle;
 
+    @Size(max = 200)
     @NotNull(message = "Location cannot be null.")
     private String location;
 
-    @NotBlank(message = "URL cannot be blank.")
     @Size(max = 2048)
     @URL(message = "URL is invalid")
     @Column(columnDefinition = "TEXT")
     private String url;
 
+    @Size(max = 10000)
     @Column(columnDefinition = "TEXT")
     private String jobDescription;
 

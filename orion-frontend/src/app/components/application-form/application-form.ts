@@ -19,22 +19,31 @@ export class ApplicationForm implements OnInit {
   readonly dialogRef = inject(MatDialogRef<ApplicationForm>);
   industries = [];
   jobTypes = [];
-  newCompany: string = ''
+  currentDate: Date = new Date();
+  isoDate: string = '';
+  URL_REGEXP: RegExp = /^[A-Za-z][A-Za-z\d.+-]*:\/*(?:\w+(?::\w+)?@)?[^\s/]+(?::\d+)?(?:\/[\w#!:.?+=&%@\-/]*)?$/;
 
   applicationForm: any;
+
+  MAX_COMPANY_LENGTH: number = 150;
+  MAX_JOB_TITLE_LENGTH: number = 150;
+  MAX_LOCATION_LENGTH: number = 200;
+  MAX_URL_LENGTH: number = 2048;
+  MAX_DESCRIPTION_LENGTH: number = 10000;
 
   constructor() {}
 
   ngOnInit(): void {
+    this.isoDate = this.currentDate.toJSON().slice(0, 10);
     this.applicationForm = this.fb.group({
-      company: [this.data.company, Validators.required],
-      jobTitle: [this.data.jobTitle, Validators.required],
-      location: [this.data.location, Validators.required],
-      url: [this.data.url, Validators.required],
+      company: [this.data.company, [Validators.required, Validators.maxLength(this.MAX_COMPANY_LENGTH)]],
+      jobTitle: [this.data.jobTitle, [Validators.required, Validators.maxLength(this.MAX_JOB_TITLE_LENGTH)]],
+      location: [this.data.location, [Validators.required, Validators.maxLength(this.MAX_LOCATION_LENGTH)]],
+      url: [this.data.url, [Validators.maxLength(2048), Validators.pattern(this.URL_REGEXP)]],
       dateApplied: [this.data.dateApplied, Validators.required],
       industry: [this.data.industry, Validators.required],
       jobType: [this.data.jobType, Validators.required],
-      jobDescription: [this.data.jobDescription, Validators.maxLength(10000)]
+      jobDescription: [this.data.jobDescription, Validators.maxLength(this.MAX_DESCRIPTION_LENGTH)]
     });
     this.getIndustries();
     this.getJobTypes();

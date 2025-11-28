@@ -20,6 +20,9 @@ export class AddInterviewQuestionForm implements OnInit {
     backgroundColor: 'white'
   }
 
+  MAX_QUESTION_LENGTH = 500;
+  MAX_NOTE_LENGTH = 10000;
+
   constructor(
     private interviewQuestionService: InterviewQuestionService,
     private fb: FormBuilder
@@ -27,8 +30,8 @@ export class AddInterviewQuestionForm implements OnInit {
 
   ngOnInit(): void {
     this.questionForm = this.fb.group({
-      question: [this.formData.question, Validators.required],
-      note: [this.formData.note]
+      question: [this.formData.question, [Validators.required, Validators.maxLength(this.MAX_QUESTION_LENGTH)]],
+      note: [this.formData.note, Validators.maxLength(this.MAX_NOTE_LENGTH)]
     });
   }
 
@@ -60,5 +63,9 @@ export class AddInterviewQuestionForm implements OnInit {
 
   get question() {
     return this.questionForm.get('question');
+  }
+
+  get note() {
+    return this.questionForm.get('note');
   }
 }

@@ -7,7 +7,7 @@ export interface Interview {
   interviewers?: Interviewers[]
 }
 
-interface Interviewers {
+export interface Interviewers {
   name: string,
   email?: string,
   phoneNumber?: string

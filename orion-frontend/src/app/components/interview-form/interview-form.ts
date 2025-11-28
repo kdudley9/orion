@@ -17,6 +17,11 @@ export class InterviewForm implements OnInit {
   interviewTypes = [];
 
   interviewForm: any;
+  MAX_LOCATION_LENGTH: number = 200;
+  MAX_URL_LENGTH: number = 2048;
+  MAX_NAME_LENGTH: number = 75;
+  MAX_EMAIL_LENGTH: number = 320;
+  URL_REGEXP: RegExp = /^[A-Za-z][A-Za-z\d.+-]*:\/*(?:\w+(?::\w+)?@)?[^\s/]+(?::\d+)?(?:\/[\w#!:.?+=&%@\-/]*)?$/;
 
   constructor(
     private interviewService: InterviewService, 
@@ -28,8 +33,8 @@ export class InterviewForm implements OnInit {
     this.getInterviewTypes();
     this.interviewForm = this.fb.group({
       interviewDate: [this.formData.interviewDate, Validators.required],
-      location: [this.formData.location, Validators.required],
-      meetingLink: [this.formData.meetingLink],
+      location: [this.formData.location, [Validators.required, Validators.maxLength(this.MAX_LOCATION_LENGTH)]],
+      meetingLink: [this.formData.meetingLink, [Validators.maxLength(this.MAX_URL_LENGTH), Validators.pattern(this.URL_REGEXP)]],
       interviewType: [this.formData.interviewType, Validators.required],
       interviewers: this.fb.array([])
     });
@@ -69,9 +74,9 @@ export class InterviewForm implements OnInit {
     // Adding controls in reverse to preserve the order interviewers were originally added in
     for (let i = interviewers.length - 1; i >= 0; i--) {
       let fieldGroup = this.fb.group({
-        name: [interviewers[i].name, Validators.required],
+        name: [interviewers[i].name, [Validators.required, Validators.maxLength(this.MAX_NAME_LENGTH)]],
         phoneNumber: [interviewers[i].phoneNumber],
-        email: [interviewers[i].email, Validators.email]
+        email: [interviewers[i].email, [Validators.email, Validators.maxLength(this.MAX_EMAIL_LENGTH)]]
       });
       this.interviewers.push(fieldGroup);
     }
@@ -79,9 +84,9 @@ export class InterviewForm implements OnInit {
 
   addInterviewer(): void {
     const fieldGroup = this.fb.group({
-      name: ['', Validators.required],
+      name: ['', [Validators.required, Validators.maxLength(this.MAX_NAME_LENGTH)]],
       phoneNumber: [''],
-      email: ['', Validators.email]
+      email: ['', [Validators.email, Validators.maxLength(this.MAX_EMAIL_LENGTH)]]
     });
     this.interviewers.push(fieldGroup);
   }
