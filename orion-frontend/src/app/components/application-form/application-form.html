@@ -9,78 +9,70 @@
   <mat-dialog-content>
     <form [formGroup]="applicationForm">
       <div class="mb-3">
-        <label for="company" class="form-label">Company</label>
+        <label for="company" class="form-label">Company<span class="required-asterisk"> *</span></label>
         <input type="text" class="form-control" id="company" formControlName="company" required>
         @if (company?.invalid && company?.dirty) {
           <div class="alert alert-danger">
             @if (company?.hasError('required')) {
-              <div>
-                Company is required.
-              </div>
+              <div>Company is required.</div>
+            } @else if (company?.hasError('maxlength')) {
+              <div>Company name must not exceed {{ MAX_COMPANY_LENGTH }} characters.</div>
             }
           </div>
         }
       </div>
       <div class="mb-3">
-        <label for="jobTitle" class="form-label">Job Title</label>
+        <label for="jobTitle" class="form-label">Job Title<span class="required-asterisk"> *</span></label>
         <input type="text" class="form-control" id="jobTitle" formControlName="jobTitle" required>
         @if (jobTitle?.invalid && jobTitle?.dirty) {
           <div class="alert alert-danger">
             @if (jobTitle?.hasError('required')) {
-              <div>
-                Job title is required.
-              </div>
+              <div>Job title is required.</div>
+            } @else if (jobTitle?.hasError('maxlength')) {
+              <div>Job title must not exceed {{ MAX_JOB_TITLE_LENGTH }} characters.</div>
             }
           </div>
         }
       </div>
       <div class="mb-3">
-        <label for="url" class="form-label">Link to Company Site or Job Posting</label>
+        <label for="url" class="form-label">Link to Company Site or Job Posting<span class="required-asterisk"> *</span></label>
         <input type="text" class="form-control" id="url" formControlName="url" required>
         @if (url?.invalid && url?.dirty) {
           <div class="alert alert-danger">
-            @if (url?.hasError('required')) {
-              <div>
-                Link to company site or job post is required.
-              </div>
-            }
-
             @if (url?.hasError('maxlength')) {
-              <div>
-                URL cannot exceed 2048 characters.
-              </div>
+              <div>URL cannot exceed {{ MAX_URL_LENGTH }} characters.</div>
+            } @else if (url?.hasError('pattern')) {
+              <div>Please enter a valid link.</div>
             }
           </div>
         }
       </div>
       <div class="mb-3">
-        <label for="location" class="form-label">Location</label>
+        <label for="location" class="form-label">Location<span class="required-asterisk"> *</span></label>
         <input type="text" class="form-control" id="location" formControlName="location" required>
         @if (location?.invalid && location?.dirty) {
           <div class="alert alert-danger">
             @if (location?.hasError('required')) {
-              <div>
-                Location is required.
-              </div>
+              <div>Location is required.</div>
+            } @else if (location?.hasError('maxlength')) {
+              <div>Location cannot exceed {{ MAX_LOCATION_LENGTH }} characters.</div>
             }
           </div>
         }
       </div>
       <div class="mb-3">
-        <label for="dateApplied" class="form-label">Date Applied</label>
-        <input type="date" class="form-control" id="dateApplied" formControlName="dateApplied" required>
+        <label for="dateApplied" class="form-label">Date Applied<span class="required-asterisk"> *</span></label>
+        <input type="date" class="form-control" id="dateApplied" formControlName="dateApplied" [max]="isoDate" required>
         @if (dateApplied?.invalid && dateApplied?.dirty) {
           <div class="alert alert-danger">
             @if (dateApplied?.hasError('required')) {
-              <div>
-                Date is required.
-              </div>
+              <div>Date is required.</div>
             }
           </div>
         }
       </div>
       <div class="mb-3">
-        <label for="industrySelect" class="form-label">Industry</label>
+        <label for="industrySelect" class="form-label">Industry<span class="required-asterisk"> *</span></label>
         <select class="form-select" id="industrySelect" formControlName="industry" required>
           @for (industry of industries; track $index) {
             <option [value]="industry">{{ industry | removeUnderscores }}</option>
@@ -89,15 +81,13 @@
         @if (industry?.invalid && industry?.dirty) {
           <div class="alert alert-danger">
             @if (industry?.hasError('required')) {
-              <div>
-                Industry is required.
-              </div>
+              <div>Industry is required.</div>
             }
           </div>
         }
       </div>
       <div class="mb-3">
-        <label for="jobTypeSelect">Job Type</label>
+        <label for="jobTypeSelect">Job Type<span class="required-asterisk"> *</span></label>
         <select class="form-select" id="jobTypeSelect" formControlName="jobType" required>
           @for (jobType of jobTypes; track $index) {
             <option [value]="jobType">{{ jobType | removeUnderscores}}</option>
@@ -106,9 +96,7 @@
         @if (jobType?.invalid && jobType?.dirty) {
           <div class="alert alert-danger">
             @if (jobType?.hasError('required')) {
-              <div>
-                Job Type is required.
-              </div>
+              <div>Job Type is required.</div>
             }
           </div>
         }
@@ -119,9 +107,7 @@
         @if (jobDescription?.invalid && jobDescription?.dirty) {
           <div class="alert alert-danger">
             @if (jobDescription?.hasError('maxlength')) {
-              <div>
-                Job description cannot exceed 10,000 characters.
-              </div>
+              <div>Job description cannot exceed {{ MAX_DESCRIPTION_LENGTH }} characters.</div>
             }
           </div>
         }

@@ -8,11 +8,20 @@
         <div class="alert alert-danger">
           @if (question?.hasError('required')) {
             <div>Question is required.</div>
+          } @else if (question?.hasError('maxlength')) {
+            <div>Question cannot exceed {{ MAX_QUESTION_LENGTH }} characters.</div>
           }
         </div>
       }
       <label for="note" class="form-label">Notes</label>
       <quill-editor [styles]="noteStyles" id="note" formControlName="note"></quill-editor>
+      @if (note?.invalid && note?.dirty) {
+        <div class="alert alert-danger">
+          @if (note?.hasError('maxlength')) {
+            <div>Note cannot exceed {{ MAX_NOTE_LENGTH }} characters.</div>
+          }
+        </div>
+      }
     </form>
   </mat-dialog-content>
   <mat-dialog-actions align="end">

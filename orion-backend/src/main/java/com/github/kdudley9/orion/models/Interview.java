@@ -3,6 +3,8 @@ package com.github.kdudley9.orion.models;
 import java.time.LocalDate;
 import java.util.Set;
 
+import org.hibernate.validator.constraints.URL;
+
 import com.github.kdudley9.orion.dtos.UpcomingInterviewDto;
 import com.github.kdudley9.orion.enums.InterviewType;
 
@@ -65,6 +67,7 @@ public class Interview {
     private LocalDate interviewDate;
     private String location;
 
+    @URL(message = "URL is invalid")
     @Column(name = "meeting_link")
     private String meetingLink;
 
